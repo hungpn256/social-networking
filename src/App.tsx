@@ -1,6 +1,6 @@
 import 'antd/dist/antd.css';
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -9,6 +9,7 @@ import './App.css';
 import RoutePrivate from './Components/RoutePrivate';
 import ROUTES from './configs/router';
 function App() {
+  const [token, setToken] = useState();
   const dispatch = useDispatch();
   useEffect(() => {
     const token = localStorage.getItem('token');

@@ -22,5 +22,21 @@ const ROUTES = [
     exact: true,
     name: 'Log in',
   },
+  {
+    path: '/signup',
+    component: Login,
+    // layout: '',
+    // authority: ['user'],
+    exact: true,
+    name: 'Sign up',
+  },
+  {
+    path: '*',
+    component: Home,
+    // layout: '',
+    // authority: ['user'],
+    exact: true,
+    name: 'Sign up',
+  },
 ];
 export default ROUTES;

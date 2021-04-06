@@ -1,6 +1,6 @@
 import React from 'react';
-
+import styles from './styles.module.css';
 export default function Home(props: any) {
   console.log(props);
-  return <div>Home</div>;
+  return <div className={styles.abc}>Home</div>;
 }
