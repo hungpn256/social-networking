@@ -1,21 +1,41 @@
 import { faFacebook, faInstagram, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './styles.module.css';
+import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
+import service from './service';
 // import {fa} from '@fortawesome/free-solid-svg-icons
 function Login() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => {
+    console.log(data);
+    service.login(data).then((res) => {
+      console.log(res, 'res');
+    });
+  };
+  // useEffect(()=>{
+  //   ser
+  // })
   return (
     <div className={styles['contentBx']}>
       <div className={styles['formBx']}>
         <h2>Login</h2>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className={styles['inputBx']}>
-            <span>Username</span>
-            <input type="text" name="" />
+            <span>Email</span>
+            <input type="text" {...register('email', { required: true })} />
+            {errors.email && <span className={styles['error']}>This field is required</span>}
           </div>
           <div className={styles['inputBx']}>
             <span>Password</span>
-            <input type="password" name="" />
+            <input type="password" {...register('password', { required: true })} />
+            {errors.password && <span className={styles['error']}>This field is required</span>}
           </div>
           <div className={styles['remember']}>
             <label>
@@ -29,7 +49,7 @@ function Login() {
           <div className={styles['inputBx']}>
             <p>
               Don't have an account?
-              <a href="/auth/signup">Sign up</a>
+              <Link to="/auth/signup">Sign up</Link>
             </p>
           </div>
         </form>

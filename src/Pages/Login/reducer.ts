@@ -1,10 +1,7 @@
 
 
 const initialState = {
-  user:{
-    firstName:'',
-    lastName:'',
-  }
+  user:{}
 }
 
 const reducer = (state={...initialState},action:any)=>{

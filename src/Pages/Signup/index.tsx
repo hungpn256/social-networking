@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './styles.module.css';
+import { Link } from 'react-router-dom';
 // import {fa} from '@fortawesome/free-solid-svg-icons
 function Signup() {
   return (
@@ -29,7 +30,7 @@ function Signup() {
           <div className={styles['inputBx']}>
             <p>
               Have an account?
-              <a href="/auth/login">Sign up</a>
+              <Link to="/auth/login">Login</Link>
             </p>
           </div>
         </form>

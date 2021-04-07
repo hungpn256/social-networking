@@ -1,9 +1,7 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
-const user = {
-  role: 'admin',
-};
 interface IRoute {
   path: string;
   name: string;
@@ -14,7 +12,8 @@ interface IRoute {
   };
 }
 const RoutePrivate = ({ component: Component, authority, ...rest }: IRoute) => {
-  document.title = rest.name;
+  const login = useSelector((state) => state.login);
+  const { user } = login;
   return (
     <Route
       {...rest}
@@ -31,7 +30,7 @@ const RoutePrivate = ({ component: Component, authority, ...rest }: IRoute) => {
         } else {
           return (
             <Redirect
-              to={{ pathname: '/login', state: { prePath: props.location.pathname } }}
+              to={{ pathname: '/auth/login', state: { prePath: props.location.pathname } }}
             ></Redirect>
           );
         }

@@ -22,6 +22,7 @@ section .contentBx .formBx h2 {
   letter-spacing: 1px;
 }
 section .contentBx .formBx .inputBx {
+  position: relative;
   margin-bottom: 20px;
 }
 section .contentBx .formBx .inputBx span {
@@ -106,6 +107,13 @@ section .contentBx .formBx .sci li:hover {
 section .contentBx .formBx .sci li img {
   transform: scale(0.5);
   filter: invert(1);
+}
+.error {
+  position: absolute;
+  bottom: -25px;
+  left: 10px;
+  font-size: 12px !important;
+  color: red !important;
 }
 @media (max-width: 768px) {
   .WrapperApp {
