@@ -9,7 +9,7 @@ section .contentBx {
 section .contentBx:after {
 }
 section .contentBx .formBx {
-  width: 50%;
+  width: 70%;
 }
 section .contentBx .formBx h2 {
   color: #607d8b;
