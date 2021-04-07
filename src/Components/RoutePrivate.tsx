@@ -14,13 +14,12 @@ interface IRoute {
   };
 }
 const RoutePrivate = ({ component: Component, authority, ...rest }: IRoute) => {
-  // console.log(rest, authority, Component);
+  document.title = rest.name;
   return (
     <Route
       {...rest}
       key={rest?.path}
       render={(props: any) => {
-        console.log(props, 'props');
         if (
           authority === undefined ||
           (authority &&
