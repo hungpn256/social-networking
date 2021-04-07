@@ -4,24 +4,24 @@ import React, { useEffect } from 'react';
 import styles from './styles.module.css';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import service from './service';
+import * as LoginActions from './actions';
+import { useDispatch } from 'react-redux';
 // import {fa} from '@fortawesome/free-solid-svg-icons
+export interface ILogin {
+  username: string;
+  password: string;
+}
 function Login() {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
-    service.login(data).then((res) => {
-      console.log(res, 'res');
-    });
+  const onSubmit = (data: ILogin) => {
+    dispatch(LoginActions.login(data));
   };
-  // useEffect(()=>{
-  //   ser
-  // })
   return (
     <div className={styles['contentBx']}>
       <div className={styles['formBx']}>
