@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import RoutePrivate from './Components/RoutePrivate';
 import ROUTES from './configs/router';
+import Auth from './Layouts/Auth';
 import Login from './Pages/Login';
 import { getUser } from './Pages/Login/actions';
 import Signup from './Pages/Signup';
@@ -17,8 +18,10 @@ function App() {
   const login = useSelector((state) => state.login);
   const { requesting, success } = login;
   useEffect(() => {
-    axios.defaults.headers.common['Authorization'] = token ? `${token}` : '';
-    dispatch(getUser());
+    if (token && token.length > 0) {
+      axios.defaults.headers.common['Authorization'] = token ? `${token}` : '';
+      dispatch(getUser());
+    }
   }, [dispatch, token]);
   const renderRoute = () => {
     return ROUTES.map((route) => {
@@ -28,7 +31,32 @@ function App() {
   return (
     <BrowserRouter>
       <ToastContainer position="bottom-right" closeOnClick autoClose={2000} />
-      <Switch>{renderRoute()}</Switch>
+      <Switch>
+        <Route
+          path="/auth"
+          render={() => {
+            return (
+              <Auth
+                routes={[
+                  {
+                    path: '/auth/login',
+                    component: Login,
+                    exact: true,
+                    name: 'Log in',
+                  },
+                  {
+                    path: '/auth/signup',
+                    component: Signup,
+                    exact: true,
+                    name: 'Sign up',
+                  },
+                ]}
+              ></Auth>
+            );
+          }}
+        />
+        {renderRoute()}
+      </Switch>
     </BrowserRouter>
   );
 }

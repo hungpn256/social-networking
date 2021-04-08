@@ -18,7 +18,7 @@ function Auth({ routes }) {
                 <Redirect to="/auth/login"></Redirect>
               </Route>
               {routes.map((route: any) => {
-                return RoutePrivate(route);
+                return <Route path={route.path} component={route.component}></Route>;
               })}
             </div>
           </section>

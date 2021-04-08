@@ -15,24 +15,24 @@ const ROUTES = [
     exact: true,
     name: 'Home',
   },
-  {
-    path:'/auth',
-    component:Auth,
-    routes:[
-      {
-        path: '/auth/login',
-        component: Login,
-        exact: true,
-        name: 'Log in',
-      },
-      {
-        path: '/auth/signup',
-        component: Signup,
-        exact: true,
-        name: 'Sign up',
-      },
-    ]
-  },
+  // {
+  //   path:'/auth',
+  //   component:Auth,
+  //   routes:[
+  //     {
+  //       path: '/auth/login',
+  //       component: Login,
+  //       exact: true,
+  //       name: 'Log in',
+  //     },
+  //     {
+  //       path: '/auth/signup',
+  //       component: Signup,
+  //       exact: true,
+  //       name: 'Sign up',
+  //     },
+  //   ]
+  // },
   {
     path: '*',
     component: Home,
