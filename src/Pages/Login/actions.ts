@@ -11,6 +11,9 @@ export const loginFail = (payload:any)=>({
   type:constantsType.LOGIN_FAIL,
   payload
 })
+export const getUser = ()=>({
+  type:constantsType.GET_USER
+})
 export const changeState = (payload:any)=>({
   type:constantsType.LOGIN_CHANGE_STATE,
   payload

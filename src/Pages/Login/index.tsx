@@ -3,9 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect } from 'react';
 import styles from './styles.module.css';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import * as LoginActions from './actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Spin } from 'antd';
 // import {fa} from '@fortawesome/free-solid-svg-icons
 export interface ILogin {
   username: string;
@@ -20,8 +21,16 @@ function Login() {
     formState: { errors },
   } = useForm();
   const onSubmit = (data: ILogin) => {
-    dispatch(LoginActions.login(data));
+    const { email, password, remember } = data;
+    console.log(data, 'data');
+    dispatch(LoginActions.login({ email, password }));
   };
+  const login = useSelector((state) => state.login);
+  const { requesting, success } = login;
+  if (success) {
+    return <Redirect to="/"></Redirect>;
+  }
+  console.log(login, 'login');
   return (
     <div className={styles['contentBx']}>
       <div className={styles['formBx']}>
@@ -39,12 +48,14 @@ function Login() {
           </div>
           <div className={styles['remember']}>
             <label>
-              <input type="checkbox" name="" />
+              <input type="checkbox" {...register('remember')} />
               Remember me
             </label>
           </div>
           <div className={styles['inputBx']}>
-            <input type="submit" value="Sign in" name="" />
+            <Spin spinning={requesting}>
+              <input type="submit" value="Sign in" name="" />
+            </Spin>
           </div>
           <div className={styles['inputBx']}>
             <p>

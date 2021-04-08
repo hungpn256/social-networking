@@ -4,7 +4,7 @@ const initialState = {
   success:false,
   user:{},
   token:'',
-  error:''
+  error:null
 }
 
 const reducer = (state=initialState,action:any)=>{
@@ -14,7 +14,7 @@ const reducer = (state=initialState,action:any)=>{
     }
     case loginConstants.LOGIN_SUCCESS:{
       const {user,token} = action.payload
-      return {...state,user,token}
+      return {...state,user,token,success:true}
     }
     case loginConstants.LOGIN_FAIL:{
       const {error} = action.payload
