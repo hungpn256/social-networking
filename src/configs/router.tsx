@@ -2,6 +2,7 @@ import Login from '../Pages/Login/index';
 import Home from '../Pages/Home';
 import Auth from '../Layouts/Auth';
 import Signup from '../Pages/Signup';
+import NotFound from '../Components/NotFound';
 enum Roles {
   USER = 'user',
   ADMIN = 'admin',
@@ -35,9 +36,9 @@ const ROUTES = [
   },
   {
     path: '*',
-    component: Home,
+    component: NotFound,
     exact: true,
-    name: 'Sign up',
+    name: '404-NotFound',
   },
 ];
 export default ROUTES;

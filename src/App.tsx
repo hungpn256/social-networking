@@ -1,11 +1,13 @@
 import 'antd/dist/antd.css';
 import axios from 'axios';
+import * as _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
+import LoadingGlobal from './Components/LoadingGlobal';
 import RoutePrivate from './Components/RoutePrivate';
 import ROUTES from './configs/router';
 import Auth from './Layouts/Auth';
@@ -13,13 +15,14 @@ import Login from './Pages/Login';
 import { getUser } from './Pages/Login/actions';
 import services from './Pages/Login/service';
 import Signup from './Pages/Signup';
-import LoadingGlobal from './Components/LoadingGlobal';
 function App() {
   const login = useSelector((state) => state.login);
   const { token } = login;
   const [ready, setReady] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
+
   useEffect(() => {
     axios.defaults.headers.common['Authorization'] = token ? `${token}` : '';
     services
@@ -29,10 +32,14 @@ function App() {
         setReady(true);
       })
       .catch((err) => {
-        history.push({
-          pathname: '/auth/login',
-          state: { prePath: '/' },
-        });
+        const currentPath = location.pathname;
+        const findRoute = _.findLast(ROUTES, (item) => currentPath.includes(item.path));
+        if (findRoute.hasOwnProperty('authority')) {
+          history.push({
+            pathname: '/auth/login',
+            state: { prePath: currentPath },
+          });
+        }
       });
   }, [token, history, dispatch]);
   const renderRoute = () => {

@@ -4,8 +4,12 @@ const index = () => {
   return (
     <div
       style={{
-        width: '100vw',
-        height: '100vh',
+        position: 'fixed',
+        right: 0,
+        left: 0,
+        top: 0,
+        bottom: 0,
+        zIndex: 999999,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
