@@ -34,7 +34,8 @@ section .contentBx .formBx .inputBx span {
   font-size: 16px;
   letter-spacing: 1px;
 }
-section .contentBx .formBx .inputBx input {
+section .contentBx .formBx .inputBx input,
+section .contentBx .formBx .inputBx .select-gender {
   width: 100%;
   padding: 10px 20px;
   outline: none;

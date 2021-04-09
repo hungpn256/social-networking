@@ -11,32 +11,28 @@ interface IRoute {
     routes?: string;
   };
 }
-const RoutePrivate = ({ component: Component, authority, ...rest }: IRoute) => {
-  const login = useSelector((state) => state.login);
+const RoutePrivate = ({ component: Component, authority, ...rest }: IRoute, login) => {
   const { user, success, requesting } = login;
+  console.log(login, 'login');
   return (
     <Route
       {...rest}
       key={rest?.path}
       render={(props: any) => {
-        if (success && !requesting) {
-          if (
-            authority === undefined ||
-            (authority &&
-              authority?.some((item: string) => {
-                return item === user.role;
-              }))
-          ) {
-            return <Component {...props} routes={rest?.routes}></Component>;
-          } else {
-            return (
-              <Redirect
-                to={{ pathname: '/auth/login', state: { prePath: props.location.pathname } }}
-              ></Redirect>
-            );
-          }
+        if (
+          authority === undefined ||
+          (authority &&
+            authority?.some((item: string) => {
+              return item === user.role;
+            }))
+        ) {
+          return <Component {...props} routes={rest?.routes}></Component>;
         } else {
-          return <div>loading</div>;
+          return (
+            <Redirect
+              to={{ pathname: '/auth/login', state: { prePath: props.location.pathname } }}
+            ></Redirect>
+          );
         }
       }}
     ></Route>

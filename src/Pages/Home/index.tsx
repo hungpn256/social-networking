@@ -1,6 +1,16 @@
+import { Button } from 'antd';
 import React from 'react';
 import styles from './styles.module.css';
 export default function Home(props: any) {
-  console.log(props);
-  return <div className={styles.abc}>Home</div>;
+  return (
+    <Button
+      className={styles.abc}
+      onClick={() => {
+        localStorage.removeItem('token');
+        window.open('/', '_self');
+      }}
+    >
+      Logout
+    </Button>
+  );
 }

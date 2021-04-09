@@ -2,8 +2,8 @@ import * as loginConstants from './constants'
 const initialState = {
   requesting:false,
   success:false,
-  user:{},
-  token:'',
+  user:null,
+  token:localStorage.getItem('token'),
   error:null
 }
 
@@ -19,6 +19,10 @@ const reducer = (state=initialState,action:any)=>{
     case loginConstants.LOGIN_FAIL:{
       const {error} = action.payload
       return {...state,error}
+    }
+    case loginConstants.GET_USER:{
+      const {payload } =action;
+      return {...state,...payload}
     }
     default:
       return {...state}

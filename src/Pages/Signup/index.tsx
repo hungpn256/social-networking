@@ -1,18 +1,15 @@
-import { faFacebook, faInstagram, faTwitter } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect } from 'react';
-import styles from './styles.module.css';
-import { useForm } from 'react-hook-form';
-import { Link, Redirect } from 'react-router-dom';
-import * as LoginActions from './actions';
-import { useDispatch, useSelector } from 'react-redux';
 import { Spin } from 'antd';
-// import {fa} from '@fortawesome/free-solid-svg-icons
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
+import * as signUpActions from './actions';
+import styles from './styles.module.css';
 export interface ISignup {
   username: string;
   password: string;
 }
-function Signup() {
+function Signup(props: any) {
   const dispatch = useDispatch();
   const {
     register,
@@ -20,15 +17,24 @@ function Signup() {
     watch,
     formState: { errors },
   } = useForm();
+  const signUp = useSelector((state) => state.signUp);
+  const { requesting, success } = signUp;
   const onSubmit = (data: ISignup) => {
     console.log(data);
+    const { password, EPassword } = data;
+    if (password === EPassword) {
+      data.EPassword = undefined;
+      dispatch(signUpActions.signUp(data));
+    }
   };
-  // const login = useSelector((state) => state.login);
-  // const { requesting, success } = login;
-  // if (success) {
-  //   return <Redirect to="/"></Redirect>;
-  // }
-  // console.log(login, 'login');
+  useEffect(() => {
+    return () => {
+      dispatch(signUpActions.clearState());
+    };
+  }, []);
+  if (success) {
+    return <Redirect to="/auth/login" />;
+  }
   return (
     <div className={styles['contentBx']}>
       <div className={styles['formBx']}>
@@ -57,8 +63,17 @@ function Signup() {
             {errors.email && <span className={styles['error']}>This field is required</span>}
           </div>
           <div className={styles['inputBx']}>
-            <span>Số điên thoại</span>
+            <span>Phone Number</span>
             <input type="text" {...register('phoneNumber', { required: true })} />
+            {errors.phoneNumber && <span className={styles['error']}>This field is required</span>}
+          </div>
+          <div className={styles['inputBx']}>
+            <span>Gender</span>
+            <select className={styles['select-gender']} {...register('gender', { required: true })}>
+              <option value={0}>Male</option>
+              <option value={1}>FeMale</option>
+              <option value={2}>Other</option>
+            </select>
             {errors.phoneNumber && <span className={styles['error']}>This field is required</span>}
           </div>
           <div className={styles['wrapper-name']}>
@@ -78,7 +93,7 @@ function Signup() {
             </div>
           </div>
           <div className={styles['inputBx']}>
-            <Spin spinning={false}>
+            <Spin spinning={requesting}>
               <input type="submit" value="Sign in" name="" />
             </Spin>
           </div>

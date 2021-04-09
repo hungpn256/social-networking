@@ -4,7 +4,6 @@ import RoutePrivate from '../../Components/RoutePrivate';
 import styles from './styles.module.css';
 import { Route, Redirect } from 'react-router-dom';
 function Auth({ routes }) {
-  console.log(routes);
   return (
     <div className={styles['Login']}>
       <div className={styles['WrapperApp']}>

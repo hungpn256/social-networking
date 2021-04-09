@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect } from 'react';
 import styles from './styles.module.css';
 import { useForm } from 'react-hook-form';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import * as LoginActions from './actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Spin } from 'antd';
@@ -13,6 +13,7 @@ export interface ILogin {
   password: string;
 }
 function Login() {
+  const location = useLocation();
   const dispatch = useDispatch();
   const {
     register,
@@ -22,15 +23,13 @@ function Login() {
   } = useForm();
   const onSubmit = (data: ILogin) => {
     const { email, password, remember } = data;
-    console.log(data, 'data');
     dispatch(LoginActions.login({ email, password }));
   };
   const login = useSelector((state) => state.login);
   const { requesting, success } = login;
   if (success) {
-    return <Redirect to="/"></Redirect>;
+    return <Redirect to={location.state?.prePath ?? '/'}></Redirect>;
   }
-  console.log(login, 'login');
   return (
     <div className={styles['contentBx']}>
       <div className={styles['formBx']}>

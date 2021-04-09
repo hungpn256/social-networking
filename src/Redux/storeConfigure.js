@@ -1,8 +1,8 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 // import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
-import rootReducer from '../Reducer/index';
-import rootSaga from '../Saga';
+import rootReducer from '../index_Reducer';
+import rootSaga from '../index_Saga';
 import { createLogger } from 'redux-logger';
 const composeEnhandcers =
   process.env.NODE_ENV !== 'production' &&
