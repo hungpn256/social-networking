@@ -33,6 +33,7 @@ section .contentBx .formBx .inputBx span {
   font-weight: 300;
   font-size: 16px;
   letter-spacing: 1px;
+  overflow: hidden;
 }
 section .contentBx .formBx .inputBx input,
 section .contentBx .formBx .inputBx .select-gender {
@@ -127,6 +128,7 @@ section .contentBx .formBx .sci li img {
   section {
     width: 100vw;
     height: 100vh;
+    overflow: hidden;
   }
   section .imgBx {
     position: absolute;
@@ -147,9 +149,18 @@ section .contentBx .formBx .sci li img {
   }
   section .contentBx .formBx {
     width: 100%;
-    padding: 40px;
+    padding: 20px;
     background: rgb(255 255 255/0.9);
-    margin: 50px;
+    margin: 30px;
+  }
+  section .contentBx .formBx .inputBx {
+    margin: 10px 0;
+  }
+  section .contentBx .formBx .inputBx input {
+    padding: 5px 10px !important;
+  }
+  section .contentBx .formBx .inputBx select {
+    padding: 8px 10px !important;
   }
   section .contentBx .formBx h3 {
     color: #607d8b;

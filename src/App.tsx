@@ -2,7 +2,7 @@ import 'antd/dist/antd.css';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter, Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
@@ -11,15 +11,14 @@ import ROUTES from './configs/router';
 import Auth from './Layouts/Auth';
 import Login from './Pages/Login';
 import { getUser } from './Pages/Login/actions';
-import Signup from './Pages/Signup';
 import services from './Pages/Login/service';
+import Signup from './Pages/Signup';
 function App() {
   const login = useSelector((state) => state.login);
   const { token } = login;
   const [ready, setReady] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
-  const location = useLocation();
   useEffect(() => {
     axios.defaults.headers.common['Authorization'] = token ? `${token}` : '';
     services
@@ -34,7 +33,7 @@ function App() {
           state: { prePath: '/' },
         });
       });
-  }, [token]);
+  }, [token, history, dispatch]);
   const renderRoute = () => {
     if (!ready) {
       return <div>loading...</div>;

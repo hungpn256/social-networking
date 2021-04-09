@@ -1,8 +1,8 @@
-import { put, call, takeEvery, takeLatest } from 'redux-saga/effects';
+import { toast } from 'react-toastify';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import * as signUpActions from './actions';
 import * as signUpConstants from './constants';
 import services from './service';
-import { toast } from 'react-toastify';
 function* signUpSaga({ payload }) {
   yield put(signUpActions.changeState({ requesting: true }));
   try {

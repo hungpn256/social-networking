@@ -1,8 +1,6 @@
 import React from 'react';
-// import { Switch } from 'react-router-dom';
-import RoutePrivate from '../../Components/RoutePrivate';
+import { Redirect, Route } from 'react-router-dom';
 import styles from './styles.module.css';
-import { Route, Redirect } from 'react-router-dom';
 function Auth({ routes }) {
   return (
     <div className={styles['Login']}>

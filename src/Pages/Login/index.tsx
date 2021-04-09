@@ -1,12 +1,12 @@
 import { faFacebook, faInstagram, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect } from 'react';
-import styles from './styles.module.css';
-import { useForm } from 'react-hook-form';
-import { Link, Redirect, useLocation } from 'react-router-dom';
-import * as LoginActions from './actions';
-import { useDispatch, useSelector } from 'react-redux';
 import { Spin } from 'antd';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Redirect, useLocation } from 'react-router-dom';
+import styles from '../Signup/styles.module.css';
+import * as LoginActions from './actions';
 // import {fa} from '@fortawesome/free-solid-svg-icons
 export interface ILogin {
   username: string;
@@ -18,11 +18,10 @@ function Login() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
   const onSubmit = (data: ILogin) => {
-    const { email, password, remember } = data;
+    const { email, password } = data;
     dispatch(LoginActions.login({ email, password }));
   };
   const login = useSelector((state) => state.login);

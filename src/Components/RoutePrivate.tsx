@@ -1,6 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Route, Redirect } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 
 interface IRoute {
   path: string;
@@ -12,7 +11,7 @@ interface IRoute {
   };
 }
 const RoutePrivate = ({ component: Component, authority, ...rest }: IRoute, login) => {
-  const { user, success, requesting } = login;
+  const { user } = login;
   console.log(login, 'login');
   return (
     <Route

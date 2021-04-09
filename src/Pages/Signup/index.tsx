@@ -1,5 +1,5 @@
 import { Spin } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
@@ -14,7 +14,6 @@ function Signup(props: any) {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
   const signUp = useSelector((state) => state.signUp);
@@ -31,7 +30,7 @@ function Signup(props: any) {
     return () => {
       dispatch(signUpActions.clearState());
     };
-  }, []);
+  }, [dispatch]);
   if (success) {
     return <Redirect to="/auth/login" />;
   }
@@ -71,7 +70,7 @@ function Signup(props: any) {
             <span>Gender</span>
             <select className={styles['select-gender']} {...register('gender', { required: true })}>
               <option value={0}>Male</option>
-              <option value={1}>FeMale</option>
+              <option value={1}>Female</option>
               <option value={2}>Other</option>
             </select>
             {errors.phoneNumber && <span className={styles['error']}>This field is required</span>}
@@ -87,7 +86,7 @@ function Signup(props: any) {
               {errors.password && <span className={styles['error']}>This field is required</span>}
             </div>
             <div className={styles['inputBx']} style={{ width: '50%' }}>
-              <span>Enter password</span>
+              <span>Re-Password</span>
               <input type="password" {...register('EPassword', { required: true })} />
               {errors.EPassword && <span className={styles['error']}>This field is required</span>}
             </div>
