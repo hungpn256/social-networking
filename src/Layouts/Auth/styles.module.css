@@ -1,6 +1,7 @@
 .Login {
   width: 100%;
   height: 100vh;
+  min-height: 720px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,6 +29,7 @@
 .WrapperApp {
   width: 90%;
   height: 90vh;
+  min-height: 720px;
   z-index: 10;
   transition: 0.5s;
 }
@@ -35,6 +37,7 @@ section {
   position: absolute;
   width: 90%;
   height: 90vh;
+  min-height: 720px;
   display: flex;
   z-index: 2;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -70,10 +73,12 @@ section .imgBx img {
   .WrapperApp {
     width: 100vw;
     height: 100vh;
+    min-height: 720px;
   }
   section {
     width: 100vw;
     height: 100vh;
+    min-height: 720px;
   }
   section .imgBx {
     position: absolute;
