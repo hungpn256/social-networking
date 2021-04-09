@@ -1,6 +1,6 @@
 import 'antd/dist/antd.css';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -13,6 +13,7 @@ import Login from './Pages/Login';
 import { getUser } from './Pages/Login/actions';
 import services from './Pages/Login/service';
 import Signup from './Pages/Signup';
+import LoadingGlobal from './Components/LoadingGlobal';
 function App() {
   const login = useSelector((state) => state.login);
   const { token } = login;
@@ -36,7 +37,7 @@ function App() {
   }, [token, history, dispatch]);
   const renderRoute = () => {
     if (!ready) {
-      return <div>loading...</div>;
+      return <LoadingGlobal></LoadingGlobal>;
     }
     return ROUTES.map((route) => {
       return RoutePrivate(route, login);
