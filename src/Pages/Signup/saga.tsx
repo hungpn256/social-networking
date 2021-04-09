@@ -13,10 +13,10 @@ function* signUpSaga({ payload }) {
     }
   } catch (error) {
     yield put(signUpActions.signUpFail(error));
-    toast.error('Đăng ký thất bại');
+    console.log(error.response.data.error, 'mes');
+    toast.error(error.response.data.error);
   } finally {
     yield put(signUpActions.changeState({ requesting: false }));
-    debugger;
   }
 }
 export default function* watchLoginSaga() {
