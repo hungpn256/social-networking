@@ -1,4 +1,148 @@
-.abc {
-  color: #232;
-  font-size: 15px;
+.header {
+  z-index: 99999;
+  text-align: start;
+}
+
+.header .header-nav {
+  position: sticky;
+  width: 100%;
+  height: 80px;
+  right: 0;
+  left: 0;
+  transition: all 0.5s;
+}
+.header .header-nav.sticky {
+  padding: 0;
+  background-color: crimson;
+}
+.max-width {
+  width: 1200px;
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+.header .header-nav .brand {
+  height: 80px;
+  display: flex;
+  transition: 0.5s;
+  align-items: center;
+}
+
+.logo {
+  width: 60px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+.sticky .brand span {
+  color: white !important;
+}
+.header .header-nav .menu {
+  float: right;
+  margin-right: 20px;
+}
+
+.header .header-nav .menu-item {
+  display: inline-block;
+  line-height: 80px;
+  margin: 0 5px;
+}
+.menu .menu-item .menu-item-link {
+  color: #777;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: 0.5s;
+}
+/* .active, */
+.menu .menu-item .menu-item-link:hover {
+  background-color: #fff;
+  color: #000;
+}
+.menu .menu-item .active {
+  background-color: #fff;
+  color: #000;
+}
+.checkbtn {
+  font-size: 30px;
+  color: black;
+  float: right;
+  line-height: 80px;
+  margin-right: 40px;
+  cursor: pointer;
+  display: none;
+}
+#check {
+  display: none;
+}
+
+@media (max-width: 947px) {
+  .header .header-nav .brand {
+    font-size: 35px;
+    padding-left: 50px;
+  }
+  .menu .menu-item .menu-item-link {
+    font-size: 14px !important;
+    /* background-color: aqua; */
+  }
+  .menu {
+    position: fixed;
+    z-index: 9999;
+    width: 100%;
+    height: 100vh;
+    background-color: #2c3e50;
+    top: 80px;
+    left: -100%;
+    text-align: center;
+    opacity: 0.9;
+    transition: 0.5s;
+  }
+  .header .header-nav .menu-item {
+    display: block !important;
+  }
+  .header .header-nav .menu-item .menu-item-link {
+    font-size: 20px !important;
+  }
+  .checkbtn {
+    display: block;
+  }
+  #check:checked ~ .menu {
+    left: 0;
+  }
+  .menu-btn {
+    display: block;
+    z-index: 999;
+  }
+  .menu-btn i.active:before {
+    content: '\f00d';
+  }
+  .navbar .menu {
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    left: -100%;
+    top: 0;
+    background: #111;
+    text-align: center;
+    padding-top: 80px;
+    transition: all 0.3s ease;
+  }
+  .navbar .menu.active {
+    left: 0;
+  }
+  .navbar .menu li {
+    display: block;
+  }
+  .navbar .menu li a {
+    display: inline-block;
+    margin: 20px 0;
+    font-size: 25px;
+  }
+}
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
