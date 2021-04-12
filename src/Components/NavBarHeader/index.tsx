@@ -161,13 +161,7 @@ export default function Home(props: any) {
           </nav>
         </div>
       </div>
-      <Switch>
-        {routes &&
-          routes.map((route) => {
-            if (route.authority) return RoutePrivate(route, login);
-            else return <Route {...route}></Route>;
-          })}
-      </Switch>
+      {props.children}
     </>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 interface IRoute {
   path: string;
@@ -24,7 +24,18 @@ const RoutePrivate = ({ component: Component, authority, ...rest }: IRoute, logi
               return item === user?.role;
             }))
         ) {
-          return <Component {...props} routes={rest?.routes}></Component>;
+          return (
+            <Component {...props} routes={rest?.routes}>
+              {rest?.routes && (
+                <Switch>
+                  {rest?.routes.map((route) => {
+                    if (route.authority) return RoutePrivate(route, login);
+                    else return <Route {...route}></Route>;
+                  })}
+                </Switch>
+              )}
+            </Component>
+          );
         } else {
           return (
             <Redirect
