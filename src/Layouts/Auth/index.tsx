@@ -1,14 +1,15 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import styles from './styles.module.css';
-function Auth({ routes, children }) {
+import authBackground from '../../Assets/authBackground.jpg';
+function Auth({ routes }) {
   return (
     <div className={styles['Login']}>
       <div className={styles['WrapperApp']}>
         <div className={styles['App']}>
           <section className={styles['AppLogin']}>
             <div className={styles['imgBx']}>
-              <img src="https://dulichviet.com.vn/images/bandidau/du-lich-nuoc-ngoai.png" alt="" />
+              <img src={authBackground} alt="" />
             </div>
             <div style={{ width: '100%', zIndex: 2 }}>
               <Route path="/auth" exact>
