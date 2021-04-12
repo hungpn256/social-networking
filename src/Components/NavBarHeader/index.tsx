@@ -99,7 +99,13 @@ export default function Home(props: any) {
                         activeClassName={styles['active']}
                       >
                         <span>{`${user.name.firstName} ${user.name.lastName}`}</span>
-                        <Avatar icon={<UserOutlined />} style={{ marginLeft: 4 }} />
+                        <Avatar
+                          icon={<UserOutlined />}
+                          style={{ marginLeft: 4 }}
+                          src={
+                            'https://scontent.fhan2-6.fna.fbcdn.net/v/t1.6435-9/158497642_1877728322394996_3189770849154353899_n.jpg?_nc_cat=100&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=uux36Sp0J3oAX8joRP4&_nc_ht=scontent.fhan2-6.fna&oh=1b148c198a02a07a385c4641a02113d3&oe=6098CD18'
+                          }
+                        />
                       </NavLink>
                     </li>
                     <li
