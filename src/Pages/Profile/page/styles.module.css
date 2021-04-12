@@ -443,7 +443,7 @@ i {
   justify-content: space-between;
 }
 .detail-resume {
-  width: 29%;
+  width: 35%;
 }
 .detail-resume-list {
   padding: 20px 0;
@@ -566,8 +566,7 @@ i {
   }
 }
 .detail-video {
-  width: 70%;
-  height: 830px;
+  width: 64%;
   margin-top: 10px;
   background-color: #fff;
   border-radius: 10px;
@@ -575,10 +574,6 @@ i {
 .detail-video-title {
   font-size: 2.5rem;
   margin-left: 25px;
-}
-.detail-video-item {
-  width: 90%;
-  min-width: 500px;
 }
 .detail-video-item:focus {
   outline: none;

@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import styles from './styles.module.css';
 import EditInfor from './editif';
 import { Image } from 'antd';
+import Para from './../../../Components/paragraph/Para';
 
 export default function Profile({ user }) {
   const [srcImg, setImgSrc] = useState();
@@ -179,11 +180,7 @@ export default function Profile({ user }) {
               </div>
               <div className={styles['detail-video']}>
                 <h3 className={styles['detail-video-title']}>Video của Hưng</h3>
-                <ul className={styles['detail-video-list']}>
-                  <video className={styles['detail-video-item']} controls>
-                    <source src="./vid/Thacmac.mp4" type="video/mp4" />
-                  </video>
-                </ul>
+                <Para />
               </div>
             </div>
           </div>
