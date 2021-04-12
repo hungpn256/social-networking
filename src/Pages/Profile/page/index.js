@@ -92,15 +92,19 @@ export default function index({ user }) {
                     </li>
                   )}
 
-                  {user?.relation}
-                  <li className={styles['detail-resume-item']}>
-                    <FontAwesomeIcon icon={faHeart} className={styles['mr-10']} />
-                    Mối quan hệ: Tìm người yêu
-                  </li>
-                  <li className={styles['detail-resume-item']}>
-                    <FontAwesomeIcon icon={faGraduationCap} className={styles['mr-10']} />
-                    Học tại: PTIT
-                  </li>
+                  {user?.relation && (
+                    <li className={styles['detail-resume-item']}>
+                      <FontAwesomeIcon icon={faHeart} className={styles['mr-10']} />
+                      Mối quan hệ: {user?.relation}
+                    </li>
+                  )}
+
+                  {user?.school && (
+                    <li className={styles['detail-resume-item']}>
+                      <FontAwesomeIcon icon={faGraduationCap} className={styles['mr-10']} />
+                      Học tại: {user?.school}
+                    </li>
+                  )}
                 </ul>
                 <div className={styles['photo']}>
                   <h3>Ảnh</h3>
