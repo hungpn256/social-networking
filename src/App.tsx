@@ -40,6 +40,7 @@ function App() {
             state: { prePath: currentPath },
           });
         }
+        setReady(true);
       });
   }, [token, history, dispatch]);
   const renderRoute = () => {

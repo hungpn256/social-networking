@@ -10,8 +10,9 @@ import { Dropdown, Input, Menu } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { NavLink, Route, Switch } from 'react-router-dom';
+import { NavLink, Route, Switch, Link, useLocation } from 'react-router-dom';
 import Logo from '../../Assets/logo.png';
+import RoutePrivate from '../RoutePrivate';
 import styles from './styles.module.css';
 
 const { Search } = Input;
@@ -37,11 +38,12 @@ const menu = (
   </Menu>
 );
 export default function Home(props: any) {
+  const { routes } = props;
   const [current, setCurrent] = useState('mail');
-  const user = useSelector((state) => state.login.user);
-  console.log(user.avatar.viewUrl, 'user');
+  const location = useLocation();
+  const login = useSelector((state) => state.login);
+  const { user } = login;
   const handleClick = (e) => {
-    console.log('click ', e);
     setCurrent(e.key);
   };
 
@@ -72,53 +74,79 @@ export default function Home(props: any) {
                 />
               </label>
               <ul className={styles['menu']}>
-                <li className={styles['menu-item']}>
-                  <NavLink
-                    to="/"
-                    className={styles['menu-item-link']}
-                    activeClassName={styles['active']}
-                  >
-                    Home
-                    <HomeFilled style={{ marginLeft: 8 }} />
-                  </NavLink>
-                </li>
-                <li className={styles['menu-item']}>
-                  <NavLink
-                    to={`/profile/${user._id}`}
-                    className={`${styles['menu-item-link']}`}
-                    activeClassName={styles['active']}
-                  >
-                    <span>{`${user.name.firstName} ${user.name.lastName}`}</span>
-                    <Avatar
-                      icon={<UserOutlined />}
-                      style={{ marginLeft: 4 }}
-                      src={user && user?.avatar.viewUrl}
-                    />
-                  </NavLink>
-                </li>
-                <li
-                  className={styles['menu-item']}
-                  style={{
-                    margin: 0,
-                    padding: '0',
-                  }}
-                >
-                  <Dropdown overlay={menu} trigger={['click']}>
-                    <DownCircleTwoTone
+                {user ? (
+                  <>
+                    {' '}
+                    <li className={styles['menu-item']}>
+                      <NavLink
+                        to="/"
+                        exact
+                        className={styles['menu-item-link']}
+                        activeClassName={styles['active']}
+                      >
+                        Home
+                        <HomeFilled style={{ marginLeft: 8 }} />
+                      </NavLink>
+                    </li>
+                    <li className={styles['menu-item']}>
+                      <NavLink
+                        to={`/profile`}
+                        className={`${styles['menu-item-link']}`}
+                        activeClassName={styles['active']}
+                      >
+                        <span>{`${user.name.firstName} ${user.name.lastName}`}</span>
+                        <Avatar icon={<UserOutlined />} style={{ marginLeft: 4 }} />
+                      </NavLink>
+                    </li>
+                    <li
+                      className={styles['menu-item']}
                       style={{
-                        fontSize: 25,
-                        lineHeight: '30px',
-                        transform: 'translate(-5px, 6px)',
+                        margin: 0,
+                        padding: '0',
                       }}
-                      twoToneColor="pink"
-                    />
-                  </Dropdown>
-                </li>
+                    >
+                      <Dropdown overlay={menu} trigger={['click']}>
+                        <DownCircleTwoTone
+                          style={{
+                            fontSize: 25,
+                            lineHeight: '30px',
+                            transform: 'translate(-5px, 6px)',
+                          }}
+                          twoToneColor="pink"
+                        />
+                      </Dropdown>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    {' '}
+                    <li className={styles['menu-item']}>
+                      <Link to={{ pathname: '/auth/signup' }} className={styles['menu-item-link']}>
+                        Đăng ký
+                      </Link>
+                    </li>{' '}
+                    <li className={styles['menu-item']}>
+                      <Link
+                        to={{ pathname: '/auth/login', state: { prePath: location.pathname } }}
+                        className={styles['menu-item-link']}
+                      >
+                        Đăng nhập
+                      </Link>
+                    </li>
+                  </>
+                )}
               </ul>
             </div>
           </nav>
         </div>
       </div>
+      <Switch>
+        {routes &&
+          routes.map((route) => {
+            if (route.authority) return RoutePrivate(route, login);
+            else return <Route {...route}></Route>;
+          })}
+      </Switch>
     </>
   );
 }

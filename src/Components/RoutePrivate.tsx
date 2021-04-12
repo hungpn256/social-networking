@@ -12,7 +12,6 @@ interface IRoute {
 }
 const RoutePrivate = ({ component: Component, authority, ...rest }: IRoute, login) => {
   const { user } = login;
-  console.log(login, 'login');
   return (
     <Route
       {...rest}
@@ -22,7 +21,7 @@ const RoutePrivate = ({ component: Component, authority, ...rest }: IRoute, logi
           authority === undefined ||
           (authority &&
             authority?.some((item: string) => {
-              return item === user.role;
+              return item === user?.role;
             }))
         ) {
           return <Component {...props} routes={rest?.routes}></Component>;
