@@ -42,7 +42,7 @@ const ROUTES = [
         name: 'Home',
       },
       {
-        path: '/profile',
+        path: '/profile/:id',
         component: Profile,
         name: 'Home',
       },
