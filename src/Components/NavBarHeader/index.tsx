@@ -8,17 +8,15 @@ import {
 } from '@ant-design/icons';
 import { Dropdown, Input, Menu } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, Route, Switch, Link, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import Logo from '../../Assets/logo.png';
-import RoutePrivate from '../RoutePrivate';
 import styles from './styles.module.css';
 
 const { Search } = Input;
 
 export default function Home(props: any) {
-  const { routes } = props;
   const location = useLocation();
   const login = useSelector((state) => state.login);
   const { user } = login;
