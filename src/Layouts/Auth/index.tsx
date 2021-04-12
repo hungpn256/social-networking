@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import styles from './styles.module.css';
-function Auth({ routes }) {
+function Auth({ routes, children }) {
   return (
     <div className={styles['Login']}>
       <div className={styles['WrapperApp']}>

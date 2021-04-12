@@ -19,6 +19,9 @@ const reducer = (state = initialState, action: any) => {
     case signUpConstants.SIGN_UP_CLEAR_STATE: {
       return { ...initialState };
     }
+    case 'CLEAR_STATE': {
+      return { ...initialState };
+    }
     default:
       return { ...state };
   }

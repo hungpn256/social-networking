@@ -3,19 +3,13 @@ import Home from '../Pages/Home';
 import Auth from '../Layouts/Auth';
 import Signup from '../Pages/Signup';
 import NotFound from '../Components/NotFound';
+import NavBarHeader from '../Components/NavBarHeader';
+import Profile from '../Pages/Profile';
 enum Roles {
   USER = 'user',
   ADMIN = 'admin',
 }
 const ROUTES = [
-  {
-    path: '/',
-    component: Home,
-    // layout: '',
-    authority: [Roles.USER, Roles.ADMIN],
-    exact: true,
-    name: 'Home',
-  },
   {
     path: '/auth',
     component: Auth,
@@ -31,6 +25,26 @@ const ROUTES = [
         component: Signup,
         exact: true,
         name: 'Sign up',
+      },
+    ],
+  },
+  {
+    path: '/',
+    component: NavBarHeader,
+    // layout: '',
+    name: 'Home',
+    routes: [
+      {
+        path: '/',
+        component: Home,
+        exact: true,
+        authority: [Roles.USER, Roles.ADMIN],
+        name: 'Home',
+      },
+      {
+        path: '/profile/:id',
+        component: Profile,
+        name: 'Home',
       },
     ],
   },
