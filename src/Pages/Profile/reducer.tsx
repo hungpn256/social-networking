@@ -3,8 +3,8 @@ const initialState = {
   requesting: false,
   success: false,
   user: null,
-  token: localStorage.getItem('token'),
   error: null,
+  editting: false,
 };
 
 const reducer = (state = initialState, action: any) => {

@@ -5,7 +5,7 @@ export default function Para() {
   const [ellipsis, setEllipsis] = React.useState(true);
   const { Paragraph } = Typography;
   return (
-    <div style={{ margin: 16, maxHeight: 80 }}>
+    <div style={{ margin: 16 }}>
       <Paragraph
         ellipsis={ellipsis ? { rows: 2, expandable: true, symbol: 'more' } : false}
         style={{ fontSize: 14 }}

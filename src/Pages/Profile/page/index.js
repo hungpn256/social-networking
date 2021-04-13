@@ -4,17 +4,50 @@ import {
   faHeart,
   faHome,
   faPhone,
+  faMars,
+  faVenus,
+  faVenusMars,
+  faChevronDown,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Image } from 'antd';
-import React from 'react';
+import { Dropdown, Image, Menu, Spin } from 'antd';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import EditInfor from './editif';
 import Para from './../../../Components/paragraph/Para';
 import Avatar from './../../../Components/Avatar/avatar';
 import styles from './styles.module.css';
-
+import { useDispatch, useSelector } from 'react-redux';
+import * as profileActions from './../actions';
+import { login } from '../../Login/actions';
+import userImg from '../../../Assets/user.png';
 export default function Profile({ user }) {
+  const profileState = useSelector((state) => state.profile);
+  const dispatch = useDispatch();
+  const onChangeAvatar = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      dispatch(profileActions.changeAvatar(file));
+    }
+  };
+  const menu = (
+    <Menu style={{ marginTop: 20, borderRadius: 10 }}>
+      <Menu.Item
+        key="1"
+        onClick={() => {
+          const changeAvatar = document.getElementById('changeAvatar');
+          changeAvatar.click();
+        }}
+      >
+        <label> Update profile picture</label>
+        <input
+          type="file"
+          id="changeAvatar"
+          onChange={onChangeAvatar}
+          style={{ display: 'none' }}
+        />
+      </Menu.Item>
+    </Menu>
+  );
   return (
     <div className={styles['DevKen']}>
       <div className={styles['content']}>
@@ -28,14 +61,24 @@ export default function Profile({ user }) {
               />
             </div>
             <div className={styles['avatar']}>
-              <img
-                src="https://scontent.fhan2-6.fna.fbcdn.net/v/t1.6435-9/158497642_1877728322394996_3189770849154353899_n.jpg?_nc_cat=100&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=uux36Sp0J3oAX8joRP4&_nc_ht=scontent.fhan2-6.fna&oh=1b148c198a02a07a385c4641a02113d3&oe=6098CD18"
-                alt="Avatar"
-                className={styles['avatar-image']}
-              />
+              <Spin spinning={profileState.requesting}>
+                <Image.PreviewGroup>
+                  {!profileState.requesting && (
+                    <Image
+                      className={`${styles['avatar-image']} animate__animated animate__backInUp`}
+                      height={175}
+                      width={175}
+                      src={user?.avatar?.viewUrl?.replace(/=s220/, '') ?? userImg}
+                    ></Image>
+                  )}
+                </Image.PreviewGroup>
+              </Spin>
+              <Dropdown overlay={menu} trigger={['click']}>
+                <FontAwesomeIcon icon={faChevronDown} className={styles['avatar-dropdown']} />
+              </Dropdown>
             </div>
             <div className={styles['infor-name']}>
-              <h2 className={styles['name']}>ABC</h2>
+              <h2 className={styles['name']}>{user?.name?.firstName + user?.name?.lastName}</h2>
             </div>
 
             <div className={styles['infor-nav']}>
@@ -65,12 +108,10 @@ export default function Profile({ user }) {
                   <h3 id="">
                     About <FontAwesomeIcon icon={faEdit} className={styles['edit-info-about']} />{' '}
                   </h3>
-
-                  <EditInfor />
                   {user?.phoneNumber && (
                     <li className={styles['detail-resume-item']}>
                       <FontAwesomeIcon icon={faPhone} className={styles['mr-10']} />
-                      Phone Number: {user.phoneNumber}
+                      Phone: {user.phoneNumber}
                     </li>
                   )}
                   {user?.place && (
@@ -80,10 +121,15 @@ export default function Profile({ user }) {
                     </li>
                   )}
 
-                  {user?.gender && (
+                  {(user?.gender || user?.gender === 0) && (
                     <li className={styles['detail-resume-item']}>
-                      <FontAwesomeIcon icon={faHeart} className={styles['mr-10']} />
-                      Gender: {user.gender === 1 ? 'Male' : user.gender === 2 ? 'Female' : ''}
+                      <FontAwesomeIcon
+                        icon={
+                          user.gender === 0 ? faMars : user.gender === 1 ? faVenus : faVenusMars
+                        }
+                        className={styles['mr-10']}
+                      />
+                      Gender: {user.gender === 0 ? 'Male' : user.gender === 1 ? 'Female' : 'Other'}
                     </li>
                   )}
 
@@ -164,9 +210,14 @@ export default function Profile({ user }) {
                 </div>
               </div>
               <div className={styles['detail-video']}>
-                {/* <h3 className={styles['detail-video-title']}>Video của Hưng</h3> */}
-                <Avatar />
-                <Para />
+                <div>
+                  <Avatar />
+                  <Para />
+                </div>
+                <div>
+                  <Avatar />
+                  <Para />
+                </div>
               </div>
             </div>
           </div>
