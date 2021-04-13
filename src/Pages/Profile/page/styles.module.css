@@ -156,12 +156,11 @@ i {
   margin: 0;
   padding: 0;
   user-select: none;
-  border-radius: 3px;
 }
 .infor-nav-item:hover {
   background-color: #ffc0cb;
   color: rgb(255, 255, 255);
-  border-radius: 8px;
+  border-radius: 20px;
 }
 .infor-nav-item:active {
   background-color: #ec410d;
