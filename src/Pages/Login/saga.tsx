@@ -5,6 +5,7 @@ import * as loginConstants from './constants';
 import services from './service';
 function* loginSaga({ payload }) {
   yield put(loginActions.changeState({ requesting: true }));
+  debugger;
   try {
     const res = yield call(services.login, payload);
     yield put(loginActions.loginSuccess(res.data));

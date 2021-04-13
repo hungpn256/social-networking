@@ -1,4 +1,5 @@
 import * as loginConstants from './constants';
+import * as profileConstant from '../Profile/constants';
 const initialState = {
   requesting: false,
   success: false,
@@ -23,6 +24,10 @@ const reducer = (state = initialState, action: any) => {
     case loginConstants.GET_USER: {
       const { payload } = action;
       return { ...state, ...payload };
+    }
+    // profile change
+    case profileConstant.PROFILE_CHANGE_AVATAR_SUCCESS: {
+      return { ...state, ...action.payload };
     }
     case 'CLEAR_STATE': {
       return { ...initialState };
