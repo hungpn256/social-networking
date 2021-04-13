@@ -11,24 +11,33 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dropdown, Image, Menu, Spin } from 'antd';
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import Para from './../../../Components/paragraph/Para';
 import Avatar from './../../../Components/Avatar/avatar';
 import styles from './styles.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import * as profileActions from './../actions';
-import { login } from '../../Login/actions';
 import userImg from '../../../Assets/user.png';
+import LoadingGlobal from '../../../Components/LoadingGlobal';
 export default function Profile({ user }) {
   const profileState = useSelector((state) => state.profile);
+  const { loadingPage, user: userProfile } = profileState;
+  const params = useParams();
+  const { _id } = params;
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(profileActions.getUser({ _id }));
+  }, [_id, dispatch]);
   const onChangeAvatar = (e) => {
     const file = e.target.files[0];
     if (file) {
       dispatch(profileActions.changeAvatar(file));
     }
   };
+  if (loadingPage) {
+    return <LoadingGlobal />;
+  }
   const menu = (
     <Menu style={{ marginTop: 20, borderRadius: 10 }}>
       <Menu.Item
@@ -68,7 +77,7 @@ export default function Profile({ user }) {
                       className={`${styles['avatar-image']} animate__animated animate__backInUp`}
                       height={175}
                       width={175}
-                      src={user?.avatar?.viewUrl?.replace(/=s220/, '') ?? userImg}
+                      src={userProfile?.avatar?.viewUrl?.replace(/=s220/, '') ?? userImg}
                     ></Image>
                   )}
                 </Image.PreviewGroup>
@@ -78,24 +87,24 @@ export default function Profile({ user }) {
               </Dropdown>
             </div>
             <div className={styles['infor-name']}>
-              <h2 className={styles['name']}>{user?.name?.firstName + user?.name?.lastName}</h2>
+              <h2 className={styles['name']}>
+                {userProfile?.name?.firstName + userProfile?.name?.lastName}
+              </h2>
             </div>
 
             <div className={styles['infor-nav']}>
               <ul className={styles['infor-nav-list']}>
                 <li className={styles['infor-nav-item']}>
-                  <Link></Link>
-                  About
+                  <Link>About</Link>
                 </li>
                 <li className={styles['infor-nav-item']}>
-                  <Link></Link>
-                  Photos
+                  <Link>Photos</Link>
                 </li>
                 <li type="button" className={styles['infor-nav-item']}>
-                  <Link></Link>Hobby
+                  <Link>Hobby</Link>
                 </li>
                 <li href="" className={styles['infor-nav-item']}>
-                  <Link></Link>More
+                  <Link>More</Link>
                   <i className={styles['fas fa-ellipsis-h']}></i>
                 </li>
               </ul>
@@ -108,35 +117,44 @@ export default function Profile({ user }) {
                   <h3 id="">
                     About <FontAwesomeIcon icon={faEdit} className={styles['edit-info-about']} />{' '}
                   </h3>
-                  {user?.phoneNumber && (
+                  {userProfile?.phoneNumber && (
                     <li className={styles['detail-resume-item']}>
                       <FontAwesomeIcon icon={faPhone} className={styles['mr-10']} />
-                      Phone: {user.phoneNumber}
+                      Phone: {userProfile.phoneNumber}
                     </li>
                   )}
-                  {user?.place && (
+                  {userProfile?.place && (
                     <li className={styles['detail-resume-item']}>
                       <FontAwesomeIcon icon={faHome} className={styles['mr-10']} />
-                      Home town: {user?.place}
+                      Home town: {userProfile?.place}
                     </li>
                   )}
 
-                  {(user?.gender || user?.gender === 0) && (
+                  {(userProfile?.gender || userProfile?.gender === 0) && (
                     <li className={styles['detail-resume-item']}>
                       <FontAwesomeIcon
                         icon={
-                          user.gender === 0 ? faMars : user.gender === 1 ? faVenus : faVenusMars
+                          userProfile.gender === 0
+                            ? faMars
+                            : userProfile.gender === 1
+                            ? faVenus
+                            : faVenusMars
                         }
                         className={styles['mr-10']}
                       />
-                      Gender: {user.gender === 0 ? 'Male' : user.gender === 1 ? 'Female' : 'Other'}
+                      Gender:{' '}
+                      {userProfile.gender === 0
+                        ? 'Male'
+                        : userProfile.gender === 1
+                        ? 'Female'
+                        : 'Other'}
                     </li>
                   )}
 
-                  {user?.school && (
+                  {userProfile?.school && (
                     <li className={styles['detail-resume-item']}>
                       <FontAwesomeIcon icon={faGraduationCap} className={styles['mr-10']} />
-                      School: {user?.school}
+                      School: {userProfile?.school}
                     </li>
                   )}
                 </ul>

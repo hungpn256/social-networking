@@ -5,6 +5,7 @@ const initialState = {
   user: null,
   error: null,
   editting: false,
+  loadingPage: false,
 };
 
 const reducer = (state = initialState, action: any) => {
@@ -15,6 +16,19 @@ const reducer = (state = initialState, action: any) => {
     case profileConstant.PROFILE_CHANGE_AVATAR_SUCCESS: {
       return { ...state, ...action.payload };
     }
+
+    case profileConstant.PROFILE_CHANGE_AVATAR_FAIL: {
+      return { ...state, ...action.payload };
+    }
+
+    case profileConstant.GET_PROFILE_USER_SUCCESS: {
+      return { ...state, ...action.payload };
+    }
+
+    case profileConstant.GET_PROFILE_USER_FAIL: {
+      return { ...state, ...action.payload };
+    }
+
     case 'CLEAR_STATE': {
       return { ...initialState };
     }

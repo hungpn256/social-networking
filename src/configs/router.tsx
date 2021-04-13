@@ -42,9 +42,8 @@ const ROUTES = [
         name: 'Home',
       },
       {
-        path: '/profile/:id',
+        path: '/profile/:_id',
         component: Profile,
-        authority: [Roles.USER, Roles.ADMIN],
         name: 'Home',
       },
     ],

@@ -16,7 +16,21 @@ function* changeAvatarSaga({ payload }) {
     yield put(profileActions.changeState({ requesting: false }));
   }
 }
+function* changeUserSaga({ payload }) {
+  yield put(profileActions.changeState({ loadingPage: true }));
+  try {
+    const res = yield call(services.getProfileUser, payload);
+    yield put(profileActions.getUserSuccess(res.data));
+    toast.success('get profile success');
+  } catch (err) {
+    yield put(profileActions.getUserFail(err));
+    toast.error('get profile fail');
+  } finally {
+    yield put(profileActions.changeState({ loadingPage: false }));
+  }
+}
 
 export default function* watchProfileSaga() {
   yield takeLatest(profileConstant.PROFILE_CHANGE_AVATAR, changeAvatarSaga);
+  yield takeLatest(profileConstant.GET_PROFILE_USER, changeUserSaga);
 }
