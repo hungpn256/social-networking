@@ -85,6 +85,7 @@ i {
   object-fit: cover;
   top: 170px;
   left: 40px;
+  cursor: pointer;
 }
 
 .avatar .avatar-image {

@@ -1,19 +1,18 @@
 import {
-  faCoffee,
+  faEdit,
   faGraduationCap,
   faHeart,
   faHome,
   faPhone,
-  faEdit,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import styles from './styles.module.css';
-import EditInfor from './editif';
 import { Image } from 'antd';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import EditInfor from './editif';
 import Para from './../../../Components/paragraph/Para';
 import Avatar from './../../../Components/Avatar/avatar';
+import styles from './styles.module.css';
 
 export default function Profile({ user }) {
   return (
