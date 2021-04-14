@@ -13,8 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dropdown, Image, Menu, Spin } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import Para from '../../../Components/paragraph/Para';
-import Avatar from '../../../Components/Avatar/avatar';
+import Article from '../../../Components/Article/Article';
 import styles from './styles.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import * as profileActions from '../actions';
@@ -89,7 +88,7 @@ export default function Profile({ user }) {
             </div>
             <div className={styles['infor-name']}>
               <h2 className={styles['name']}>
-                {userProfile?.name?.firstName + userProfile?.name?.lastName}
+                {userProfile?.name?.firstName + ' ' + userProfile?.name?.lastName}
               </h2>
             </div>
 
@@ -111,7 +110,7 @@ export default function Profile({ user }) {
             </div>
           </div>
           <div className={styles['detail']}>
-            <div className={`${styles['grid']} ${styles['detail-grid']}`}>
+            <div className={`${styles['detail-grid']}`}>
               <div className={styles['detail-resume']}>
                 <ul className={styles['detail-resume-list']}>
                   <h3 id="">
@@ -228,14 +227,10 @@ export default function Profile({ user }) {
                 </div>
               </div>
               <div className={styles['detail-video']}>
-                <div>
-                  <Avatar />
-                  <Para />
-                </div>
-                <div>
-                  <Avatar />
-                  <Para />
-                </div>
+                <Article />
+                <Article />
+                <Article />
+                <Article />
               </div>
             </div>
           </div>

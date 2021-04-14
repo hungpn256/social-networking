@@ -26,6 +26,7 @@ export default function Home(props: any) {
   const checkBtn = document.querySelector(`#${styles['check']}`);
   const dispatch = useDispatch();
   const onSearch = (value: string) => console.log(value);
+  console.log(user?.avatar?.viewUrl, 'url');
   const menu = (
     <Menu>
       <Menu.Item key="0">

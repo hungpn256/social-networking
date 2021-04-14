@@ -1,42 +1,31 @@
+import { Card, Col, Row } from 'antd';
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import * as profileActions from './../Profile/actions';
+import Article from '../../Components/Article/Article';
+const colArticle = {
+  sm: 24,
+  md: 12,
+  xl: 8,
+};
+const colSlider = {
+  sm: 0,
+  md: 4,
+  xl: 8,
+};
 const Home = () => {
-  const [image, setImage] = useState(null);
-  const [imageUrl, setImageUrl] = useState('');
-  const dispatch = useDispatch();
-  const onChange = (e) => {
-    const file = e.target.files[0];
-    console.log(e, 'e');
-    console.log(file, 'file');
-    if (file) {
-      setImage(file);
-      setImageUrl(URL.createObjectURL(file));
-    } else {
-      setImage(null);
-      setImageUrl('');
-    }
-  };
-  const submit = (e) => {
-    if (!image) {
-      alert('chon file');
-      return;
-    }
-    dispatch(profileActions.changeAvatar(image));
-  };
   return (
-    <>
-      <input
-        type="file"
-        alt=""
-        id="fileList"
-        onChange={onChange}
-        style={{ display: 'none' }}
-      ></input>
-      <label htmlFor="fileList">sdsd</label>
-      {imageUrl !== '' && <img src={imageUrl} alt="" style={{ width: 200, height: 200 }}></img>}
-      <button onClick={submit}>submit</button>
-    </>
+    <div style={{ background: '#f5f5f5' }}>
+      <Row>
+        <Col {...colSlider}>
+          <Card>slider</Card>
+        </Col>
+        <Col {...colArticle}>
+          <Article />
+        </Col>
+        <Col {...colSlider}>
+          <Card>slider</Card>
+        </Col>
+      </Row>
+    </div>
   );
 };
 export default Home;
