@@ -13,11 +13,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dropdown, Image, Menu, Spin } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import Para from './../../../Components/paragraph/Para';
-import Avatar from './../../../Components/Avatar/avatar';
+import Para from '../../../Components/paragraph/Para';
+import Avatar from '../../../Components/Avatar/avatar';
 import styles from './styles.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import * as profileActions from './../actions';
+import * as profileActions from '../actions';
 import userImg from '../../../Assets/user.png';
 import LoadingGlobal from '../../../Components/LoadingGlobal';
 export default function Profile({ user }) {
@@ -192,21 +192,21 @@ export default function Profile({ user }) {
                     <Image
                       width={'33%'}
                       height={150}
-                      src="https://scontent.fhan2-6.fna.fbcdn.net/v/t1.6435-9/29472699_2153531444867207_6316745274244988928_n.jpg?_nc_cat=100&ccb=1-3&_nc_sid=19026a&_nc_ohc=zUXPvTDf3t0AX-sNXUP&_nc_ht=scontent.fhan2-6.fna&oh=9bc0781a0e810cf688216e28e5885783&oe=609B2216"
+                      src="https://scontent.fhan2-4.fna.fbcdn.net/v/t1.6435-9/75419087_2600572793496401_636120841637068800_n.jpg?_nc_cat=105&ccb=1-3&_nc_sid=8bfeb9&_nc_ohc=b6dortc7ce0AX8ih7uI&_nc_ht=scontent.fhan2-4.fna&oh=599dd1460079a940d4927b1025606095&oe=609DA848"
                       alt=""
                       className={styles['photo-item-img']}
                     />
                     <Image
                       width={'33%'}
                       height={150}
-                      src="https://scontent.fhan2-6.fna.fbcdn.net/v/t1.6435-9/29472699_2153531444867207_6316745274244988928_n.jpg?_nc_cat=100&ccb=1-3&_nc_sid=19026a&_nc_ohc=zUXPvTDf3t0AX-sNXUP&_nc_ht=scontent.fhan2-6.fna&oh=9bc0781a0e810cf688216e28e5885783&oe=609B2216"
+                      src="https://scontent.fhan2-4.fna.fbcdn.net/v/t1.6435-9/75419087_2600572793496401_636120841637068800_n.jpg?_nc_cat=105&ccb=1-3&_nc_sid=8bfeb9&_nc_ohc=b6dortc7ce0AX8ih7uI&_nc_ht=scontent.fhan2-4.fna&oh=599dd1460079a940d4927b1025606095&oe=609DA848"
                       alt=""
                       className={styles['photo-item-img']}
                     />
                     <Image
                       width={'33%'}
                       height={150}
-                      src="https://scontent.fhan2-6.fna.fbcdn.net/v/t1.6435-9/29472699_2153531444867207_6316745274244988928_n.jpg?_nc_cat=100&ccb=1-3&_nc_sid=19026a&_nc_ohc=zUXPvTDf3t0AX-sNXUP&_nc_ht=scontent.fhan2-6.fna&oh=9bc0781a0e810cf688216e28e5885783&oe=609B2216"
+                      src="https://scontent.fhan2-4.fna.fbcdn.net/v/t1.6435-9/75419087_2600572793496401_636120841637068800_n.jpg?_nc_cat=105&ccb=1-3&_nc_sid=8bfeb9&_nc_ohc=b6dortc7ce0AX8ih7uI&_nc_ht=scontent.fhan2-4.fna&oh=599dd1460079a940d4927b1025606095&oe=609DA848"
                       alt=""
                       className={styles['photo-item-img']}
                     />

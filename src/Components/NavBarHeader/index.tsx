@@ -145,36 +145,38 @@ export default function Home(props: any) {
                   </>
                 )}
               </ul>
-              <ul className={styles['chat-notification-wrapper']}>
-                <li className={`${styles['menu-item']}`} style={{ display: 'flex' }}>
-                  <FontAwesomeIcon
-                    className={styles['menu-item-icon']}
-                    icon={faFacebookMessenger}
-                  />
-                </li>
-                <li className={`${styles['menu-item']}`} style={{ display: 'flex' }}>
-                  <FontAwesomeIcon className={styles['menu-item-icon']} icon={faBell} />
-                </li>
-                <li
-                  className={`${styles['menu-item']}`}
-                  style={{
-                    margin: 0,
-                    padding: '0',
-                  }}
-                >
-                  <Dropdown overlay={menu} trigger={['click']}>
-                    <DownCircleTwoTone
-                      style={{
-                        fontSize: 30,
-                        lineHeight: '30px',
-                        transform: 'translate(-5px, 6px)',
-                        margin: '0 4px',
-                      }}
-                      twoToneColor="pink"
+              {user && (
+                <ul className={styles['chat-notification-wrapper']}>
+                  <li className={`${styles['menu-item']}`} style={{ display: 'flex' }}>
+                    <FontAwesomeIcon
+                      className={styles['menu-item-icon']}
+                      icon={faFacebookMessenger}
                     />
-                  </Dropdown>
-                </li>
-              </ul>
+                  </li>
+                  <li className={`${styles['menu-item']}`} style={{ display: 'flex' }}>
+                    <FontAwesomeIcon className={styles['menu-item-icon']} icon={faBell} />
+                  </li>
+                  <li
+                    className={`${styles['menu-item']}`}
+                    style={{
+                      margin: 0,
+                      padding: '0',
+                    }}
+                  >
+                    <Dropdown overlay={menu} trigger={['click']}>
+                      <DownCircleTwoTone
+                        style={{
+                          fontSize: 30,
+                          lineHeight: '30px',
+                          transform: 'translate(-5px, 6px)',
+                          margin: '0 4px',
+                        }}
+                        twoToneColor="pink"
+                      />
+                    </Dropdown>
+                  </li>
+                </ul>
+              )}
             </div>
           </div>
         </nav>
