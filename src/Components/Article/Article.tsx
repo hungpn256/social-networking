@@ -13,7 +13,7 @@ export default function Para() {
       <Card
         loading={loading}
         style={{
-          boxShadow: '1px 1px 0px rgba(0,0,0,0.1) 2px 2px 2px rgba(0,0,0,0.2)',
+          boxShadow: '0px 10px 15px rgba(0, 0, 0, 0.1)',
           borderRadius: 10,
         }}
       >

@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as profileActions from '../actions';
 import userImg from '../../../Assets/user.png';
 import LoadingGlobal from '../../../Components/LoadingGlobal';
+import PostArticle from '../../../Components/PostArticle';
 export default function Profile({ user }) {
   const profileState = useSelector((state) => state.profile);
   const { loadingPage, user: userProfile } = profileState;
@@ -227,6 +228,7 @@ export default function Profile({ user }) {
                 </div>
               </div>
               <div className={styles['detail-video']}>
+                <PostArticle />
                 <Article />
                 <Article />
                 <Article />

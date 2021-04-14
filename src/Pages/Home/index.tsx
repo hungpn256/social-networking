@@ -1,6 +1,7 @@
 import { Card, Col, Row } from 'antd';
 import React, { useState } from 'react';
 import Article from '../../Components/Article/Article';
+import PostArticle from '../../Components/PostArticle';
 const colArticle = {
   sm: 24,
   md: 12,
@@ -19,6 +20,10 @@ const Home = () => {
           <Card>slider</Card>
         </Col>
         <Col {...colArticle}>
+          <PostArticle />
+          <Article />
+          <Article />
+          <Article />
           <Article />
         </Col>
         <Col {...colSlider}>
