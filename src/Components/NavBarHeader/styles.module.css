@@ -37,13 +37,13 @@
 }
 .header .header-nav .menu {
   float: right;
-  margin-right: 20px;
 }
-
+.chat-notification-wrapper .menu-item,
 .header .header-nav .menu-item {
   display: inline-block;
   line-height: 60px;
   margin: 0 5px;
+  transition: 0.3s ease-in-out;
 }
 .menu .menu-item .menu-item-link {
   color: #777;
@@ -67,7 +67,7 @@
   font-size: 30px;
   color: black;
   float: right;
-  line-height: 80px;
+  line-height: 60px;
   margin-right: 40px;
   cursor: pointer;
   display: none;
@@ -78,7 +78,34 @@
 .menu-mobile {
   display: none !important;
 }
-
+.chat-notification-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 0;
+  padding-left: 0;
+  cursor: pointer;
+}
+.chat-notification-wrapper .menu-item:hover {
+  color: #fff;
+}
+/* .menu-item-wrapper-icon {
+  position: relative;
+}
+.menu-item-wrapper-icon::before {
+  content: '';
+  background-color: rgba(255, 255, 255, 1);
+  position: absolute;
+  top: 20px;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+} */
+.menu-item-icon {
+  font-size: 25px;
+  margin: 4px;
+}
 @media (max-width: 947px) {
   .header .header-nav .brand {
     font-size: 35px;
@@ -106,13 +133,10 @@
   .header .header-nav .menu-item .menu-item-link {
     font-size: 20px !important;
   }
-  .hideInMobile {
-    display: none !important;
-  }
   .checkbtn {
     display: block;
   }
-  #check:checked ~ .menu {
+  #check:checked ~ .wrapper-memu .menu {
     left: 0;
   }
   .menu-btn {

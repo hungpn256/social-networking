@@ -29,7 +29,7 @@ const reducer = (state = initialState, action: any) => {
       return { ...state, ...action.payload };
     }
 
-    case 'CLEAR_STATE': {
+    case 'CLEAR_STATE_PROFILE': {
       return { ...initialState };
     }
     default:

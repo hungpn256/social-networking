@@ -150,8 +150,6 @@ i {
   cursor: pointer;
   transition: all ease-in 0.2s;
   background-color: #f3ecec;
-
-  color: #000000;
   font-size: 14px;
   margin: 0;
   padding: 0;
@@ -159,8 +157,13 @@ i {
 }
 .infor-nav-item:hover {
   background-color: #ffc0cb;
-  color: rgb(255, 255, 255);
   border-radius: 20px;
+}
+.infor-nav-item-link {
+  color: #777777;
+}
+.infor-nav-item:hover .infor-nav-item-link {
+  color: #fff;
 }
 .infor-nav-item:active {
   background-color: #ec410d;
