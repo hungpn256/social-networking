@@ -122,7 +122,7 @@ export default function Home(props: any) {
                     </NavLink>
                   </li>
                   <li
-                    className={styles['menu-item']}
+                    className={`${styles['menu-item']} ${styles['hideInMobile']}`}
                     style={{
                       margin: 0,
                       padding: '0',

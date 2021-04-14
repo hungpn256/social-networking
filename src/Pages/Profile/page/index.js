@@ -38,6 +38,7 @@ export default function Profile({ user }) {
   if (loadingPage) {
     return <LoadingGlobal />;
   }
+  console.log(userProfile?.avatar?.viewUrl?.replace(/=s220/, ''), 'avatar');
   const menu = (
     <Menu style={{ marginTop: 20, borderRadius: 10 }}>
       <Menu.Item
