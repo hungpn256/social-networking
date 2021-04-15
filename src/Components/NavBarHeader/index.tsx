@@ -148,13 +148,13 @@ export default function Home(props: any) {
               </ul>
               {user && (
                 <ul className={styles['chat-notification-wrapper']}>
-                  <li className={`${styles['menu-item']}`} style={{ display: 'flex' }}>
+                  <li className={`${styles['menu-item']} ${styles['wrap-icon']}`}>
                     <FontAwesomeIcon
                       className={styles['menu-item-icon']}
                       icon={faFacebookMessenger}
                     />
                   </li>
-                  <li className={`${styles['menu-item']}`} style={{ display: 'flex' }}>
+                  <li className={`${styles['menu-item']} ${styles['wrap-icon']}`}>
                     <FontAwesomeIcon className={styles['menu-item-icon']} icon={faBell} />
                   </li>
                   <li

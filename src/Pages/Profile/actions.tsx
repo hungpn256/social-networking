@@ -25,6 +25,7 @@ export const getUser = (payload: any) => {
   };
 };
 export const getUserSuccess = (payload: any) => {
+  debugger;
   return {
     type: constantsType.GET_PROFILE_USER_SUCCESS,
     payload,
@@ -33,6 +34,43 @@ export const getUserSuccess = (payload: any) => {
 export const getUserFail = (payload: any) => {
   return {
     type: constantsType.GET_PROFILE_USER_FAIL,
+    payload,
+  };
+};
+export const postArticle = (payload: any) => {
+  return {
+    type: constantsType.PROFILE_POST_ARTICLE,
+    payload,
+  };
+};
+export const postArticleSuccess = (payload: any) => {
+  return {
+    type: constantsType.PROFILE_POST_ARTICLE_SUCCESS,
+    payload,
+  };
+};
+export const postArticleFail = (payload: any) => {
+  return {
+    type: constantsType.PROFILE_POST_ARTICLE_FAIL,
+    payload,
+  };
+};
+
+export const getArticles = (payload: any) => {
+  return {
+    type: constantsType.PROFILE_GET_ARTICLES,
+    payload,
+  };
+};
+export const getArticlesSuccess = (payload: any) => {
+  return {
+    type: constantsType.PROFILE_GET_ARTICLES_SUCCESS,
+    payload,
+  };
+};
+export const getArticlesFail = (payload: any) => {
+  return {
+    type: constantsType.PROFILE_GET_ARTICLES_FAIL,
     payload,
   };
 };

@@ -46,6 +46,12 @@ const ROUTES = [
         component: Profile,
         name: 'Home',
       },
+      {
+        path: '*',
+        component: NotFound,
+        exact: true,
+        name: '404-NotFound',
+      },
     ],
   },
   {

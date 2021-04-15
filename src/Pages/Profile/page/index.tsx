@@ -22,7 +22,7 @@ import LoadingGlobal from '../../../Components/LoadingGlobal';
 import PostArticle from '../../../Components/PostArticle';
 export default function Profile({ user }) {
   const profileState = useSelector((state) => state.profile);
-  const { loadingPage, user: userProfile } = profileState;
+  const { loadingPage, user: userProfile, articles } = profileState;
   const params = useParams();
   const { _id } = params;
   const dispatch = useDispatch();
@@ -96,7 +96,9 @@ export default function Profile({ user }) {
             <div className={styles['infor-nav']}>
               <ul className={styles['infor-nav-list']}>
                 <li className={styles['infor-nav-item']}>
-                  <Link className={styles['infor-nav-item-link']}>About</Link>
+                  <Link to={'/phôt'} className={styles['infor-nav-item-link']}>
+                    About
+                  </Link>
                 </li>
                 <li className={styles['infor-nav-item']}>
                   <Link className={styles['infor-nav-item-link']}>Photos</Link>
@@ -229,10 +231,10 @@ export default function Profile({ user }) {
               </div>
               <div className={styles['detail-video']}>
                 <PostArticle />
-                <Article />
-                <Article />
-                <Article />
-                <Article />
+                {articles &&
+                  articles.map((article) => {
+                    return <Article article={article} user={userProfile} />;
+                  })}
               </div>
             </div>
           </div>

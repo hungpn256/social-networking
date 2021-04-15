@@ -86,30 +86,29 @@
   padding-left: 0;
   cursor: pointer;
 }
-.chat-notification-wrapper .menu-item:hover {
-  color: #fff;
-}
-/* .menu-item-wrapper-icon {
-  position: relative;
-}
-.menu-item-wrapper-icon::before {
-  content: '';
-  background-color: rgba(255, 255, 255, 1);
-  position: absolute;
-  top: 20px;
-  left: 0;
-  width: 20px;
-  height: 20px;
+
+.wrap-icon {
+  list-style: none;
+  color: #777;
+  font-size: 20px;
+  margin: 0 4px;
+  height: 38px;
+  width: 38px;
+  cursor: pointer;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
   border-radius: 50%;
-} */
-.menu-item-icon {
-  font-size: 25px;
-  margin: 4px;
+  transition: background 0.2s ease;
+}
+.wrap-icon:hover {
+  background-color: #fff;
+  color: #000;
 }
 @media (max-width: 947px) {
   .header .header-nav .brand {
     font-size: 35px;
-    padding-left: 50px;
+    padding-left: 0px;
   }
   .menu .menu-item .menu-item-link {
     font-size: 14px !important;

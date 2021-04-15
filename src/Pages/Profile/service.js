@@ -11,5 +11,17 @@ class serviceLogin extends serviceBase {
     const { _id } = payload;
     return axios.get(`${ip}/user/${_id}`);
   };
+  getArticles = (payload) => {
+    const { _id } = payload;
+    payload._id = undefined;
+    return axios.get(`${ip}/post/${_id}`, { params: { ...payload.paging } });
+  };
+  postArticle = (payload) => {
+    let formData = new FormData();
+    Object.keys(payload).map((key) => {
+      formData.append(key, payload[key]);
+    });
+    return axios.post(`${ip}/post/create`, formData);
+  };
 }
 export default new serviceLogin({ url: ip });

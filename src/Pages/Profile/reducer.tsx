@@ -6,6 +6,12 @@ const initialState = {
   error: null,
   editting: false,
   loadingPage: false,
+  articles: [],
+  record: {},
+  paging: {
+    page: 1,
+    limit: 10,
+  },
 };
 
 const reducer = (state = initialState, action: any) => {
@@ -28,7 +34,21 @@ const reducer = (state = initialState, action: any) => {
     case profileConstant.GET_PROFILE_USER_FAIL: {
       return { ...state, ...action.payload };
     }
-
+    case profileConstant.PROFILE_GET_ARTICLES_SUCCESS: {
+      let articles = [...state.articles, ...action.payload];
+      debugger;
+      return {
+        ...state,
+        articles,
+      };
+    }
+    case profileConstant.PROFILE_POST_ARTICLE_SUCCESS: {
+      let articles = [{ ...action.payload }, ...state.articles];
+      return {
+        ...state,
+        articles,
+      };
+    }
     case 'CLEAR_STATE_PROFILE': {
       return { ...initialState };
     }

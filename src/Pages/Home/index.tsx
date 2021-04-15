@@ -21,10 +21,6 @@ const Home = () => {
         </Col>
         <Col {...colArticle}>
           <PostArticle />
-          <Article />
-          <Article />
-          <Article />
-          <Article />
         </Col>
         <Col {...colSlider}>
           <Card>slider</Card>

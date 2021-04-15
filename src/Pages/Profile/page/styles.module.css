@@ -194,8 +194,6 @@ i {
 }
 .detail-resume {
   width: 35%;
-  position: sticky;
-  top: 10px;
 }
 .detail-resume-list {
   padding: 20px 0;
