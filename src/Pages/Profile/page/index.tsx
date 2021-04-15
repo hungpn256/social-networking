@@ -166,63 +166,63 @@ export default function Profile({ user }) {
                     <Image
                       width={'33%'}
                       height={150}
-                      src="https://scontent.fhan2-2.fna.fbcdn.net/v/t1.6435-9/81774746_2652279538325726_1090477907098206208_n.jpg?_nc_cat=111&ccb=1-3&_nc_sid=19026a&_nc_ohc=tAm6X7MowXsAX_izu6c&_nc_ht=scontent.fhan2-2.fna&oh=a9f875794c71a667e94c6fc2c3281820&oe=609A39A1"
+                      src={userProfile?.avatar?.viewUrl?.replace(/=s220*/, '') ?? ''}
                       alt=""
                       className={styles['photo-item-img']}
                     />
                     <Image
                       width={'33%'}
                       height={150}
-                      src="https://scontent.fhan2-1.fna.fbcdn.net/v/t1.6435-9/70155306_2542757659277915_1014815787526914048_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=174925&_nc_ohc=gbuq6EiiEykAX80f0K3&_nc_ht=scontent.fhan2-1.fna&oh=436680ce4e42af7688df85d42b490ec3&oe=60983934"
+                      src={userProfile?.avatar?.viewUrl?.replace(/=s220*/, '') ?? ''}
                       alt=""
                       className={styles['photo-item-img']}
                     />
                     <Image
                       width={'33%'}
                       height={150}
-                      src="https://scontent.fhan2-1.fna.fbcdn.net/v/t1.6435-9/67906894_2517475325139482_4944660539235106816_n.jpg?_nc_cat=102&ccb=1-3&_nc_sid=174925&_nc_ohc=2Is_rYUKT1QAX8uwfn0&_nc_ht=scontent.fhan2-1.fna&oh=c94d7944bcc6891ac334a1ed3e752e3f&oe=6099D45D"
+                      src={userProfile?.avatar?.viewUrl?.replace(/=s220*/, '') ?? ''}
                       alt=""
                       className={styles['photo-item-img']}
                     />
                     <Image
                       width={'33%'}
                       height={150}
-                      src="https://scontent.fhan2-1.fna.fbcdn.net/v/t1.6435-9/60132721_2445772242309791_3391573950952636416_n.jpg?_nc_cat=101&ccb=1-3&_nc_sid=8bfeb9&_nc_ohc=5_LLFFH27XMAX8NumDp&_nc_ht=scontent.fhan2-1.fna&oh=a8079c2fce5fb2c9fd65b42a6e6a752c&oe=609ACEAB"
+                      src={userProfile?.avatar?.viewUrl?.replace(/=s220*/, '') ?? ''}
                       alt=""
                       className={styles['photo-item-img']}
                     />
                     <Image
                       width={'33%'}
                       height={150}
-                      src="https://scontent.fhan2-4.fna.fbcdn.net/v/t1.6435-9/75419087_2600572793496401_636120841637068800_n.jpg?_nc_cat=105&ccb=1-3&_nc_sid=8bfeb9&_nc_ohc=b6dortc7ce0AX8ih7uI&_nc_ht=scontent.fhan2-4.fna&oh=599dd1460079a940d4927b1025606095&oe=609DA848"
+                      src={userProfile?.avatar?.viewUrl?.replace(/=s220*/, '') ?? ''}
                       alt=""
                       className={styles['photo-item-img']}
                     />
                     <Image
                       width={'33%'}
                       height={150}
-                      src="https://scontent.fhan2-4.fna.fbcdn.net/v/t1.6435-9/75419087_2600572793496401_636120841637068800_n.jpg?_nc_cat=105&ccb=1-3&_nc_sid=8bfeb9&_nc_ohc=b6dortc7ce0AX8ih7uI&_nc_ht=scontent.fhan2-4.fna&oh=599dd1460079a940d4927b1025606095&oe=609DA848"
+                      src={userProfile?.avatar?.viewUrl?.replace(/=s220*/, '') ?? ''}
                       alt=""
                       className={styles['photo-item-img']}
                     />
                     <Image
                       width={'33%'}
                       height={150}
-                      src="https://scontent.fhan2-4.fna.fbcdn.net/v/t1.6435-9/75419087_2600572793496401_636120841637068800_n.jpg?_nc_cat=105&ccb=1-3&_nc_sid=8bfeb9&_nc_ohc=b6dortc7ce0AX8ih7uI&_nc_ht=scontent.fhan2-4.fna&oh=599dd1460079a940d4927b1025606095&oe=609DA848"
+                      src={userProfile?.avatar?.viewUrl?.replace(/=s220*/, '') ?? ''}
                       alt=""
                       className={styles['photo-item-img']}
                     />
                     <Image
                       width={'33%'}
                       height={150}
-                      src="https://scontent.fhan2-2.fna.fbcdn.net/v/t1.6435-9/81774746_2652279538325726_1090477907098206208_n.jpg?_nc_cat=111&ccb=1-3&_nc_sid=19026a&_nc_ohc=tAm6X7MowXsAX_izu6c&_nc_ht=scontent.fhan2-2.fna&oh=a9f875794c71a667e94c6fc2c3281820&oe=609A39A1"
+                      src={userProfile?.avatar?.viewUrl?.replace(/=s220*/, '') ?? ''}
                       alt=""
                       className={styles['photo-item-img']}
                     />
                     <Image
                       width={'33%'}
                       height={150}
-                      src="https://scontent.fhan2-1.fna.fbcdn.net/v/t1.6435-9/67906894_2517475325139482_4944660539235106816_n.jpg?_nc_cat=102&ccb=1-3&_nc_sid=174925&_nc_ohc=2Is_rYUKT1QAX8uwfn0&_nc_ht=scontent.fhan2-1.fna&oh=c94d7944bcc6891ac334a1ed3e752e3f&oe=6099D45D"
+                      src={userProfile?.avatar?.viewUrl?.replace(/=s220*/, '') ?? ''}
                       alt=""
                       className={styles['photo-item-img']}
                     />
@@ -230,7 +230,7 @@ export default function Profile({ user }) {
                 </div>
               </div>
               <div className={styles['detail-video']}>
-                <PostArticle />
+                <PostArticle loading={profileState?.postArticleRequesting ?? false} />
                 {articles &&
                   articles.map((article) => {
                     return <Article article={article} user={userProfile} />;

@@ -1,13 +1,13 @@
 import React, { useRef, useState } from 'react';
 import styles from './styles.module.css';
-import { Image, Input } from 'antd';
+import { Image, Input, Spin } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faImages, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
 import { faGrin } from '@fortawesome/free-regular-svg-icons';
 import { useDispatch } from 'react-redux';
 import * as profileActions from '../../Pages/Profile/actions';
 const { TextArea } = Input;
-export default function PostArticle() {
+export default function PostArticle({ loading }) {
   const posterText = useRef(null);
   const [images, setImages] = useState([]);
   const [text, setText] = useState('');
@@ -36,8 +36,6 @@ export default function PostArticle() {
                 ></TextArea>
               </div>
               <div className={styles['privacy']}>
-                {/* <i className={styles['fas fa-globe-asia']}></i>
-                <span>Everyone can reply</span> */}
                 <Image.PreviewGroup>
                   {urlImage &&
                     urlImage.map((urlImage) => {
@@ -74,7 +72,9 @@ export default function PostArticle() {
                 </li>
               </ul>
               <div className={styles['content']}>
-                <button type="submit">Tweet</button>
+                <Spin spinning={loading}>
+                  <button type="submit">Tweet</button>
+                </Spin>
               </div>
             </div>
           </form>

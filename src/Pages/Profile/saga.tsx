@@ -29,6 +29,7 @@ function* changeUserSaga({ payload }: { payload: any }) {
     const [resUser, resArticle] = yield all(
       arrayService.map((service) => call(service.service, service.payload))
     );
+    debugger;
     yield put(profileActions.getUserSuccess(resUser.data));
     yield put(profileActions.getArticlesSuccess(resArticle.data.posts));
     toast.success('get profile success');

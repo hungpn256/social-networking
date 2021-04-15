@@ -24,6 +24,7 @@
     "react-hook-form": "^7.0.4",
     "react-lazyload": "^3.2.0",
     "react-logger": "^1.1.0",
+    "react-markdown": "^6.0.0",
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
