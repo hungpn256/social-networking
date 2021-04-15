@@ -6,3 +6,19 @@
   color: pink;
   cursor: pointer;
 }
+.send-comment {
+  position: absolute;
+  border-radius: 20px;
+  right: 0;
+  bottom: 0;
+  border: none;
+  color: blue;
+  background: transparent;
+}
+.send-comment:hover {
+  background: rgba(103, 103, 245, 0.3) !important;
+}
+.link-avatar:hover {
+  text-decoration: underline;
+  color: #000;
+}

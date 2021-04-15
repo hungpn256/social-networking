@@ -1,13 +1,14 @@
-import { Typography, Switch, Image, Avatar, Card } from 'antd';
+import { Typography, Switch, Image, Avatar, Card, Divider } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { UserOutlined } from '@ant-design/icons';
-import { faGlobeAmericas } from '@fortawesome/free-solid-svg-icons';
+import { faGlobeAmericas, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { faComment, faHeart, faShareSquare } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import LazyLoad from 'react-lazyload';
 import styles from './styles.module.css';
 import { Comment, Form, Button, List, Input } from 'antd';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 const { TextArea } = Input;
 
@@ -23,11 +24,28 @@ const CommentList = ({ comments }) => (
 const Editor = ({ onChange, onSubmit, submitting, value }) => (
   <>
     <Form.Item>
-      <TextArea rows={4} onChange={onChange} value={value} />
-    </Form.Item>
-    <Form.Item>
-      <Button htmlType="submit" loading={submitting} onClick={onSubmit} type="primary">
-        Add Comment
+      <TextArea
+        placeholder={'Comment here...'}
+        style={{ borderRadius: 20, background: '#f5f5f5' }}
+        autoSize={{ minRows: 1, maxRows: 5 }}
+        onChange={onChange}
+        value={value}
+      />
+      <Button
+        className={styles['send-comment']}
+        style={{
+          position: 'absolute',
+          borderRadius: 20,
+          right: 0,
+          border: 'none',
+          color: 'blue',
+          background: 'transparent',
+        }}
+        htmlType="submit"
+        loading={submitting}
+        onClick={onSubmit}
+      >
+        <FontAwesomeIcon icon={faPaperPlane} />
       </Button>
     </Form.Item>
   </>
@@ -74,20 +92,30 @@ export default function Para({ article, user }) {
         }}
       >
         <div style={{ display: 'flex' }}>
-          <div>
+          <Link to={'/profile/' + user._id}>
             <Avatar
               style={{ marginLeft: 15, marginTop: 10, height: 45, width: '45px' }}
               icon={<UserOutlined />}
               src={user?.avatar?.viewUrl ?? ''}
             />
-          </div>
+          </Link>
 
           <div style={{ marginTop: 9, marginLeft: 10 }}>
-            <h3 style={{ fontWeight: 600, fontSize: 13, marginBottom: 0, color: 'black' }}>
-              {user.name.firstName + ' ' + user.name.lastName}
-            </h3>
+            <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+              <Link className={styles['link-avatar']} to={'/profile/' + user._id}>
+                <h3 style={{ fontWeight: 600, fontSize: 13, marginBottom: 0, color: 'black' }}>
+                  {user.name.firstName + ' ' + user.name.lastName}
+                </h3>
+              </Link>
+              <div style={{ fontSize: 11, fontWeight: 300, marginLeft: 4, color: '#666' }}>
+                Changed avatar
+              </div>
+            </div>
+
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <h5 style={{ margin: 0, marginRight: 4, fontSize: 12 }}>36m</h5>
+              <h5 style={{ margin: 0, marginRight: 4, fontSize: 12 }}>
+                {moment().from(article.createAt)}
+              </h5>
               <FontAwesomeIcon icon={faGlobeAmericas} />
             </div>
           </div>
@@ -103,25 +131,22 @@ export default function Para({ article, user }) {
             <Image.PreviewGroup>
               <Image
                 width="100%"
-                style={{ aspectRatio: 1 / 1, maxWidth: '100%' }}
+                style={{ aspectRatio: '1 / 1', maxWidth: '100%', objectFit: 'cover' }}
                 src={article.imgs[0]?.viewUrl.replace(/=s220*/, '')}
               ></Image>
             </Image.PreviewGroup>
           )}
         </div>
+        <Divider style={{ margin: 0, borderTop: '1px solid rgba(0,0,0,0.2)' }} />
         <div className={styles['action-article']}>
           <FontAwesomeIcon className={styles['action-article-icon']} icon={faHeart} />
           <FontAwesomeIcon className={styles['action-article-icon']} icon={faComment} />
           <FontAwesomeIcon className={styles['action-article-icon']} icon={faShareSquare} />
         </div>
+        <Divider style={{ margin: 0, borderTop: '1px solid rgba(0,0,0,0.2)' }} />
         {comments.length > 0 && <CommentList comments={comments} />}
         <Comment
-          avatar={
-            <Avatar
-              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-              alt="Han Solo"
-            />
-          }
+          avatar={<Avatar src={user.avatar.viewUrl} alt="Han Solo" />}
           content={
             <Editor
               onChange={handleChange}
