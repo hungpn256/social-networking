@@ -76,7 +76,6 @@
   cursor: pointer;
   transition: background 0.2s ease;
 }
-.privacy:hover,
 .icons li:hover {
   background: #e7f5fe;
 }
@@ -142,4 +141,16 @@
 }
 .bottom button:hover {
   background: #0d8bd9;
+}
+.icon-close {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  color: #333;
+  background: #fff;
+  transition: 0.2s;
+  border-radius: 50%;
+}
+.icon-close:hover {
+  transform: scale(1.2);
 }

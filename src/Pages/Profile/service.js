@@ -18,7 +18,7 @@ class serviceLogin extends serviceBase {
   };
   postArticle = (payload) => {
     let formData = new FormData();
-    Object.keys(payload).map((key) => {
+    Object.keys(payload).forEach((key) => {
       formData.append(key, payload[key]);
     });
     return axios.post(`${ip}/post/create`, formData);

@@ -104,9 +104,10 @@ export default function Home(props: any) {
                       >
                         <span>{`${user.name.firstName}`}</span>
                         <Avatar
-                          icon={<UserOutlined />}
-                          style={{ marginLeft: 4 }}
                           src={user?.avatar?.viewUrl}
+                          icon={<UserOutlined />}
+                          alt=""
+                          style={{ marginLeft: 4 }}
                         />
                       </NavLink>
                     </li>

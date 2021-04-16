@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './styles.module.css';
 import avatar from '../../Assets/user.png';
+import { Link } from 'react-router-dom';
 export default function FlowFriend() {
   return (
     <div className={styles['wrapper']}>
@@ -15,7 +16,7 @@ export default function FlowFriend() {
               <p>Frontend Developer</p>
             </div>
           </div>
-          <a href="#">Follow</a>
+          <Link to={`/profile/id123`}>Follow</Link>
         </div>
         <div className={`${styles['card']} ${styles['delay0']}`}>
           <div className={styles['content']}>
@@ -27,7 +28,7 @@ export default function FlowFriend() {
               <p>YouTuber & Blogger</p>
             </div>
           </div>
-          <a href="#">Follow</a>
+          <Link to={`/profile/id123`}>Follow</Link>
         </div>
         <div className={`${styles['card']} ${styles['delay1']}`}>
           <div className={styles['content']}>
@@ -39,7 +40,7 @@ export default function FlowFriend() {
               <p>Freelancer & Vlogger</p>
             </div>
           </div>
-          <a href="#">Follow</a>
+          <Link to={`/profile/id123`}>Follow</Link>
         </div>
         <div className={`${styles['card']} ${styles['delay2']}`}>
           <div className={styles['content']}>
@@ -51,7 +52,7 @@ export default function FlowFriend() {
               <p>Backend Developer</p>
             </div>
           </div>
-          <a href="#">Follow</a>
+          <Link to={`/profile/id123`}>Follow</Link>
         </div>
         <div className={`${styles['card']} ${styles['delay3']}`}>
           <div className={styles['content']}>
@@ -63,7 +64,7 @@ export default function FlowFriend() {
               <p>Teacher & Advertiser</p>
             </div>
           </div>
-          <a href="#">Follow</a>
+          <Link to={`/profile/id123`}>Follow</Link>
         </div>
       </div>
     </div>

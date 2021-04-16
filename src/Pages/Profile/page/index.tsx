@@ -1,25 +1,24 @@
 import {
+  faChevronDown,
   faEdit,
   faGraduationCap,
-  faHeart,
   faHome,
-  faPhone,
   faMars,
+  faPhone,
   faVenus,
   faVenusMars,
-  faChevronDown,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dropdown, Image, Menu, Spin } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import Article from '../../../Components/Article/Article';
-import styles from './styles.module.css';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as profileActions from '../actions';
+import { Link, useParams } from 'react-router-dom';
 import userImg from '../../../Assets/user.png';
+import Article from '../../../Components/Article/Article';
 import LoadingGlobal from '../../../Components/LoadingGlobal';
 import PostArticle from '../../../Components/PostArticle';
+import * as profileActions from '../actions';
+import styles from './styles.module.css';
 export default function Profile({ user }) {
   const profileState = useSelector((state) => state.profile);
   const { loadingPage, user: userProfile, articles } = profileState;
@@ -27,6 +26,7 @@ export default function Profile({ user }) {
   const { _id } = params;
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch({ type: 'CLEAR_STATE_PROFILE' });
     dispatch(profileActions.getUser({ _id }));
   }, [_id, dispatch]);
   const onChangeAvatar = (e) => {
@@ -38,7 +38,6 @@ export default function Profile({ user }) {
   if (loadingPage) {
     return <LoadingGlobal />;
   }
-  console.log(userProfile?.avatar?.viewUrl?.replace(/=s220/, ''), 'avatar');
   const menu = (
     <Menu style={{ marginTop: 20, borderRadius: 10 }}>
       <Menu.Item
@@ -75,10 +74,13 @@ export default function Profile({ user }) {
                 <Image.PreviewGroup>
                   {!profileState.requesting && (
                     <Image
-                      className={`${styles['avatar-image']} animate__animated animate__backInUp`}
+                      className={`${styles['avatar-image']}`}
                       height={175}
                       width={175}
                       src={userProfile?.avatar?.viewUrl?.replace(/=s220/, '') ?? userImg}
+                      preview={{
+                        src: userProfile?.avatar?.viewUrl,
+                      }}
                     ></Image>
                   )}
                 </Image.PreviewGroup>
@@ -162,78 +164,98 @@ export default function Profile({ user }) {
                 </ul>
                 <div className={styles['photo']}>
                   <h3>Photos</h3>
-                  <Image.PreviewGroup className={styles['photo-list']}>
-                    <Image
-                      width={'33%'}
-                      height={150}
-                      src={userProfile?.avatar?.viewUrl?.replace(/=s220*/, '') ?? ''}
-                      alt=""
-                      className={styles['photo-item-img']}
-                    />
-                    <Image
-                      width={'33%'}
-                      height={150}
-                      src={userProfile?.avatar?.viewUrl?.replace(/=s220*/, '') ?? ''}
-                      alt=""
-                      className={styles['photo-item-img']}
-                    />
-                    <Image
-                      width={'33%'}
-                      height={150}
-                      src={userProfile?.avatar?.viewUrl?.replace(/=s220*/, '') ?? ''}
-                      alt=""
-                      className={styles['photo-item-img']}
-                    />
-                    <Image
-                      width={'33%'}
-                      height={150}
-                      src={userProfile?.avatar?.viewUrl?.replace(/=s220*/, '') ?? ''}
-                      alt=""
-                      className={styles['photo-item-img']}
-                    />
-                    <Image
-                      width={'33%'}
-                      height={150}
-                      src={userProfile?.avatar?.viewUrl?.replace(/=s220*/, '') ?? ''}
-                      alt=""
-                      className={styles['photo-item-img']}
-                    />
-                    <Image
-                      width={'33%'}
-                      height={150}
-                      src={userProfile?.avatar?.viewUrl?.replace(/=s220*/, '') ?? ''}
-                      alt=""
-                      className={styles['photo-item-img']}
-                    />
-                    <Image
-                      width={'33%'}
-                      height={150}
-                      src={userProfile?.avatar?.viewUrl?.replace(/=s220*/, '') ?? ''}
-                      alt=""
-                      className={styles['photo-item-img']}
-                    />
-                    <Image
-                      width={'33%'}
-                      height={150}
-                      src={userProfile?.avatar?.viewUrl?.replace(/=s220*/, '') ?? ''}
-                      alt=""
-                      className={styles['photo-item-img']}
-                    />
-                    <Image
-                      width={'33%'}
-                      height={150}
-                      src={userProfile?.avatar?.viewUrl?.replace(/=s220*/, '') ?? ''}
-                      alt=""
-                      className={styles['photo-item-img']}
-                    />
-                  </Image.PreviewGroup>
+                  <div className={styles['photo-list']}>
+                    <Image.PreviewGroup>
+                      <Image
+                        width={'98%'}
+                        height={120}
+                        src={
+                          'https://taimienphi.vn/tmp/cf/aut/hinh-anh-dep-ve-tinh-yeu-chung-thuy.jpg'
+                        }
+                        alt=""
+                        className={styles['photo-item-img']}
+                      />
+                      <Image
+                        width={'98%'}
+                        height={120}
+                        src={
+                          'https://taimienphi.vn/tmp/cf/aut/hinh-anh-dep-ve-tinh-yeu-chung-thuy.jpg'
+                        }
+                        alt=""
+                        className={styles['photo-item-img']}
+                      />
+                      <Image
+                        width={'98%'}
+                        height={120}
+                        src={
+                          'https://taimienphi.vn/tmp/cf/aut/hinh-anh-dep-ve-tinh-yeu-chung-thuy.jpg'
+                        }
+                        alt=""
+                        className={styles['photo-item-img']}
+                      />
+                      <Image
+                        width={'98%'}
+                        height={120}
+                        src={
+                          'https://taimienphi.vn/tmp/cf/aut/hinh-anh-dep-ve-tinh-yeu-chung-thuy.jpg'
+                        }
+                        alt=""
+                        className={styles['photo-item-img']}
+                      />
+                      <Image
+                        width={'98%'}
+                        height={120}
+                        src={
+                          'https://taimienphi.vn/tmp/cf/aut/hinh-anh-dep-ve-tinh-yeu-chung-thuy.jpg'
+                        }
+                        alt=""
+                        className={styles['photo-item-img']}
+                      />
+                      <Image
+                        width={'98%'}
+                        height={120}
+                        src={
+                          'https://taimienphi.vn/tmp/cf/aut/hinh-anh-dep-ve-tinh-yeu-chung-thuy.jpg'
+                        }
+                        alt=""
+                        className={styles['photo-item-img']}
+                      />
+                      <Image
+                        width={'98%'}
+                        height={120}
+                        src={
+                          'https://taimienphi.vn/tmp/cf/aut/hinh-anh-dep-ve-tinh-yeu-chung-thuy.jpg'
+                        }
+                        alt=""
+                        className={styles['photo-item-img']}
+                      />
+                      <Image
+                        width={'98%'}
+                        height={120}
+                        src={
+                          'https://taimienphi.vn/tmp/cf/aut/hinh-anh-dep-ve-tinh-yeu-chung-thuy.jpg'
+                        }
+                        alt=""
+                        className={styles['photo-item-img']}
+                      />
+                      <Image
+                        width={'98%'}
+                        height={120}
+                        src={
+                          'https://taimienphi.vn/tmp/cf/aut/hinh-anh-dep-ve-tinh-yeu-chung-thuy.jpg'
+                        }
+                        alt=""
+                        className={styles['photo-item-img']}
+                      />
+                    </Image.PreviewGroup>
+                  </div>
                 </div>
               </div>
               <div className={styles['detail-video']}>
                 <PostArticle loading={profileState?.postArticleRequesting ?? false} />
                 {articles &&
                   articles.map((article) => {
-                    return <Article article={article} user={userProfile} />;
+                    return <Article article={article} />;
                   })}
               </div>
             </div>

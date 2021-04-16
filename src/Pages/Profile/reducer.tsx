@@ -36,7 +36,6 @@ const reducer = (state = initialState, action: any) => {
     }
     case profileConstant.PROFILE_GET_ARTICLES_SUCCESS: {
       let articles = [...state.articles, ...action.payload];
-      debugger;
       return {
         ...state,
         articles,

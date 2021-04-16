@@ -2,7 +2,12 @@ import React, { useRef, useState } from 'react';
 import styles from './styles.module.css';
 import { Image, Input, Spin } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCamera, faImages, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCamera,
+  faImages,
+  faMapMarkedAlt,
+  faTimesCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import { faGrin } from '@fortawesome/free-regular-svg-icons';
 import { useDispatch } from 'react-redux';
 import * as profileActions from '../../Pages/Profile/actions';
@@ -21,8 +26,12 @@ export default function PostArticle({ loading }) {
   const urlImage = Array.from(images).map((image) => {
     return URL.createObjectURL(image);
   });
+  const handleDeleteImgPreview = (index: number) => {
+    console.log(index, 'index');
+    setImages([]);
+  };
   return (
-    <>
+    <Spin spinning={loading}>
       <div className={styles['body']}>
         <div className={styles['wrapper']}>
           <form onSubmit={onSubmit}>
@@ -38,8 +47,19 @@ export default function PostArticle({ loading }) {
               <div className={styles['privacy']}>
                 <Image.PreviewGroup>
                   {urlImage &&
-                    urlImage.map((urlImage) => {
-                      return <Image src={urlImage} height={100} width={100}></Image>;
+                    urlImage.map((urlImage, index) => {
+                      return (
+                        <div style={{ position: 'relative' }}>
+                          <Image src={urlImage} height={100} width={100} key={index}></Image>
+                          <FontAwesomeIcon
+                            className={styles['icon-close']}
+                            icon={faTimesCircle}
+                            onClick={() => {
+                              handleDeleteImgPreview(index);
+                            }}
+                          />
+                        </div>
+                      );
                     })}
                 </Image.PreviewGroup>
               </div>
@@ -72,14 +92,12 @@ export default function PostArticle({ loading }) {
                 </li>
               </ul>
               <div className={styles['content']}>
-                <Spin spinning={loading}>
-                  <button type="submit">Tweet</button>
-                </Spin>
+                <button type="submit">Tweet</button>
               </div>
             </div>
           </form>
         </div>
       </div>
-    </>
+    </Spin>
   );
 }

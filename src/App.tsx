@@ -42,7 +42,7 @@ function App() {
         }
         setReady(true);
       });
-  }, [token, history, dispatch]);
+  }, [token, history, dispatch, location]);
   const renderRoute = () => {
     if (!ready) {
       return <LoadingGlobal></LoadingGlobal>;

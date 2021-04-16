@@ -25,7 +25,6 @@ export const getUser = (payload: any) => {
   };
 };
 export const getUserSuccess = (payload: any) => {
-  debugger;
   return {
     type: constantsType.GET_PROFILE_USER_SUCCESS,
     payload,

@@ -7,6 +7,7 @@ function* changeAvatarSaga({ payload }: { payload: any }) {
   yield put(profileActions.changeState({ requesting: true }));
   try {
     const res = yield call(services.changeAvatar, payload);
+    yield put(profileActions.postArticle({ image: payload }));
     yield put(profileActions.changeAvatarSuccess(res.data));
     toast.success('change avatar success');
   } catch (err) {
@@ -29,7 +30,6 @@ function* changeUserSaga({ payload }: { payload: any }) {
     const [resUser, resArticle] = yield all(
       arrayService.map((service) => call(service.service, service.payload))
     );
-    debugger;
     yield put(profileActions.getUserSuccess(resUser.data));
     yield put(profileActions.getArticlesSuccess(resArticle.data.posts));
     toast.success('get profile success');
@@ -42,7 +42,6 @@ function* changeUserSaga({ payload }: { payload: any }) {
 }
 function* postArticleSaga({ payload }: { payload: any }) {
   yield put(profileActions.changeState({ postArticleRequesting: true }));
-  const { _id } = yield select((state) => state.login.user);
   try {
     const res = yield call(services.postArticle, payload);
     yield put(profileActions.postArticleSuccess(res.data.post));
@@ -56,8 +55,6 @@ function* postArticleSaga({ payload }: { payload: any }) {
 }
 function* getArticlesSaga({ payload }: { payload: any }) {
   yield put(profileActions.changeState({ getArticleRequesting: true }));
-  // let currentPaging = yield select((state) => state.profile.paging);
-  debugger;
   try {
     const res = yield call(services.getArticles, { ...payload });
     yield put(profileActions.getArticlesSuccess(res.data.posts));
