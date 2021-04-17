@@ -9,7 +9,7 @@ import {
   faVenusMars,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Dropdown, Image, Menu, Spin } from 'antd';
+import { Affix, Dropdown, Image, Menu, Spin } from 'antd';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
@@ -64,7 +64,7 @@ export default function Profile({ user }) {
           <div className={styles['grid']}>
             <div className={styles['cover']}>
               <img
-                src="https://scontent.fhan2-3.fna.fbcdn.net/v/t1.6435-9/133854021_1823631001138062_4807573368620165003_n.jpg?_nc_cat=107&ccb=1-3&_nc_sid=e3f864&_nc_ohc=Zf3HplsV02sAX_I9sf8&_nc_ht=scontent.fhan2-3.fna&oh=4a670870508ab3b8f2025e230362952e&oe=60983405"
+                src="https://vectormienphi.com/wp-content/uploads/2018/12/3af9e2d2628ab1842d2344a9d1d84ea0-600x250.jpg"
                 alt=""
                 className={styles['cover-image']}
               />
@@ -116,7 +116,7 @@ export default function Profile({ user }) {
           </div>
           <div className={styles['detail']}>
             <div className={`${styles['detail-grid']}`}>
-              <div className={styles['detail-resume']}>
+              <Affix offsetTop={60} className={styles['detail-resume']}>
                 <ul className={styles['detail-resume-list']}>
                   <h3 id="">
                     About <FontAwesomeIcon icon={faEdit} className={styles['edit-info-about']} />{' '}
@@ -250,7 +250,7 @@ export default function Profile({ user }) {
                     </Image.PreviewGroup>
                   </div>
                 </div>
-              </div>
+              </Affix>
               <div className={styles['detail-video']}>
                 <PostArticle loading={profileState?.postArticleRequesting ?? false} />
                 {articles &&

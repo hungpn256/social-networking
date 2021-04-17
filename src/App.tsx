@@ -15,6 +15,7 @@ import Login from './Pages/Login';
 import { getUser } from './Pages/Login/actions';
 import services from './Pages/Login/service';
 import Signup from './Pages/Signup';
+import CircleSOS from './Components/CircleSOS';
 function App() {
   const login = useSelector((state) => state.login);
   const { token } = login;
@@ -42,7 +43,7 @@ function App() {
         }
         setReady(true);
       });
-  }, [token, history, dispatch, location]);
+  }, [token, history, dispatch]);
   const renderRoute = () => {
     if (!ready) {
       return <LoadingGlobal></LoadingGlobal>;
@@ -80,6 +81,7 @@ function App() {
         />
         {renderRoute()}
       </Switch>
+      <CircleSOS />
     </>
   );
 }

@@ -19,7 +19,6 @@ export default function PostArticle({ loading }) {
   const dispatch = useDispatch();
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log({ images, text });
     const image = images[0];
     dispatch(profileActions.postArticle({ image, text }));
   };
@@ -27,7 +26,6 @@ export default function PostArticle({ loading }) {
     return URL.createObjectURL(image);
   });
   const handleDeleteImgPreview = (index: number) => {
-    console.log(index, 'index');
     setImages([]);
   };
   return (

@@ -1,8 +1,21 @@
 import { UserOutlined } from '@ant-design/icons';
 import { faComment, faHeart, faShareSquare } from '@fortawesome/free-regular-svg-icons';
-import { faGlobeAmericas, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisV, faGlobeAmericas, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Avatar, Button, Card, Comment, Divider, Form, Image, Input, List, Typography } from 'antd';
+import {
+  Avatar,
+  Button,
+  Card,
+  Comment,
+  Divider,
+  Dropdown,
+  Form,
+  Image,
+  Input,
+  List,
+  Menu,
+  Typography,
+} from 'antd';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import LazyLoad from 'react-lazyload';
@@ -10,7 +23,24 @@ import { Link } from 'react-router-dom';
 import styles from './styles.module.css';
 
 const { TextArea } = Input;
-
+const menu = (
+  <Menu
+    style={{
+      borderRadius: 10,
+      boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+    }}
+  >
+    <Menu.Item
+      key="1"
+      onClick={() => {
+        const changeAvatar = document.getElementById('changeAvatar');
+        changeAvatar.click();
+      }}
+    >
+      Delete post
+    </Menu.Item>
+  </Menu>
+);
 const CommentList = ({ comments }) => (
   <List
     dataSource={comments}
@@ -80,7 +110,6 @@ export default function Para({ article }) {
   const handleChange = (e) => {
     setValue(e.target.value);
   };
-  console.log(article?.text?.split(/\n/), 'a');
   return (
     <LazyLoad offset={100} height={100} style={{ background: '#f5f5f5' }}>
       <Card
@@ -90,34 +119,41 @@ export default function Para({ article }) {
           borderRadius: 10,
         }}
       >
-        <div style={{ display: 'flex' }}>
-          <Link to={'/profile/' + user._id}>
-            <Avatar
-              style={{ marginLeft: 15, marginTop: 10, height: 45, width: '45px' }}
-              icon={<UserOutlined />}
-              src={user?.avatar?.viewUrl ?? ''}
-            />
-          </Link>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex' }}>
+            <Link to={'/profile/' + user._id}>
+              <Avatar
+                style={{ marginLeft: 15, marginTop: 10, height: 45, width: '45px' }}
+                icon={<UserOutlined />}
+                src={user?.avatar?.viewUrl ?? ''}
+              />
+            </Link>
 
-          <div style={{ marginTop: 9, marginLeft: 10 }}>
-            <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-              <Link className={styles['link-avatar']} to={'/profile/' + user._id}>
-                <h3 style={{ fontWeight: 600, fontSize: 13, marginBottom: 0, color: 'black' }}>
-                  {user.firstName + ' ' + user.lastName}
-                </h3>
-              </Link>
-              <div style={{ fontSize: 11, fontWeight: 300, marginLeft: 4, color: '#666' }}>
-                Changed avatar
+            <div style={{ marginTop: 9, marginLeft: 10 }}>
+              <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+                <Link className={styles['link-avatar']} to={'/profile/' + user._id}>
+                  <h3 style={{ fontWeight: 600, fontSize: 13, marginBottom: 0, color: 'black' }}>
+                    {user.firstName + ' ' + user.lastName}
+                  </h3>
+                </Link>
+                <div style={{ fontSize: 11, fontWeight: 300, marginLeft: 4, color: '#666' }}>
+                  Changed avatar
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <h5 style={{ margin: 0, marginRight: 4, fontSize: 12 }}>
+                  {moment().from(article.createAt)}
+                </h5>
+                <FontAwesomeIcon icon={faGlobeAmericas} />
               </div>
             </div>
-
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <h5 style={{ margin: 0, marginRight: 4, fontSize: 12 }}>
-                {moment().from(article.createAt)}
-              </h5>
-              <FontAwesomeIcon icon={faGlobeAmericas} />
-            </div>
           </div>
+          <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
+            <div className={styles['wrap-icon']}>
+              <FontAwesomeIcon icon={faEllipsisV} />
+            </div>
+          </Dropdown>
         </div>
         <div>
           <Paragraph

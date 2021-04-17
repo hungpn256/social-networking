@@ -6,7 +6,7 @@ import {
   UnorderedListOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Dropdown, Input, Menu } from 'antd';
+import { Badge, Dropdown, Input, Menu } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,9 +26,8 @@ export default function Home(props: any) {
   const checkBtn = document.querySelector(`#${styles['check']}`);
   const dispatch = useDispatch();
   const onSearch = (value: string) => console.log(value);
-  console.log(user?.avatar?.viewUrl, 'url');
   const menu = (
-    <Menu>
+    <Menu style={{ borderRadius: 10, minWidth: 150, marginTop: 7 }}>
       <Menu.Item key="0">
         <a href="/">
           <SettingOutlined />
@@ -149,15 +148,19 @@ export default function Home(props: any) {
               </ul>
               {user && (
                 <ul className={styles['chat-notification-wrapper']}>
-                  <li className={`${styles['menu-item']} ${styles['wrap-icon']}`}>
-                    <FontAwesomeIcon
-                      className={styles['menu-item-icon']}
-                      icon={faFacebookMessenger}
-                    />
-                  </li>
-                  <li className={`${styles['menu-item']} ${styles['wrap-icon']}`}>
-                    <FontAwesomeIcon className={styles['menu-item-icon']} icon={faBell} />
-                  </li>
+                  <Badge count={5} style={{ transform: 'translate(0px,-5px)' }}>
+                    <li className={`${styles['menu-item']} ${styles['wrap-icon']}`}>
+                      <FontAwesomeIcon
+                        className={styles['menu-item-icon']}
+                        icon={faFacebookMessenger}
+                      />
+                    </li>
+                  </Badge>
+                  <Badge count={25} style={{ transform: 'translate(0px,-5px)' }}>
+                    <li className={`${styles['menu-item']} ${styles['wrap-icon']}`}>
+                      <FontAwesomeIcon className={styles['menu-item-icon']} icon={faBell} />
+                    </li>
+                  </Badge>
                   <li
                     className={`${styles['menu-item']}`}
                     style={{
@@ -165,7 +168,7 @@ export default function Home(props: any) {
                       padding: '0',
                     }}
                   >
-                    <Dropdown overlay={menu} trigger={['click']}>
+                    <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
                       <DownCircleTwoTone
                         style={{
                           fontSize: 30,

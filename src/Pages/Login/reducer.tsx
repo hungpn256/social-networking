@@ -30,7 +30,7 @@ const reducer = (state = initialState, action: any) => {
       return { ...state, ...action.payload };
     }
     case 'CLEAR_STATE': {
-      return { ...initialState };
+      return { ...initialState, token: '' };
     }
     default:
       return { ...state };

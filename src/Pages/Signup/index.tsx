@@ -19,7 +19,6 @@ function Signup(props: any) {
   const signUp = useSelector((state) => state.signUp);
   const { requesting, success } = signUp;
   const onSubmit = (data: ISignup) => {
-    console.log(data);
     const { password, EPassword } = data;
     if (password === EPassword) {
       data.EPassword = undefined;
