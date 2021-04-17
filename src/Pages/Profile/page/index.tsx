@@ -38,6 +38,11 @@ export default function Profile({ user }) {
   if (loadingPage) {
     return <LoadingGlobal />;
   }
+  const handleChangeCover = (file) => {
+    if (file) {
+      dispatch(profileActions.changeCover(file));
+    }
+  };
   const menu = (
     <Menu style={{ marginTop: 20, borderRadius: 10 }}>
       <Menu.Item
@@ -64,10 +69,23 @@ export default function Profile({ user }) {
           <div className={styles['grid']}>
             <div className={styles['cover']}>
               <img
-                src="https://vectormienphi.com/wp-content/uploads/2018/12/3af9e2d2628ab1842d2344a9d1d84ea0-600x250.jpg"
+                src={
+                  userProfile?.cover?.viewUrl?.replace(/=s220/, '') ??
+                  'https://vectormienphi.com/wp-content/uploads/2018/12/3af9e2d2628ab1842d2344a9d1d84ea0-600x250.jpg'
+                }
                 alt=""
                 className={styles['cover-image']}
               />
+              <label className={styles['change-cover']} htmlFor="change-cover">
+                <FontAwesomeIcon icon={faEdit} /> <span>Chỉnh sửa ảnh bìa</span>
+              </label>
+              <input
+                type="file"
+                accept="image"
+                id="change-cover"
+                style={{ display: 'none' }}
+                onChange={(e) => handleChangeCover(e.target.files[0])}
+              ></input>
             </div>
             <div className={styles['avatar']}>
               <Spin spinning={profileState.requesting}>

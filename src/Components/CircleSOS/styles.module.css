@@ -32,6 +32,15 @@
     transform: scale(0.8);
     box-shadow: 0 0 0 15px rgba(255, 82, 82, 0.4);
   }
+  40% {
+    transform: rotateZ(20deg);
+  }
+  50% {
+    transform: rotateZ(-40deg);
+  }
+  60% {
+    transform: rotateZ(20deg);
+  }
 
   70% {
     transform: scale(1.1);

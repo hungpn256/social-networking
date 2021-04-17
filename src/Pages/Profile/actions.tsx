@@ -18,6 +18,25 @@ export const changeAvatarFail = (payload: any) => {
   };
 };
 
+export const changeCover = (payload: any) => {
+  return {
+    type: constantsType.PROFILE_CHANGE_COVER,
+    payload,
+  };
+};
+export const changeCoverSuccess = (payload: any) => {
+  return {
+    type: constantsType.PROFILE_CHANGE_COVER_SUCCESS,
+    payload,
+  };
+};
+export const changeCoverFail = (payload: any) => {
+  return {
+    type: constantsType.PROFILE_CHANGE_COVER_FAIL,
+    payload,
+  };
+};
+
 export const getUser = (payload: any) => {
   return {
     type: constantsType.GET_PROFILE_USER,

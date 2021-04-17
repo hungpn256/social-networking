@@ -79,6 +79,9 @@ export default function Para({ article }) {
   const [submitting, setSubmitting] = useState(false);
   const [value, setValue] = useState('');
   useEffect(() => {
+    setLoading(true);
+  }, [article]);
+  useEffect(() => {
     const setvisiableTrue = setTimeout(() => {
       setLoading(false);
     });
@@ -133,7 +136,7 @@ export default function Para({ article }) {
               <div style={{ display: 'flex', alignItems: 'flex-end' }}>
                 <Link className={styles['link-avatar']} to={'/profile/' + user._id}>
                   <h3 style={{ fontWeight: 600, fontSize: 13, marginBottom: 0, color: 'black' }}>
-                    {user.firstName + ' ' + user.lastName}
+                    {user.name.firstName + ' ' + user.name.lastName}
                   </h3>
                 </Link>
                 <div style={{ fontSize: 11, fontWeight: 300, marginLeft: 4, color: '#666' }}>
@@ -199,7 +202,7 @@ export default function Para({ article }) {
       </Card>
       <Image
         style={{ display: 'none' }}
-        src={article.imgs[0]?.viewUrl.replace(/=s220*/, '')}
+        src={article?.imgs[0]?.viewUrl?.replace(/=s220*/, '')}
         onLoad={() => setLoading(false)}
       ></Image>
     </LazyLoad>

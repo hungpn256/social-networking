@@ -7,6 +7,11 @@ class serviceLogin extends serviceBase {
     formData.append('avatar', payload);
     return axios.put(`${ip}/user/avatar`, formData);
   };
+  changeCover = (payload) => {
+    const formData = new FormData();
+    formData.append('cover', payload);
+    return axios.put(`${ip}/user/cover`, formData);
+  };
   getProfileUser = (payload) => {
     const { _id } = payload;
     return axios.get(`${ip}/user/${_id}`);

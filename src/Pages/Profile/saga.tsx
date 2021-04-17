@@ -66,8 +66,23 @@ function* getArticlesSaga({ payload }: { payload: any }) {
     yield put(profileActions.changeState({ getArticleRequesting: false }));
   }
 }
+function* changeCoverSaga({ payload }: { payload: any }) {
+  yield put(profileActions.changeState({ requesting: true }));
+  try {
+    const res = yield call(services.changeCover, payload);
+    yield put(profileActions.postArticle({ image: payload }));
+    yield put(profileActions.changeCoverSuccess(res.data));
+    toast.success('change cover success');
+  } catch (err) {
+    yield put(profileActions.changeCoverFail(err));
+    toast.error('change cover fail');
+  } finally {
+    yield put(profileActions.changeState({ requesting: false }));
+  }
+}
 export default function* watchProfileSaga() {
   yield takeLatest(profileConstant.PROFILE_CHANGE_AVATAR, changeAvatarSaga);
+  yield takeLatest(profileConstant.PROFILE_CHANGE_COVER, changeCoverSaga);
   yield takeLatest(profileConstant.GET_PROFILE_USER, changeUserSaga);
   yield takeLatest(profileConstant.PROFILE_POST_ARTICLE, postArticleSaga);
   yield takeEvery(profileConstant.PROFILE_GET_ARTICLES, getArticlesSaga);
