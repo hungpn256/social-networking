@@ -91,7 +91,7 @@ function Signup(props: any) {
             </div>
           </div>
           <div className={styles['inputBx']}>
-            <Spin spinning={requesting}>
+            <Spin delay={500} spinning={requesting}>
               <input type="submit" value="Sign in" name="" />
             </Spin>
           </div>

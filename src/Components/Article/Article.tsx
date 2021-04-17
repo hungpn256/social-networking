@@ -93,9 +93,7 @@ export default function Para({ article }) {
     if (!value) {
       return;
     }
-
     setSubmitting(true);
-
     setTimeout(() => {
       setSubmitting(false);
       setValue('');

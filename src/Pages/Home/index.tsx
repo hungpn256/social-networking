@@ -22,15 +22,15 @@ const Home = () => {
     <div style={{ background: '#f5f5f5' }}>
       <Row>
         <Col {...colSliderLeft}>
-          <Card>slider</Card>
+          <div>slider</div>
         </Col>
         <Col {...colArticle}>
           <PostArticle loading={false} />
         </Col>
         <Col {...colSliderRight}>
-          <Card>
+          <div>
             <FollowFriends />
-          </Card>
+          </div>
         </Col>
       </Row>
     </div>

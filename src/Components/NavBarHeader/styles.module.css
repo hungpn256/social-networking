@@ -120,7 +120,8 @@
   .menu {
     position: fixed;
     z-index: 9999;
-    width: 100%;
+    width: 50%;
+    max-width: 500px;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.4);
     top: 60px;

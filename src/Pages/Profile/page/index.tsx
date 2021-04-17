@@ -1,4 +1,5 @@
 import {
+  faCamera,
   faChevronDown,
   faEdit,
   faGraduationCap,
@@ -10,7 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Affix, Dropdown, Image, Menu, Spin } from 'antd';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import userImg from '../../../Assets/user.png';
@@ -21,6 +22,7 @@ import * as profileActions from '../actions';
 import styles from './styles.module.css';
 export default function Profile({ user }) {
   const profileState = useSelector((state) => state.profile);
+  const [offsetTop, setOffset] = useState(60);
   const { loadingPage, user: userProfile, articles } = profileState;
   const params = useParams();
   const { _id } = params;
@@ -35,6 +37,16 @@ export default function Profile({ user }) {
       dispatch(profileActions.changeAvatar(file));
     }
   };
+  useEffect(() => {
+    const setOffsetTop = () => {
+      window.innerWidth > 768 ? setOffset(60) : setOffset('100%');
+    };
+    setOffsetTop();
+    window.addEventListener('resize', setOffsetTop);
+    return () => {
+      window.removeEventListener('resize', setOffsetTop);
+    };
+  }, []);
   if (loadingPage) {
     return <LoadingGlobal />;
   }
@@ -43,6 +55,7 @@ export default function Profile({ user }) {
       dispatch(profileActions.changeCover(file));
     }
   };
+  const listImg = articles && articles.filter((article) => article.imgs[0]?.viewUrl).splice(0, 9);
   const menu = (
     <Menu style={{ marginTop: 20, borderRadius: 10 }}>
       <Menu.Item
@@ -68,7 +81,11 @@ export default function Profile({ user }) {
         <div className={styles['infor']}>
           <div className={styles['grid']}>
             <div className={styles['cover']}>
-              <Spin spinning={userProfile?.changeCoverRequesting ?? false}>
+              <Spin
+                size="large"
+                delay={500}
+                spinning={profileState?.changeCoverRequesting ?? false}
+              >
                 <img
                   src={
                     userProfile?.cover?.viewUrl?.replace(/=s220/, '') ??
@@ -79,7 +96,7 @@ export default function Profile({ user }) {
                 />
               </Spin>
               <label className={styles['change-cover']} htmlFor="change-cover">
-                <FontAwesomeIcon icon={faEdit} /> <span>Chỉnh sửa ảnh bìa</span>
+                <FontAwesomeIcon icon={faCamera} /> <span>Chỉnh sửa ảnh bìa</span>
               </label>
               <input
                 type="file"
@@ -90,7 +107,7 @@ export default function Profile({ user }) {
               ></input>
             </div>
             <div className={styles['avatar']}>
-              <Spin spinning={profileState.requesting}>
+              <Spin delay={500} size="large" spinning={profileState.requesting}>
                 <Image.PreviewGroup>
                   {!profileState.requesting && (
                     <Image
@@ -136,7 +153,7 @@ export default function Profile({ user }) {
           </div>
           <div className={styles['detail']}>
             <div className={`${styles['detail-grid']}`}>
-              <Affix offsetTop={60} className={styles['detail-resume']}>
+              <Affix offsetTop={offsetTop} className={styles['detail-resume']}>
                 <ul className={styles['detail-resume-list']}>
                   <h3 id="">
                     About <FontAwesomeIcon icon={faEdit} className={styles['edit-info-about']} />{' '}
@@ -186,87 +203,17 @@ export default function Profile({ user }) {
                   <h3>Photos</h3>
                   <div className={styles['photo-list']}>
                     <Image.PreviewGroup>
-                      <Image
-                        width={'98%'}
-                        height={120}
-                        src={
-                          'https://taimienphi.vn/tmp/cf/aut/hinh-anh-dep-ve-tinh-yeu-chung-thuy.jpg'
-                        }
-                        alt=""
-                        className={styles['photo-item-img']}
-                      />
-                      <Image
-                        width={'98%'}
-                        height={120}
-                        src={
-                          'https://taimienphi.vn/tmp/cf/aut/hinh-anh-dep-ve-tinh-yeu-chung-thuy.jpg'
-                        }
-                        alt=""
-                        className={styles['photo-item-img']}
-                      />
-                      <Image
-                        width={'98%'}
-                        height={120}
-                        src={
-                          'https://taimienphi.vn/tmp/cf/aut/hinh-anh-dep-ve-tinh-yeu-chung-thuy.jpg'
-                        }
-                        alt=""
-                        className={styles['photo-item-img']}
-                      />
-                      <Image
-                        width={'98%'}
-                        height={120}
-                        src={
-                          'https://taimienphi.vn/tmp/cf/aut/hinh-anh-dep-ve-tinh-yeu-chung-thuy.jpg'
-                        }
-                        alt=""
-                        className={styles['photo-item-img']}
-                      />
-                      <Image
-                        width={'98%'}
-                        height={120}
-                        src={
-                          'https://taimienphi.vn/tmp/cf/aut/hinh-anh-dep-ve-tinh-yeu-chung-thuy.jpg'
-                        }
-                        alt=""
-                        className={styles['photo-item-img']}
-                      />
-                      <Image
-                        width={'98%'}
-                        height={120}
-                        src={
-                          'https://taimienphi.vn/tmp/cf/aut/hinh-anh-dep-ve-tinh-yeu-chung-thuy.jpg'
-                        }
-                        alt=""
-                        className={styles['photo-item-img']}
-                      />
-                      <Image
-                        width={'98%'}
-                        height={120}
-                        src={
-                          'https://taimienphi.vn/tmp/cf/aut/hinh-anh-dep-ve-tinh-yeu-chung-thuy.jpg'
-                        }
-                        alt=""
-                        className={styles['photo-item-img']}
-                      />
-                      <Image
-                        width={'98%'}
-                        height={120}
-                        src={
-                          'https://taimienphi.vn/tmp/cf/aut/hinh-anh-dep-ve-tinh-yeu-chung-thuy.jpg'
-                        }
-                        alt=""
-                        className={styles['photo-item-img']}
-                      />
-                      <Image
-                        width={'98%'}
-                        height={120}
-                        src={
-                          'https://taimienphi.vn/tmp/cf/aut/hinh-anh-dep-ve-tinh-yeu-chung-thuy.jpg'
-                        }
-                        alt=""
-                        className={styles['photo-item-img']}
-                      />
+                      {listImg?.map((article) => {
+                        return (
+                          <Image
+                            width={'98%'}
+                            height={120}
+                            src={article.imgs[0].viewUrl.replace(/=s220/, '')}
+                            alt=""
+                            className={styles['photo-item-img']}
+                          />
+                        );
+                      })}
                     </Image.PreviewGroup>
                   </div>
                 </div>

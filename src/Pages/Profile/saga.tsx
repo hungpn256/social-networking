@@ -20,10 +20,9 @@ function* changeAvatarSaga({ payload }: { payload: any }) {
 function* changeUserSaga({ payload }: { payload: any }) {
   yield put(profileActions.changeState({ loadingPage: true }));
   const { _id } = payload;
-  const paging = yield select((state) => state.profile.paging);
   const arrayService = [
     { service: services.getProfileUser, payload: payload },
-    { service: services.getArticles, payload: { _id, paging } },
+    { service: services.getArticles, payload: { _id } },
   ];
 
   try {

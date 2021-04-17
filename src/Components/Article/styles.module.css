@@ -25,22 +25,12 @@
 .wrap-icon {
   list-style: none;
   color: black;
-  font-size: 20px;
-  margin: 0 4px;
-  height: 38px;
-  width: 38px;
+  height: 20px;
+  width: 20px;
   cursor: pointer;
   display: flex !important;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: #f5f5f5;
-  box-shadow: 0 0px 2px 0 rgba(0, 0, 0, 0.2), 0 0px 10px 0 rgba(0, 0, 0, 0.07);
-  color: rgb(88, 88, 88);
   transition: 0.2s ease;
-}
-
-.wrap-icon:hover {
-  background-color: #d3d3d3;
-  color: #000;
 }
