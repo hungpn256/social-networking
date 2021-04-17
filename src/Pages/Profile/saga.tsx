@@ -67,7 +67,7 @@ function* getArticlesSaga({ payload }: { payload: any }) {
   }
 }
 function* changeCoverSaga({ payload }: { payload: any }) {
-  yield put(profileActions.changeState({ requesting: true }));
+  yield put(profileActions.changeState({ changeCoverRequesting: true }));
   try {
     const res = yield call(services.changeCover, payload);
     yield put(profileActions.postArticle({ image: payload }));
@@ -77,7 +77,7 @@ function* changeCoverSaga({ payload }: { payload: any }) {
     yield put(profileActions.changeCoverFail(err));
     toast.error('change cover fail');
   } finally {
-    yield put(profileActions.changeState({ requesting: false }));
+    yield put(profileActions.changeState({ changeCoverRequesting: false }));
   }
 }
 export default function* watchProfileSaga() {
