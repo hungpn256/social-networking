@@ -1,0 +1,59 @@
+.trend {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  border-bottom: 1px solid #d4d4d4;
+}
+.trend-msg {
+  margin: 15px 0 0 20px;
+}
+.trend-name {
+  margin: 0 0 10px 0;
+  cursor: pointer;
+}
+.trend-name p,
+.trend-with p {
+  font-size: 12px;
+  opacity: 0.6;
+}
+.trend-with {
+  margin: 0 0 20px 0;
+  cursor: pointer;
+}
+.subject p {
+  font-size: 15px;
+  font-weight: 600;
+  text-justify: inter-word;
+  margin: 0 0 10px 0;
+  cursor: pointer;
+}
+.trend-with p a {
+  text-decoration: none;
+  color: #00a7ff;
+}
+.trend-with p a:hover {
+  text-decoration: underline;
+  opacity: 1;
+}
+.trend-picture {
+  padding: 20px 0;
+}
+.trend-picture img {
+  width: 70px;
+  height: 70px;
+  border-radius: 20px;
+}
+.trend:hover,
+.person:hover {
+  background: #e8e8e8;
+}
+.show-more {
+  padding: 20px 20px;
+}
+.show-more a {
+  text-decoration: none;
+  color: #00a7ff;
+}
+.show-more:hover {
+  background: #e8e8e8;
+  border-radius: 0 0 20px 20px;
+}

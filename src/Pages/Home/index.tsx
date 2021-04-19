@@ -1,39 +1,17 @@
-import { Card, Col, Row } from 'antd';
-import React from 'react';
-import FollowFriends from '../../Components/FollowFriends';
-import PostArticle from '../../Components/PostArticle';
-const colArticle = {
-  sm: 24,
-  md: 14,
-  xl: 8,
-};
-const colSliderLeft = {
-  sm: 0,
-  md: 0,
-  xl: 8,
-};
-const colSliderRight = {
-  sm: 0,
-  md: 10,
-  xl: 8,
-};
-const Home = () => {
+import Content from '../../Components/Contents/Content';
+import NavBar from '../../Components/NavBar/NavBar';
+import Trends from '../../Components/Trends/Trends';
+import styles from './styles.module.css';
+function App() {
   return (
-    <div style={{ background: '#f5f5f5' }}>
-      <Row>
-        <Col {...colSliderLeft}>
-          <div>slider</div>
-        </Col>
-        <Col {...colArticle}>
-          <PostArticle loading={false} />
-        </Col>
-        <Col {...colSliderRight}>
-          <div>
-            <FollowFriends />
-          </div>
-        </Col>
-      </Row>
+    <div className={styles['App']}>
+      <div className={styles['container']}>
+        <NavBar />
+        <Content />
+        <Trends />
+      </div>
     </div>
   );
-};
-export default Home;
+}
+
+export default App;

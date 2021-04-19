@@ -1,0 +1,39 @@
+.person {
+  display: grid;
+  grid-template-columns: 20% 50% 30%;
+  padding: 10px 0;
+  align-items: center;
+  border-bottom: 1px solid #d4d4d4;
+}
+.person-profile {
+  padding: 0 0 0 10px;
+}
+.person-profile img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  opacity: 0.9;
+}
+.person-profile img:hover {
+  opacity: 1;
+}
+.name h3 {
+  font-size: 16px;
+}
+.name p {
+  opacity: 0.6;
+  padding: 5px 0 0 0;
+}
+.send-follow-request button {
+  padding: 5px 20px;
+  outline: none;
+  border: 2px solid #00a7ff;
+  color: #00a7ff;
+  border-radius: 20px;
+  font-size: 17px;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+.send-follow-request button:hover {
+  background: #d8eeff;
+}

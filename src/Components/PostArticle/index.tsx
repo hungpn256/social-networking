@@ -29,7 +29,7 @@ export default function PostArticle({ loading }) {
     setImages([]);
   };
   return (
-    <Spin delay={500} size="large" spinning={loading}>
+    <Spin delay={500} spinning={loading}>
       <div className={styles['body']}>
         <div className={styles['wrapper']}>
           <form onSubmit={onSubmit}>

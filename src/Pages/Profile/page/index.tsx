@@ -82,7 +82,6 @@ export default function Profile({ user }) {
           <div className={styles['grid']}>
             <div className={styles['cover']}>
               <Spin
-                size="large"
                 delay={500}
                 spinning={profileState?.changeCoverRequesting ?? false}
               >
@@ -107,7 +106,7 @@ export default function Profile({ user }) {
               ></input>
             </div>
             <div className={styles['avatar']}>
-              <Spin delay={500} size="large" spinning={profileState.requesting}>
+              <Spin delay={500} spinning={profileState.requesting}>
                 <Image.PreviewGroup>
                   {!profileState.requesting && (
                     <Image
