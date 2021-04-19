@@ -6,13 +6,6 @@ function Trends() {
   return (
     <div className={styles['trending-menu']}>
       <div className={styles['trending-center']}>
-        <div className={styles['search']}>
-          <input type="search" placeholder="Search Twitter" />
-          <span>
-            <i className={styles['fa fa-search']}></i>
-          </span>
-        </div>
-
         <div className={styles['trending']}>
           <div className={styles['header']}>
             <p>What 's happening'</p>

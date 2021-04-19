@@ -51,7 +51,7 @@ function Login() {
             </label>
           </div>
           <div className={styles['inputBx']}>
-            <Spin delay={500} spinning={requesting}>
+            <Spin size="large" delay={500} spinning={requesting}>
               <input type="submit" value="Sign in" name="" />
             </Spin>
           </div>
