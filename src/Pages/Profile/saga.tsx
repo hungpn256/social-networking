@@ -24,12 +24,14 @@ function* changeUserSaga({ payload }: { payload: any }) {
     { service: services.getProfileUser, payload: payload },
     { service: services.getArticles, payload: { _id } },
   ];
-
+  const login = yield select((state) => state.login);
   try {
     const [resUser, resArticle] = yield all(
       arrayService.map((service) => call(service.service, service.payload))
     );
-    yield put(profileActions.getUserSuccess(resUser.data));
+    const isMine = login?.user?._id === resUser.data?.user?._id;
+    debugger;
+    yield put(profileActions.getUserSuccess({ ...resUser.data, isMine }));
     yield put(profileActions.getArticlesSuccess(resArticle.data.posts));
     toast.success('get profile success');
   } catch (err) {

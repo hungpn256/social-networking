@@ -24,6 +24,7 @@ export default function Profile({ user }) {
   const profileState = useSelector((state) => state.profile);
   const [offsetTop, setOffset] = useState(60);
   const { loadingPage, user: userProfile, articles } = profileState;
+  const isMine = profileState?.isMine || false;
   const params = useParams();
   const { _id } = params;
   const dispatch = useDispatch();
@@ -84,16 +85,20 @@ export default function Profile({ user }) {
               <Spin delay={500} spinning={profileState?.changeCoverRequesting ?? false}>
                 <img src={userProfile?.cover?.viewUrl} alt="" className={styles['cover-image']} />
               </Spin>
-              <label className={styles['change-cover']} htmlFor="change-cover">
-                <FontAwesomeIcon icon={faCamera} /> <span>Chỉnh sửa ảnh bìa</span>
-              </label>
-              <input
-                type="file"
-                accept="image"
-                id="change-cover"
-                style={{ display: 'none' }}
-                onChange={(e) => handleChangeCover(e.target.files[0])}
-              ></input>
+              {isMine && (
+                <>
+                  <label className={styles['change-cover']} htmlFor="change-cover">
+                    <FontAwesomeIcon icon={faCamera} /> <span>Chỉnh sửa ảnh bìa</span>
+                  </label>
+                  <input
+                    type="file"
+                    accept="image"
+                    id="change-cover"
+                    style={{ display: 'none' }}
+                    onChange={(e) => handleChangeCover(e.target.files[0])}
+                  ></input>
+                </>
+              )}
             </div>
             <div className={styles['avatar']}>
               <Spin delay={500} spinning={profileState.requesting}>
@@ -111,9 +116,11 @@ export default function Profile({ user }) {
                   )}
                 </Image.PreviewGroup>
               </Spin>
-              <Dropdown overlay={menu} trigger={['click']}>
-                <FontAwesomeIcon icon={faChevronDown} className={styles['avatar-dropdown']} />
-              </Dropdown>
+              {isMine && (
+                <Dropdown overlay={menu} trigger={['click']}>
+                  <FontAwesomeIcon icon={faChevronDown} className={styles['avatar-dropdown']} />
+                </Dropdown>
+              )}
             </div>
             <div className={styles['infor-name']}>
               <h2 className={styles['name']}>
@@ -208,7 +215,7 @@ export default function Profile({ user }) {
                 </div>
               </Affix>
               <div className={styles['detail-video']}>
-                <PostArticle loading={profileState?.postArticleRequesting ?? false} />
+                {isMine && <PostArticle loading={profileState?.postArticleRequesting ?? false} />}
                 {articles &&
                   articles.map((article) => {
                     return <Article article={article} />;

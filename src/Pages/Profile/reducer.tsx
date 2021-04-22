@@ -12,6 +12,7 @@ const initialState = {
     page: 1,
     limit: 10,
   },
+  isMine: false,
 };
 
 const reducer = (state = initialState, action: any) => {
@@ -50,6 +51,9 @@ const reducer = (state = initialState, action: any) => {
     }
     case profileConstant.PROFILE_CHANGE_COVER_SUCCESS: {
       return { ...state, ...action.payload };
+    }
+    case 'CLEAR_STATE': {
+      return { ...state, isMine: false };
     }
     case 'CLEAR_STATE_PROFILE': {
       return { ...initialState };

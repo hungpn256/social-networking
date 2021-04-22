@@ -8,9 +8,19 @@
   margin: 0 auto;
 }
 .logo {
-  padding: 4% 0 4% 37%;
+  padding: 2% 0 8% 31% !important;
+  color: #000;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 20px;
+  transition: 0.5s;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
 }
-.logo i {
+.logo .icon-logo {
   font-size: 33px;
   color: #00a7ff;
 }

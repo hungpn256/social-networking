@@ -4,7 +4,7 @@ import PostArticle from '../PostArticle';
 function Content() {
   return (
     <div className={styles['content-menu']}>
-      <PostArticle />
+      <PostArticle loading={false} />
     </div>
   );
 }
