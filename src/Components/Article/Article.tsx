@@ -75,16 +75,16 @@ const { Paragraph } = Typography;
 export default function Para({ article }) {
   const { createBy: user } = article;
   const [comments, setComments] = useState([]);
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = React.useState();
   const [submitting, setSubmitting] = useState(false);
   const [value, setValue] = useState('');
   useEffect(() => {
-    setLoading(true);
+    article?.imgs[0]?.viewUrl && setLoading(true);
   }, [article]);
   useEffect(() => {
     const setvisiableTrue = setTimeout(() => {
       setLoading(false);
-    });
+    }, 3000);
     return () => {
       clearTimeout(setvisiableTrue);
     };
@@ -200,7 +200,7 @@ export default function Para({ article }) {
       </Card>
       <Image
         style={{ display: 'none' }}
-        src={article?.imgs[0]?.viewUrl?.replace(/=s220*/, '')}
+        src={article?.imgs[0]?.viewUrl}
         onLoad={() => setLoading(false)}
       ></Image>
     </LazyLoad>

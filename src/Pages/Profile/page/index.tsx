@@ -81,18 +81,8 @@ export default function Profile({ user }) {
         <div className={styles['infor']}>
           <div className={styles['grid']}>
             <div className={styles['cover']}>
-              <Spin
-                delay={500}
-                spinning={profileState?.changeCoverRequesting ?? false}
-              >
-                <img
-                  src={
-                    userProfile?.cover?.viewUrl?.replace(/=s220/, '') ??
-                    'https://vectormienphi.com/wp-content/uploads/2018/12/3af9e2d2628ab1842d2344a9d1d84ea0-600x250.jpg'
-                  }
-                  alt=""
-                  className={styles['cover-image']}
-                />
+              <Spin delay={500} spinning={profileState?.changeCoverRequesting ?? false}>
+                <img src={userProfile?.cover?.viewUrl} alt="" className={styles['cover-image']} />
               </Spin>
               <label className={styles['change-cover']} htmlFor="change-cover">
                 <FontAwesomeIcon icon={faCamera} /> <span>Chỉnh sửa ảnh bìa</span>

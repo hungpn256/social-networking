@@ -48,6 +48,9 @@ const reducer = (state = initialState, action: any) => {
         articles,
       };
     }
+    case profileConstant.PROFILE_CHANGE_COVER_SUCCESS: {
+      return { ...state, ...action.payload };
+    }
     case 'CLEAR_STATE_PROFILE': {
       return { ...initialState };
     }
