@@ -1,13 +1,34 @@
 import { toast } from 'react-toastify';
 import { call, put, takeEvery, takeLatest, all, select } from 'redux-saga/effects';
+import handleUpload from '../../Helper/UploadImage';
 import * as profileActions from './actions';
 import * as profileConstant from './constants';
 import services from './service';
+
+//Change cover
+function* changeCoverSaga({ payload }: { payload: any }) {
+  debugger;
+  yield put(profileActions.changeState({ changeCoverRequesting: true }));
+  try {
+    const urlImage = yield call(handleUpload, payload);
+    const res = yield call(services.updateProfile, { cover: urlImage });
+    yield put(profileActions.postArticle({ images: [{ url: urlImage }] }));
+    yield put(profileActions.changeCoverSuccess(res.data));
+    toast.success('change cover success');
+  } catch (err) {
+    yield put(profileActions.changeCoverFail(err));
+    toast.error('change cover fail');
+  } finally {
+    yield put(profileActions.changeState({ changeCoverRequesting: false }));
+  }
+}
+// Change avatar
 function* changeAvatarSaga({ payload }: { payload: any }) {
   yield put(profileActions.changeState({ requesting: true }));
   try {
-    const res = yield call(services.changeAvatar, payload);
-    yield put(profileActions.postArticle({ image: payload }));
+    const urlImage = yield call(handleUpload, payload);
+    const res = yield call(services.updateProfile, { avatar: urlImage });
+    yield put(profileActions.postArticle({ images: [{ url: urlImage }] }));
     yield put(profileActions.changeAvatarSuccess(res.data));
     toast.success('change avatar success');
   } catch (err) {
@@ -17,6 +38,8 @@ function* changeAvatarSaga({ payload }: { payload: any }) {
     yield put(profileActions.changeState({ requesting: false }));
   }
 }
+
+//Change User
 function* changeUserSaga({ payload }: { payload: any }) {
   yield put(profileActions.changeState({ loadingPage: true }));
   const { _id } = payload;
@@ -30,7 +53,6 @@ function* changeUserSaga({ payload }: { payload: any }) {
       arrayService.map((service) => call(service.service, service.payload))
     );
     const isMine = login?.user?._id === resUser.data?.user?._id;
-    debugger;
     yield put(profileActions.getUserSuccess({ ...resUser.data, isMine }));
     yield put(profileActions.getArticlesSuccess(resArticle.data.posts));
     toast.success('get profile success');
@@ -41,9 +63,18 @@ function* changeUserSaga({ payload }: { payload: any }) {
     yield put(profileActions.changeState({ loadingPage: false }));
   }
 }
+
+// Post Article
 function* postArticleSaga({ payload }: { payload: any }) {
+  debugger;
   yield put(profileActions.changeState({ postArticleRequesting: true }));
   try {
+    if (payload.images.length > 0 && typeof payload.images[0]?.url !== 'string') {
+      debugger;
+      const urlImage = yield call(handleUpload, payload.images[0]);
+      payload.images = [{ url: urlImage }];
+    }
+    debugger;
     const res = yield call(services.postArticle, payload);
     yield put(profileActions.postArticleSuccess(res.data.post));
     toast.success('post article success');
@@ -54,6 +85,8 @@ function* postArticleSaga({ payload }: { payload: any }) {
     yield put(profileActions.changeState({ postArticleRequesting: false }));
   }
 }
+
+//Get Articles
 function* getArticlesSaga({ payload }: { payload: any }) {
   yield put(profileActions.changeState({ getArticleRequesting: true }));
   try {
@@ -67,20 +100,7 @@ function* getArticlesSaga({ payload }: { payload: any }) {
     yield put(profileActions.changeState({ getArticleRequesting: false }));
   }
 }
-function* changeCoverSaga({ payload }: { payload: any }) {
-  yield put(profileActions.changeState({ changeCoverRequesting: true }));
-  try {
-    const res = yield call(services.changeCover, payload);
-    yield put(profileActions.postArticle({ image: payload }));
-    yield put(profileActions.changeCoverSuccess(res.data));
-    toast.success('change cover success');
-  } catch (err) {
-    yield put(profileActions.changeCoverFail(err));
-    toast.error('change cover fail');
-  } finally {
-    yield put(profileActions.changeState({ changeCoverRequesting: false }));
-  }
-}
+
 export default function* watchProfileSaga() {
   yield takeLatest(profileConstant.PROFILE_CHANGE_AVATAR, changeAvatarSaga);
   yield takeLatest(profileConstant.PROFILE_CHANGE_COVER, changeCoverSaga);

@@ -32,7 +32,7 @@ function NavBar() {
           <div className={styles['logo']}>
             <Link to={`/profile/${user._id}`} style={{ color: '#000' }}>
               <Avatar
-                src={user?.avatar?.viewUrl}
+                src={user?.avatar}
                 icon={<UserOutlined />}
                 alt=""
                 size={60}

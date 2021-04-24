@@ -8,5 +8,8 @@ class serviceLogin extends serviceBase {
   getUser = () => {
     return axios.get(`${ip}/user/profile`);
   };
+  followUser = (payload) => {
+    return axios.post(`${ip}/user/follow/${payload}`);
+  };
 }
 export default new serviceLogin({ url: ip });

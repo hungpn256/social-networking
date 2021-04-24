@@ -17,7 +17,14 @@ function* loginSaga({ payload }) {
     yield put(loginActions.changeState({ requesting: false }));
   }
 }
-
+function* followUserSaga({ payload }) {
+  try {
+    yield call(services.followUser, payload);
+  } catch (err) {
+    console.log(err, 'err follow');
+  }
+}
 export default function* watchLoginSaga() {
   yield takeLatest(loginConstants.LOGIN, loginSaga);
+  yield takeLatest(loginConstants.FOLLOW_USER, followUserSaga);
 }

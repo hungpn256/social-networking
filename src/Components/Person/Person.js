@@ -6,7 +6,7 @@ function Person({ person }) {
   return (
     <div className={styles['person']}>
       <div className={styles['person-profile']}>
-        <Avatar src={person?.avatar?.viewUrl} shape="square" size="large" icon={<UserOutlined />} />
+        <Avatar src={person?.avatar} shape="square" size="large" icon={<UserOutlined />} />
       </div>
       <div className={styles['name']}>
         <div className={styles['main-name']}>

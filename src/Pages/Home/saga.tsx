@@ -8,7 +8,6 @@ function* getUserRecommentSaga({ payload }) {
   try {
     const userRecomment = yield call(services.getUserRecomment);
     yield put(homeActions.getUserRecommentSuccess({ userRecomment: userRecomment.data }));
-    debugger;
   } catch (err) {
     homeActions.getUserRecommentFail(err);
   }

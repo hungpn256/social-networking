@@ -103,7 +103,7 @@ export default function Home(props: any) {
                       >
                         <span>{`${user.name.firstName}`}</span>
                         <Avatar
-                          src={user?.avatar?.viewUrl}
+                          src={user?.avatar}
                           icon={<UserOutlined />}
                           alt=""
                           style={{ marginLeft: 4 }}

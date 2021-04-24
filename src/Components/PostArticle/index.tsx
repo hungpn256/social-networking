@@ -19,8 +19,7 @@ export default function PostArticle({ loading }) {
   const dispatch = useDispatch();
   const onSubmit = (e) => {
     e.preventDefault();
-    const image = images[0];
-    dispatch(profileActions.postArticle({ image, text }));
+    dispatch(profileActions.postArticle({ images, text }));
   };
   const urlImage = Array.from(images).map((image) => {
     return URL.createObjectURL(image);

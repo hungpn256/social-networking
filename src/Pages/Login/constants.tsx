@@ -4,4 +4,6 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGIN_SHOW_LOADING = 'LOGIN_SHOW_LOADING';
 export const LOGIN_HIDE_LOADING = 'LOGIN_HIDE_LOADING';
 export const LOGIN_CHANGE_STATE = 'LOGIN_CHANGE_STATE';
-export const GET_USER = 'GET_USER'
+export const GET_USER = 'GET_USER';
+
+export const FOLLOW_USER = 'FOLLOW_USER';

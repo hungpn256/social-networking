@@ -1,9 +1,8 @@
 import axios from 'axios';
-import serviceBase from '../../Base/service';
 import { ip } from '../../configs/ip';
 class serviceLogin {
   getUserRecomment() {
-    return axios.get(`${ip}/user/suggest`);
+    return axios.get(`${ip}/user/recomment`);
   }
 }
 export default new serviceLogin({ url: ip });

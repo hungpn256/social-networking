@@ -22,6 +22,8 @@ import * as profileActions from '../actions';
 import styles from './styles.module.css';
 export default function Profile({ user }) {
   const profileState = useSelector((state) => state.profile);
+  const login = useSelector((state) => state.login);
+  const { token } = login;
   const [offsetTop, setOffset] = useState(60);
   const { loadingPage, user: userProfile, articles } = profileState;
   const isMine = profileState?.isMine || false;
@@ -31,7 +33,7 @@ export default function Profile({ user }) {
   useEffect(() => {
     dispatch({ type: 'CLEAR_STATE_PROFILE' });
     dispatch(profileActions.getUser({ _id }));
-  }, [_id, dispatch]);
+  }, [_id, token, dispatch]);
   const onChangeAvatar = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -56,7 +58,7 @@ export default function Profile({ user }) {
       dispatch(profileActions.changeCover(file));
     }
   };
-  const listImg = articles && articles.filter((article) => article.imgs[0]?.viewUrl).splice(0, 9);
+  const listImg = articles && articles.filter((article) => article.images[0]).splice(0, 9);
   const menu = (
     <Menu style={{ marginTop: 20, borderRadius: 10 }}>
       <Menu.Item
@@ -83,7 +85,7 @@ export default function Profile({ user }) {
           <div className={styles['grid']}>
             <div className={styles['cover']}>
               <Spin delay={500} spinning={profileState?.changeCoverRequesting ?? false}>
-                <img src={userProfile?.cover?.viewUrl} alt="" className={styles['cover-image']} />
+                <img src={userProfile?.cover} alt="" className={styles['cover-image']} />
               </Spin>
               {isMine && (
                 <>
@@ -108,9 +110,9 @@ export default function Profile({ user }) {
                       className={`${styles['avatar-image']}`}
                       height={175}
                       width={175}
-                      src={userProfile?.avatar?.viewUrl?.replace(/=s220/, '') ?? userImg}
+                      src={userProfile?.avatar ?? userImg}
                       preview={{
-                        src: userProfile?.avatar?.viewUrl,
+                        src: userProfile?.avatar,
                       }}
                     ></Image>
                   )}
@@ -204,7 +206,7 @@ export default function Profile({ user }) {
                           <Image
                             width={'98%'}
                             height={120}
-                            src={article.imgs[0].viewUrl.replace(/=s220/, '')}
+                            src={article.images[0].url}
                             alt=""
                             className={styles['photo-item-img']}
                           />

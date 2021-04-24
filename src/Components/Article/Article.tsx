@@ -79,7 +79,7 @@ export default function Para({ article }) {
   const [submitting, setSubmitting] = useState(false);
   const [value, setValue] = useState('');
   useEffect(() => {
-    article?.imgs[0]?.viewUrl && setLoading(true);
+    article?.images[0]?.url && setLoading(true);
   }, [article]);
   useEffect(() => {
     const setvisiableTrue = setTimeout(() => {
@@ -126,7 +126,7 @@ export default function Para({ article }) {
               <Avatar
                 style={{ marginLeft: 15, marginTop: 10, height: 45, width: '45px' }}
                 icon={<UserOutlined />}
-                src={user?.avatar?.viewUrl ?? ''}
+                src={user?.avatar ?? ''}
               />
             </Link>
 
@@ -168,12 +168,12 @@ export default function Para({ article }) {
               </>
             ))}
           </Paragraph>
-          {article.imgs[0]?.viewUrl && (
+          {article.images[0]?.url && (
             <Image.PreviewGroup>
               <Image
                 width="100%"
                 style={{ aspectRatio: '1 / 1', maxWidth: '100%', objectFit: 'cover' }}
-                src={article.imgs[0]?.viewUrl.replace(/=s220*/, '')}
+                src={article.images[0].url}
               ></Image>
             </Image.PreviewGroup>
           )}
@@ -187,7 +187,7 @@ export default function Para({ article }) {
         <Divider style={{ margin: 0, borderTop: '1px solid rgba(0,0,0,0.2)' }} />
         {comments.length > 0 && <CommentList comments={comments} />}
         <Comment
-          avatar={<Avatar icon={<UserOutlined />} src={user?.avatar?.viewUrl} alt="Han Solo" />}
+          avatar={<Avatar icon={<UserOutlined />} src={user?.avatar} alt="Han Solo" />}
           content={
             <Editor
               onChange={handleChange}
@@ -200,7 +200,7 @@ export default function Para({ article }) {
       </Card>
       <Image
         style={{ display: 'none' }}
-        src={article?.imgs[0]?.viewUrl}
+        src={article?.images[0]?.url}
         onLoad={() => setLoading(false)}
       ></Image>
     </LazyLoad>
