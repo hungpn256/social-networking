@@ -7,7 +7,10 @@ const initialState = {
   editting: false,
   loadingPage: false,
   articles: [],
-  record: {},
+  record: {
+    text: '',
+    images: [],
+  },
   paging: {
     page: 1,
     limit: 10,
@@ -47,6 +50,7 @@ const reducer = (state = initialState, action: any) => {
       return {
         ...state,
         articles,
+        record: { text: '', images: [] },
       };
     }
     case profileConstant.PROFILE_CHANGE_COVER_SUCCESS: {

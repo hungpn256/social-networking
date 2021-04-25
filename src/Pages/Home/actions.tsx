@@ -14,3 +14,7 @@ export const getUserRecommentFail = (payload) => ({
   type: constantsType.HOME_GET_USER_RECOMMENT_FAIL,
   payload,
 });
+export const followUser = (payload) => ({
+  type: constantsType.FOLLOW_USER,
+  payload,
+});

@@ -8,20 +8,21 @@ import {
   faMapMarkedAlt,
   faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
+import { v1 as uuidv1 } from 'uuid';
 import { faGrin } from '@fortawesome/free-regular-svg-icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as profileActions from '../../Pages/Profile/actions';
 const { TextArea } = Input;
 export default function PostArticle({ loading }) {
   const posterText = useRef(null);
-  const [images, setImages] = useState([]);
-  const [text, setText] = useState('');
+  const profileState = useSelector((state) => state.profile);
+  const { record } = profileState;
   const dispatch = useDispatch();
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(profileActions.postArticle({ images, text }));
+    dispatch(profileActions.postArticle(record));
   };
-  const urlImage = Array.from(images).map((image) => {
+  const urlImage = Array.from(profileState.record.images).map((image) => {
     return URL.createObjectURL(image);
   });
   const handleDeleteImgPreview = (index: number) => {
@@ -38,7 +39,12 @@ export default function PostArticle({ loading }) {
                   className={styles['tweet-area-text']}
                   placeholder={`What's happening?`}
                   autoSize={{ minRows: 3, maxRows: 5 }}
-                  onChange={(e) => setText(e.target.value)}
+                  onChange={(e) =>
+                    dispatch(
+                      profileActions.changeState({ record: { ...record, text: e.target.value } })
+                    )
+                  }
+                  value={profileState.record.text}
                 ></TextArea>
               </div>
               <div className={styles['privacy']}>
@@ -46,7 +52,7 @@ export default function PostArticle({ loading }) {
                   {urlImage &&
                     urlImage.map((urlImage, index) => {
                       return (
-                        <div style={{ position: 'relative' }}>
+                        <div key={uuidv1()} style={{ position: 'relative' }}>
                           <Image src={urlImage} height={100} width={100} key={index}></Image>
                           <FontAwesomeIcon
                             className={styles['icon-close']}
@@ -77,7 +83,11 @@ export default function PostArticle({ loading }) {
                     style={{ display: 'none' }}
                     ref={posterText}
                     onChange={(e) => {
-                      setImages(e.target.files);
+                      dispatch(
+                        profileActions.changeState({
+                          record: { ...record, images: e.target.files },
+                        })
+                      );
                     }}
                   />
                 </li>
