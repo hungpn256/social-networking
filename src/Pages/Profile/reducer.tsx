@@ -1,4 +1,5 @@
 import * as profileConstant from './constants';
+import * as _ from 'lodash';
 const initialState = {
   requesting: false,
   success: false,
@@ -51,6 +52,14 @@ const reducer = (state = initialState, action: any) => {
         ...state,
         articles,
         record: { text: '', images: [] },
+      };
+    }
+    case profileConstant.PROFILE_DELETE_ARTICLE_SUCCESS: {
+      let articles = _.differenceBy([...state.articles], [{ ...action.payload }], '_id');
+      debugger;
+      return {
+        ...state,
+        articles,
       };
     }
     case profileConstant.PROFILE_CHANGE_COVER_SUCCESS: {

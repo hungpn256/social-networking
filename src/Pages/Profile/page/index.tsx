@@ -172,17 +172,17 @@ export default function Profile({ user }) {
               <ul className={styles['infor-nav-list']}>
                 <li className={styles['infor-nav-item']}>
                   <Link to={'/phôt'} className={styles['infor-nav-item-link']}>
-                    About
+                    More
                   </Link>
+                </li>
+                <li className={styles['infor-nav-item']}>
+                  <Link className={styles['infor-nav-item-link']}>Follower</Link>
                 </li>
                 <li className={styles['infor-nav-item']}>
                   <Link className={styles['infor-nav-item-link']}>Photos</Link>
                 </li>
                 <li className={styles['infor-nav-item']}>
-                  <Link className={styles['infor-nav-item-link']}>Hobby</Link>
-                </li>
-                <li className={styles['infor-nav-item']}>
-                  <Link className={styles['infor-nav-item-link']}>More</Link>
+                  <Link className={styles['infor-nav-item-link']}>About</Link>
                 </li>
               </ul>
             </div>

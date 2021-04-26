@@ -21,26 +21,10 @@ import React, { useEffect, useState } from 'react';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import styles from './styles.module.css';
-
+import * as profileActions from '../../Pages/Profile/actions';
+import { useDispatch } from 'react-redux';
 const { TextArea } = Input;
-const menu = (
-  <Menu
-    style={{
-      borderRadius: 10,
-      boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
-    }}
-  >
-    <Menu.Item
-      key="1"
-      onClick={() => {
-        const changeAvatar = document.getElementById('changeAvatar');
-        changeAvatar.click();
-      }}
-    >
-      Delete post
-    </Menu.Item>
-  </Menu>
-);
+
 const CommentList = ({ comments }) => (
   <List
     dataSource={comments}
@@ -78,6 +62,24 @@ export default function Para({ article }) {
   const [loading, setLoading] = React.useState();
   const [submitting, setSubmitting] = useState(false);
   const [value, setValue] = useState('');
+  const dispatch = useDispatch();
+  const menu = (
+    <Menu
+      style={{
+        borderRadius: 10,
+        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+      }}
+    >
+      <Menu.Item
+        key="1"
+        onClick={() => {
+          dispatch(profileActions.deleteArticle(article._id));
+        }}
+      >
+        Delete post
+      </Menu.Item>
+    </Menu>
+  );
   useEffect(() => {
     article?.images[0]?.url && setLoading(true);
   }, [article._id]);

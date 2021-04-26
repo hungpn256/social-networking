@@ -1,4 +1,6 @@
 import * as homeConstants from './constants';
+import * as profileConstant from '../Profile/constants';
+import * as _ from 'lodash';
 const initialState = {
   requesting: false,
   success: false,
@@ -24,7 +26,15 @@ const reducer = (state = initialState, action: any) => {
     case homeConstants.HOME_GET_ARTICLE_SUCCESS: {
       return { ...state, articles: [...action.payload] };
     }
-    case 'PROFILE_POST_ARTICLE_SUCCESS': {
+    case profileConstant.PROFILE_DELETE_ARTICLE_SUCCESS: {
+      let articles = _.differenceBy([...state.articles], [{ ...action.payload }], '_id');
+      debugger;
+      return {
+        ...state,
+        articles,
+      };
+    }
+    case profileConstant.PROFILE_POST_ARTICLE_SUCCESS: {
       let articles = [{ ...action.payload }, ...state.articles];
       debugger;
       return {
