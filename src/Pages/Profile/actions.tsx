@@ -73,6 +73,24 @@ export const postArticleFail = (payload: any) => {
     payload,
   };
 };
+export const deleteArticle = (payload: any) => {
+  return {
+    type: constantsType.PROFILE_DELETE_ARTICLE,
+    payload,
+  };
+};
+export const deleteArticleSuccess = (payload: any) => {
+  return {
+    type: constantsType.PROFILE_DELETE_ARTICLE_SUCCESS,
+    payload,
+  };
+};
+export const deleteArticleFail = (payload: any) => {
+  return {
+    type: constantsType.PROFILE_DELETE_ARTICLE_FAIL,
+    payload,
+  };
+};
 
 export const getArticles = (payload: any) => {
   return {

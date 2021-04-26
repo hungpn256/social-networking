@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import * as loginActions from './actions';
 import * as loginConstants from './constants';
 import services from './service';
@@ -20,11 +20,12 @@ function* loginSaga({ payload }) {
 function* followUserSaga({ payload }) {
   try {
     yield call(services.followUser, payload);
+    toast.success('follow success');
   } catch (err) {
     console.log(err, 'err follow');
   }
 }
 export default function* watchLoginSaga() {
   yield takeLatest(loginConstants.LOGIN, loginSaga);
-  yield takeLatest(loginConstants.FOLLOW_USER, followUserSaga);
+  yield takeEvery(loginConstants.FOLLOW_USER, followUserSaga);
 }

@@ -23,7 +23,6 @@ function App() {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-
   useEffect(() => {
     axios.defaults.headers.common['Authorization'] = token ? `${token}` : '';
     services

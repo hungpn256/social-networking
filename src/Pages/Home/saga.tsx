@@ -12,15 +12,15 @@ function* getUserRecommentSaga({ payload }) {
     homeActions.getUserRecommentFail(err);
   }
 }
-function* followUserSaga({ payload }) {
-  yield delay(500);
+function* getArticleSaga() {
   try {
-    yield call(services.followUser, payload);
+    const res = yield call(services.getArticle);
+    yield put(homeActions.getArticleSuccess(res.data.posts));
   } catch (err) {
-    toast.error('follow err');
+    toast.error('get article fail');
   }
 }
 export default function* watchHomeSaga() {
   yield takeLatest(homeConstant.HOME_GET_USER_RECOMMENT, getUserRecommentSaga);
-  yield takeLatest(homeConstant.FOLLOW_USER, followUserSaga);
+  yield takeLatest(homeConstant.HOME_GET_ARTICLE, getArticleSaga);
 }

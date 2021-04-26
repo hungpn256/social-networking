@@ -21,5 +21,8 @@ class serviceLogin extends serviceBase {
     // });
     return axios.post(`${ip}/post/create`, payload);
   };
+  deleteArticle = (payload) => {
+    return axios.delete(`${ip}/post/${payload}`);
+  };
 }
 export default new serviceLogin({ url: ip });

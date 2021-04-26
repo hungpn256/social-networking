@@ -5,7 +5,10 @@ class serviceLogin {
     return axios.get(`${ip}/user/recomment`);
   }
   followUser(payload) {
-    return axios.put(`${ip}/follow/${payload}`);
+    return axios.put(`${ip}/user/follow/${payload}`);
+  }
+  getArticle() {
+    return axios.get(`${ip}/post`);
   }
 }
 export default new serviceLogin({ url: ip });

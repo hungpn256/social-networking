@@ -2,6 +2,7 @@ import React from 'react';
 import Trend from '../trend/Trend';
 import Person from '../Person/Person';
 import styles from './Trend.module.css';
+import { v1 } from 'uuid';
 function Trends({ userRecomment }) {
   return (
     <div className={styles['trending-menu']}>
@@ -25,9 +26,7 @@ function Trends({ userRecomment }) {
           </div>
           <div className={styles['persons']}>
             {userRecomment &&
-              userRecomment.map((person, index) => (
-                <Person key={index + Math.random()} person={person} />
-              ))}
+              userRecomment.map((person, index) => <Person key={v1()} person={person} />)}
           </div>
         </div>
       </div>

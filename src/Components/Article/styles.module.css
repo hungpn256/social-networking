@@ -1,5 +1,8 @@
 .action-article {
 }
+.comment-form {
+  height: 50px;
+}
 .action-article-icon {
   font-size: 20px;
   margin: 10px;
@@ -9,6 +12,7 @@
 .send-comment {
   position: absolute;
   border-radius: 20px;
+  overflow: hidden;
   right: 0;
   bottom: 0;
   border: none;
@@ -17,6 +21,9 @@
 }
 .send-comment:hover {
   background: rgba(103, 103, 245, 0.3) !important;
+}
+.send-comment:focus {
+  background: transparent;
 }
 .link-avatar:hover {
   text-decoration: underline;

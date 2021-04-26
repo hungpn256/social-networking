@@ -15,7 +15,7 @@ const initialState = {
     page: 1,
     limit: 10,
   },
-  isMine: false,
+  isFollowed: 4,
 };
 
 const reducer = (state = initialState, action: any) => {
@@ -57,7 +57,7 @@ const reducer = (state = initialState, action: any) => {
       return { ...state, ...action.payload };
     }
     case 'CLEAR_STATE': {
-      return { ...state, isMine: false };
+      return { ...state };
     }
     case 'CLEAR_STATE_PROFILE': {
       return { ...initialState };

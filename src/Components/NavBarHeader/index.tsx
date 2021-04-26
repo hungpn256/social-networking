@@ -38,8 +38,7 @@ export default function Home(props: any) {
       <Menu.Item
         key="3"
         onClick={async () => {
-          await localStorage.removeItem('token');
-          await dispatch({ type: 'CLEAR_STATE' });
+          dispatch({ type: 'CLEAR_STATE' });
         }}
       >
         <LoginOutlined />

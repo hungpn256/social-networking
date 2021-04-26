@@ -1,6 +1,6 @@
 .person {
   display: grid;
-  grid-template-columns: 20% 50% 30%;
+  grid-template-columns: 12% 58% 30%;
   padding: 10px 0;
   align-items: center;
   border-bottom: 1px solid #d4d4d4;
@@ -23,6 +23,7 @@
   padding: 5px 0 0 0;
 }
 .send-follow-request button {
+  width: 100%;
   padding: 5px 20px;
   outline: none;
   border: 2px solid #00a7ff;

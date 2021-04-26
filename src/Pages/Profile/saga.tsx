@@ -47,13 +47,11 @@ function* changeUserSaga({ payload }: { payload: any }) {
     { service: services.getProfileUser, payload: payload },
     { service: services.getArticles, payload: { _id } },
   ];
-  const login = yield select((state) => state.login);
   try {
     const [resUser, resArticle] = yield all(
       arrayService.map((service) => call(service.service, service.payload))
     );
-    const isMine = login?.user?._id === resUser.data?.user?._id;
-    yield put(profileActions.getUserSuccess({ ...resUser.data, isMine }));
+    yield put(profileActions.getUserSuccess({ ...resUser.data }));
     yield put(profileActions.getArticlesSuccess(resArticle.data.posts));
     toast.success('get profile success');
   } catch (err) {
@@ -66,7 +64,6 @@ function* changeUserSaga({ payload }: { payload: any }) {
 
 // Post Article
 function* postArticleSaga({ payload }: { payload: any }) {
-  debugger;
   yield put(profileActions.changeState({ postArticleRequesting: true }));
   try {
     if (payload.images.length > 0 && typeof payload.images[0]?.url !== 'string') {
@@ -74,7 +71,6 @@ function* postArticleSaga({ payload }: { payload: any }) {
       const urlImage = yield call(handleUpload, payload.images[0]);
       payload.images = [{ url: urlImage }];
     }
-    debugger;
     const res = yield call(services.postArticle, payload);
     yield put(profileActions.postArticleSuccess(res.data.post));
     toast.success('post article success');
@@ -85,7 +81,21 @@ function* postArticleSaga({ payload }: { payload: any }) {
     yield put(profileActions.changeState({ postArticleRequesting: false }));
   }
 }
-
+//deleteArticle
+function* deleteArticleSaga({ payload }) {
+  yield put(profileActions.changeState({ deleteArticleRequesting: true }));
+  try {
+    const res = yield call(services.deleteArticle, payload);
+    debugger;
+    yield put(profileActions.deleteArticleSuccess(res.data.post));
+    toast.success('delete article success');
+  } catch (err) {
+    yield put(profileActions.deleteArticleFail(err));
+    toast.error('delete article fail');
+  } finally {
+    yield put(profileActions.changeState({ deleteArticleRequesting: false }));
+  }
+}
 //Get Articles
 function* getArticlesSaga({ payload }: { payload: any }) {
   yield put(profileActions.changeState({ getArticleRequesting: true }));
@@ -107,4 +117,5 @@ export default function* watchProfileSaga() {
   yield takeLatest(profileConstant.GET_PROFILE_USER, changeUserSaga);
   yield takeLatest(profileConstant.PROFILE_POST_ARTICLE, postArticleSaga);
   yield takeEvery(profileConstant.PROFILE_GET_ARTICLES, getArticlesSaga);
+  yield takeEvery(profileConstant.PROFILE_DELETE_ARTICLE, deleteArticleSaga);
 }

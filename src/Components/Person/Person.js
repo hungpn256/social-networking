@@ -1,29 +1,38 @@
 import Avatar from 'antd/lib/avatar/avatar';
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styles from './Person.module.css';
 import { UserOutlined } from '@ant-design/icons';
-import * as homeActions from '../../Pages/Home/actions';
+import * as loginActions from '../../Pages/Login/actions';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 function Person({ person }) {
-  const followUser = useDispatch(homeActions.followUser(person._id));
+  const [follow, setFollow] = useState(false);
+  const dispatch = useDispatch();
   const handleFollow = () => {
-    followUser();
+    dispatch(loginActions.followUser(person._id));
   };
   return (
     <div className={styles['person']}>
-      <div className={styles['person-profile']}>
-        <Avatar src={person?.avatar} shape="square" size="large" icon={<UserOutlined />} />
-      </div>
-      <div className={styles['name']}>
-        <div className={styles['main-name']}>
-          <h3>{person.name.firstName + ' ' + person.name.lastName}</h3>
+      <Link to={`/profile/${person._id}`}>
+        <div className={styles['person-profile']}>
+          <Avatar src={person?.avatar} shape="square" size="large" icon={<UserOutlined />} />
         </div>
-        {/* <div className={styles['username']}>
-          <p>@akhil</p>
-        </div> */}
-      </div>
+      </Link>
+      <Link to={`/profile/${person._id}`}>
+        <div className={styles['name']}>
+          <div className={styles['main-name']}>
+            <h3>{person.name.firstName + ' ' + person.name.lastName}</h3>
+          </div>
+        </div>
+      </Link>
       <div className={styles['send-follow-request']}>
-        <button onClick={handleFollow}>Follow</button>
+        <button
+          onClick={() => {
+            handleFollow();
+          }}
+        >
+          {follow ? 'Un Follow' : 'Follow'}
+        </button>
       </div>
     </div>
   );

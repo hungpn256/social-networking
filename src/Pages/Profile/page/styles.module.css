@@ -77,8 +77,10 @@ i {
 }
 .change-cover {
   position: absolute;
-  right: 20px;
-  top: 20px;
+  min-width: 150px;
+  text-align: center;
+  right: 10%;
+  bottom: 40px;
   z-index: 10;
   background-color: rgba(255, 255, 255, 0.5);
   padding: 10px;
@@ -93,6 +95,9 @@ i {
 @media (max-width: 500px) {
   .change-cover span {
     display: none;
+  }
+  .change-cover {
+    min-width: unset;
   }
 }
 .avatar {

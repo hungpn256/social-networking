@@ -9,15 +9,16 @@ function App() {
   const dispatch = useDispatch();
   const homeState = useSelector((state) => state.home);
   const { userRecomment } = homeState;
-  console.log(homeState);
+  const { articles } = homeState;
   useEffect(() => {
     dispatch(homeActions.getUserRecomment());
+    dispatch(homeActions.getArticle());
   }, []);
   return (
     <div className={styles['App']}>
       <div className={styles['container']}>
         <NavBar />
-        <Content />
+        <Content articles={articles} />
         <Trends userRecomment={userRecomment} />
       </div>
     </div>

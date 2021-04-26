@@ -1,5 +1,6 @@
 import * as loginConstants from './constants';
 import * as profileConstant from '../Profile/constants';
+import axios from 'axios';
 const initialState = {
   requesting: false,
   success: false,
@@ -30,6 +31,8 @@ const reducer = (state = initialState, action: any) => {
       return { ...state, ...action.payload };
     }
     case 'CLEAR_STATE': {
+      axios.defaults.headers.common['Authorization'] = '';
+      localStorage.removeItem('token');
       return { ...initialState, token: '' };
     }
     default:

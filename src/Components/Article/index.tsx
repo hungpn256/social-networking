@@ -80,7 +80,7 @@ export default function Para({ article }) {
   const [value, setValue] = useState('');
   useEffect(() => {
     article?.images[0]?.url && setLoading(true);
-  }, [article]);
+  }, [article._id]);
   useEffect(() => {
     const setvisiableTrue = setTimeout(() => {
       setLoading(false);
@@ -188,6 +188,7 @@ export default function Para({ article }) {
         {comments.length > 0 && <CommentList comments={comments} />}
         <Comment
           avatar={<Avatar icon={<UserOutlined />} src={user?.avatar} alt="Han Solo" />}
+          className={styles['comment-form']}
           content={
             <Editor
               onChange={handleChange}

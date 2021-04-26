@@ -2,10 +2,13 @@ import {
   faCamera,
   faChevronDown,
   faEdit,
+  faEye,
+  faEyeSlash,
   faGraduationCap,
   faHome,
   faMars,
   faPhone,
+  faSignInAlt,
   faVenus,
   faVenusMars,
 } from '@fortawesome/free-solid-svg-icons';
@@ -13,23 +16,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Affix, Dropdown, Image, Menu, Spin } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import userImg from '../../../Assets/user.png';
-import Article from '../../../Components/Article/Article';
+import Article from '../../../Components/Article';
 import LoadingGlobal from '../../../Components/LoadingGlobal';
 import PostArticle from '../../../Components/PostArticle';
 import * as profileActions from '../actions';
 import styles from './styles.module.css';
+import * as loginActions from '../../Login/actions';
 export default function Profile({ user }) {
   const profileState = useSelector((state) => state.profile);
   const login = useSelector((state) => state.login);
   const { token } = login;
   const [offsetTop, setOffset] = useState(60);
-  const { loadingPage, user: userProfile, articles } = profileState;
-  const isMine = profileState?.isMine || false;
+  const { loadingPage, user: userProfile, articles, isFollowed } = profileState;
   const params = useParams();
   const { _id } = params;
   const dispatch = useDispatch();
+  const history = useHistory();
   useEffect(() => {
     dispatch({ type: 'CLEAR_STATE_PROFILE' });
     dispatch(profileActions.getUser({ _id }));
@@ -87,10 +91,10 @@ export default function Profile({ user }) {
               <Spin delay={500} spinning={profileState?.changeCoverRequesting ?? false}>
                 <img src={userProfile?.cover} alt="" className={styles['cover-image']} />
               </Spin>
-              {isMine && (
+              {isFollowed === 0 ? (
                 <>
                   <label className={styles['change-cover']} htmlFor="change-cover">
-                    <FontAwesomeIcon icon={faCamera} /> <span>Chỉnh sửa ảnh bìa</span>
+                    <FontAwesomeIcon icon={faCamera} /> <span>Edit cover picture</span>
                   </label>
                   <input
                     type="file"
@@ -99,6 +103,40 @@ export default function Profile({ user }) {
                     style={{ display: 'none' }}
                     onChange={(e) => handleChangeCover(e.target.files[0])}
                   ></input>
+                </>
+              ) : isFollowed === 2 || isFollowed === 1 ? (
+                <>
+                  <label
+                    className={styles['change-cover']}
+                    onClick={() => {
+                      dispatch(loginActions.followUser(_id));
+                      let btn = document.getElementById('content-button-follow');
+                      if (btn?.textContent === 'Follow') {
+                        btn.textContent = 'UnFollow';
+                      } else btn.textContent = 'Follow';
+                    }}
+                  >
+                    <FontAwesomeIcon icon={isFollowed === 1 ? faEyeSlash : faEye} />{' '}
+                    <span id="content-button-follow">
+                      {isFollowed === 1 ? 'UnFollow' : 'Follow'}
+                    </span>
+                  </label>
+                </>
+              ) : (
+                <>
+                  <label
+                    className={styles['change-cover']}
+                    onClick={() => {
+                      history.push({
+                        pathname: '/auth/login',
+                        state: {
+                          prePath: history.location.pathname,
+                        },
+                      });
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faSignInAlt} /> <span>Đăng nhập</span>
+                  </label>
                 </>
               )}
             </div>
@@ -118,7 +156,7 @@ export default function Profile({ user }) {
                   )}
                 </Image.PreviewGroup>
               </Spin>
-              {isMine && (
+              {isFollowed === 0 && (
                 <Dropdown overlay={menu} trigger={['click']}>
                   <FontAwesomeIcon icon={faChevronDown} className={styles['avatar-dropdown']} />
                 </Dropdown>
@@ -217,7 +255,9 @@ export default function Profile({ user }) {
                 </div>
               </Affix>
               <div className={styles['detail-video']}>
-                {isMine && <PostArticle loading={profileState?.postArticleRequesting ?? false} />}
+                {isFollowed === 0 && (
+                  <PostArticle loading={profileState?.postArticleRequesting ?? false} />
+                )}
                 {articles &&
                   articles.map((article) => {
                     return <Article article={article} />;
