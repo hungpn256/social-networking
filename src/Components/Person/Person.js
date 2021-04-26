@@ -9,6 +9,8 @@ function Person({ person }) {
   const [follow, setFollow] = useState(false);
   const dispatch = useDispatch();
   const handleFollow = () => {
+    setFollow(!follow);
+    console.log(follow);
     dispatch(loginActions.followUser(person._id));
   };
   return (

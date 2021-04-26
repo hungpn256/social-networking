@@ -30,6 +30,7 @@ export default function Profile({ user }) {
   const { token } = login;
   const [offsetTop, setOffset] = useState(60);
   const { loadingPage, user: userProfile, articles, isFollowed } = profileState;
+  const [f, setF] = useState(!!isFollowed);
   const params = useParams();
   const { _id } = params;
   const dispatch = useDispatch();
@@ -114,9 +115,10 @@ export default function Profile({ user }) {
                       if (btn?.textContent === 'Follow') {
                         btn.textContent = 'UnFollow';
                       } else btn.textContent = 'Follow';
+                      setF(!f);
                     }}
                   >
-                    <FontAwesomeIcon icon={isFollowed === 1 ? faEyeSlash : faEye} />{' '}
+                    <FontAwesomeIcon icon={f ? faEyeSlash : faEye} />{' '}
                     <span id="content-button-follow">
                       {isFollowed === 1 ? 'UnFollow' : 'Follow'}
                     </span>

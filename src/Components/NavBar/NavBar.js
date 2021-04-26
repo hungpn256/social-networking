@@ -30,7 +30,11 @@ function NavBar() {
       <div className={styles['options-menu']}>
         <div className={styles['options-center']}>
           <div className={styles['logo']}>
-            <Link to={`/profile/${user._id}`} style={{ color: '#000' }}>
+            <Link
+              className={styles['link-profile']}
+              to={`/profile/${user._id}`}
+              style={{ color: '#000' }}
+            >
               <Avatar
                 src={user?.avatar}
                 icon={<UserOutlined />}
@@ -38,69 +42,71 @@ function NavBar() {
                 size={60}
                 style={{ marginLeft: 4, marginRight: 20 }}
               />
-              <span>{`${user.name.firstName} ${user.name.lastName}`}</span>
+              <span
+                className={styles['name']}
+              >{`${user.name.firstName} ${user.name.lastName}`}</span>
             </Link>
           </div>
           <div className={styles['option']}>
             <div>
               <a href=" # ">
                 {/* <i className={styles['fa fa-home']}></i> */}
-                <FontAwesomeIcon className={`mr-20`} icon={faHome} />
-                Home
+                <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faHome} />
+                <span>Home</span>
               </a>
             </div>
             <div>
               <a href=" # ">
                 {/* <i className={styles['fa fa-hashtag']}></i> */}
-                <FontAwesomeIcon className={`mr-20`} icon={faHashtag} />
-                Explore
+                <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faHashtag} />
+                <span>Explore</span>
               </a>
             </div>
             <div>
               <a href=" # ">
                 {/* <i className={styles['fa fa-bell']}></i> */}
-                <FontAwesomeIcon className={`mr-20`} icon={faBell} />
-                Notifications
+                <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faBell} />
+                <span>Notifications</span>
               </a>
             </div>
             <div>
               <a href=" # ">
                 {/* <i className={styles['fa fa-envelope-o']}></i> */}
-                <FontAwesomeIcon className={`mr-20`} icon={faEnvelopeOpen} />
-                Messages
+                <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faEnvelopeOpen} />
+                <span>Messages</span>
               </a>
             </div>
             <div>
               <a href=" # ">
                 {/* <i className={styles['fa fa-bookmark-o']}></i> */}
-                <FontAwesomeIcon className={`mr-20`} icon={faBookmark} />
-                Bookmarks
+                <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faBookmark} />
+                <span>Bookmarks</span>
               </a>
             </div>
             <div>
               <a href=" # ">
                 {/* <i className={styles['fa fa-list-alt']}></i> */}
-                <FontAwesomeIcon className={`mr-20`} icon={faListAlt} />
-                Lists
+                <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faListAlt} />
+                <span>Lists</span>
               </a>
             </div>
             <div>
               <a href=" # ">
                 {/* <i className={styles['fa fa-user-o']}></i> */}
-                <FontAwesomeIcon className={`mr-20`} icon={faUser} />
-                Profile
+                <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faUser} />
+                <span>Profile</span>
               </a>
             </div>
             <div>
               <a href=" # ">
                 {/* <i className={styles['fa fa-ellipsis-h']}></i> */}
-                <FontAwesomeIcon className={`mr-20`} icon={faEllipsisH} />
-                More
+                <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faEllipsisH} />
+                <span>More</span>
               </a>
             </div>
-            <div>
+            {/* <div>
               <button>Tweet</button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
