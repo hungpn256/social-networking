@@ -1,18 +1,23 @@
-import Avatar from 'antd/lib/avatar/avatar';
-import React, { useCallback, useEffect, useState } from 'react';
-import styles from './Person.module.css';
 import { UserOutlined } from '@ant-design/icons';
-import * as loginActions from '../../Pages/Login/actions';
+import Avatar from 'antd/lib/avatar/avatar';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import * as loginActions from '../../Pages/Login/actions';
+import styles from './Person.module.css';
 function Person({ person }) {
   const [follow, setFollow] = useState(false);
   const dispatch = useDispatch();
   const handleFollow = () => {
     setFollow(!follow);
-    console.log(follow);
     dispatch(loginActions.followUser(person._id));
   };
+  useEffect(() => {
+    console.log('did mount');
+    return () => {
+      console.log('un mount');
+    };
+  }, []);
   return (
     <div className={styles['person']}>
       <Link to={`/profile/${person._id}`}>

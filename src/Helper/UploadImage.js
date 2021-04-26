@@ -1,5 +1,4 @@
 import { storage } from '../configs/firebase';
-import { v1 as uuidv1 } from 'uuid';
 const handleUpload = async (image) =>
   new Promise((resolve, reject) => {
     const uploadTask = storage.ref(`images/${image.name}`).put(image);

@@ -18,14 +18,23 @@
   transition: 0.5s;
   font-weight: 600;
   display: flex;
+  flex-direction: row;
   align-items: center;
+}
+.logo-avatar {
+  margin-right: 8px;
+  width: 64px;
+  height: 64px;
+  max-width: 64px;
 }
 .logo .icon-logo {
   font-size: 33px;
   color: #00a7ff;
 }
 .option {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 .option div a {
   text-decoration: none;
@@ -44,14 +53,17 @@
   }
 }
 @media (max-width: 892px) {
+  .option {
+    align-items: center;
+  }
   .option div a span {
     display: none;
   }
   .option div a {
-    font-size: 30px;
+    font-size: calc(20px + 1vw);
   }
   .option div {
-    padding: 2% 0 8% 0%;
+    padding: 0% 0 0% 0%;
   }
   .option div .icon {
     margin-right: 0;
@@ -59,7 +71,12 @@
   .logo {
     padding: 2% 0 8% 0% !important;
   }
-  .logo .link-profile .name {
+  .logo-avatar {
+    margin: 0 auto;
+    width: 35px;
+    height: 35px;
+  }
+  .link-profile .logo .name {
     display: none;
   }
 }

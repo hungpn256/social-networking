@@ -1,17 +1,17 @@
-import React, { useRef, useState } from 'react';
-import styles from './styles.module.css';
-import { Image, Input, Spin } from 'antd';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGrin } from '@fortawesome/free-regular-svg-icons';
 import {
   faCamera,
   faImages,
   faMapMarkedAlt,
   faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
-import { v1 as uuidv1 } from 'uuid';
-import { faGrin } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Image, Input, Spin } from 'antd';
+import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { v1 as uuidv1 } from 'uuid';
 import * as profileActions from '../../Pages/Profile/actions';
+import styles from './styles.module.css';
 const { TextArea } = Input;
 export default function PostArticle({ loading }) {
   const posterText = useRef(null);

@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { call, put, takeEvery, takeLatest, all, select } from 'redux-saga/effects';
+import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import handleUpload from '../../Helper/UploadImage';
 import * as profileActions from './actions';
 import * as profileConstant from './constants';
@@ -7,7 +7,6 @@ import services from './service';
 
 //Change cover
 function* changeCoverSaga({ payload }: { payload: any }) {
-  debugger;
   yield put(profileActions.changeState({ changeCoverRequesting: true }));
   try {
     const urlImage = yield call(handleUpload, payload);
@@ -67,7 +66,6 @@ function* postArticleSaga({ payload }: { payload: any }) {
   yield put(profileActions.changeState({ postArticleRequesting: true }));
   try {
     if (payload.images.length > 0 && typeof payload.images[0]?.url !== 'string') {
-      debugger;
       const urlImage = yield call(handleUpload, payload.images[0]);
       payload.images = [{ url: urlImage }];
     }
@@ -86,7 +84,6 @@ function* deleteArticleSaga({ payload }) {
   yield put(profileActions.changeState({ deleteArticleRequesting: true }));
   try {
     const res = yield call(services.deleteArticle, payload);
-    debugger;
     yield put(profileActions.deleteArticleSuccess(res.data.post));
     toast.success('delete article success');
   } catch (err) {

@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     dispatch(homeActions.getUserRecomment());
     dispatch(homeActions.getArticle());
-  }, []);
+  }, [dispatch]);
   return (
     <div className={styles['App']}>
       <div className={styles['container']}>

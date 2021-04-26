@@ -15,6 +15,6 @@
 }
 @media (max-width: 892px) {
   .container {
-    grid-template-columns: 80px 85% 0%;
+    grid-template-columns: calc(40px + 6vw) 85% 0%;
   }
 }

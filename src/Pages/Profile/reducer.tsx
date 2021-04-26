@@ -56,7 +56,6 @@ const reducer = (state = initialState, action: any) => {
     }
     case profileConstant.PROFILE_DELETE_ARTICLE_SUCCESS: {
       let articles = _.differenceBy([...state.articles], [{ ...action.payload }], '_id');
-      debugger;
       return {
         ...state,
         articles,

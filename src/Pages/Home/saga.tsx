@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { call, put, takeEvery, takeLatest, all, select, delay } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import * as homeActions from './actions';
 import * as homeConstant from './constants';
 import services from './service';

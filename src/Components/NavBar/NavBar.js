@@ -1,15 +1,4 @@
-import React from 'react';
-import styles from './NavBar.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTwitter } from '@fortawesome/free-brands-svg-icons';
-import {
-  DownCircleTwoTone,
-  HomeFilled,
-  LoginOutlined,
-  SettingOutlined,
-  UnorderedListOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 import {
   faBell,
   faBookmark,
@@ -20,33 +9,35 @@ import {
   faListAlt,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Avatar from 'antd/lib/avatar/avatar';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import styles from './NavBar.module.css';
 function NavBar() {
   const user = useSelector((state) => state.login.user);
   return (
     <div>
       <div className={styles['options-menu']}>
         <div className={styles['options-center']}>
-          <div className={styles['logo']}>
-            <Link
-              className={styles['link-profile']}
-              to={`/profile/${user._id}`}
-              style={{ color: '#000' }}
-            >
+          <Link
+            className={styles['link-profile']}
+            to={`/profile/${user._id}`}
+            style={{ color: '#000' }}
+          >
+            <div className={styles['logo']}>
               <Avatar
                 src={user?.avatar}
                 icon={<UserOutlined />}
                 alt=""
-                size={60}
-                style={{ marginLeft: 4, marginRight: 20 }}
+                className={styles['logo-avatar']}
               />
               <span
                 className={styles['name']}
               >{`${user.name.firstName} ${user.name.lastName}`}</span>
-            </Link>
-          </div>
+            </div>
+          </Link>
           <div className={styles['option']}>
             <div>
               <a href=" # ">

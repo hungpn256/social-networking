@@ -1,4 +1,25 @@
-.action-article {
+.action-like:hover {
+  animation: like 5s infinite;
+}
+@keyframes like {
+  0% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(1.8) rotate(10deg);
+  }
+  35% {
+    transform: scale(1.5) rotate(-5deg);
+  }
+  60% {
+    transform: scale(1.8) rotate(-30deg);
+  }
+  70% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 .comment-form {
   height: 50px;

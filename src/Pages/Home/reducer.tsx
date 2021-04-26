@@ -28,7 +28,6 @@ const reducer = (state = initialState, action: any) => {
     }
     case profileConstant.PROFILE_DELETE_ARTICLE_SUCCESS: {
       let articles = _.differenceBy([...state.articles], [{ ...action.payload }], '_id');
-      debugger;
       return {
         ...state,
         articles,
@@ -36,7 +35,6 @@ const reducer = (state = initialState, action: any) => {
     }
     case profileConstant.PROFILE_POST_ARTICLE_SUCCESS: {
       let articles = [{ ...action.payload }, ...state.articles];
-      debugger;
       return {
         ...state,
         articles,

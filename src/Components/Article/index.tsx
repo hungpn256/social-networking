@@ -1,6 +1,11 @@
 import { UserOutlined } from '@ant-design/icons';
 import { faComment, faHeart, faShareSquare } from '@fortawesome/free-regular-svg-icons';
-import { faEllipsisV, faGlobeAmericas, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEllipsisV,
+  faGlobeAmericas,
+  faPaperPlane,
+  faHeart as faHeartSolid,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Avatar,
@@ -59,7 +64,8 @@ const { Paragraph } = Typography;
 export default function Para({ article }) {
   const { createBy: user } = article;
   const [comments, setComments] = useState([]);
-  const [loading, setLoading] = React.useState();
+  const [actionLike, setActionLike] = useState(0);
+  const [loading, setLoading] = React.useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
@@ -174,7 +180,7 @@ export default function Para({ article }) {
             <Image.PreviewGroup>
               <Image
                 width="100%"
-                style={{ aspectRatio: '1 / 1', maxWidth: '100%', objectFit: 'cover' }}
+                style={{ aspectRatio: '4 / 3', maxWidth: '100%', objectFit: 'cover' }}
                 src={article.images[0].url}
               ></Image>
             </Image.PreviewGroup>
@@ -182,7 +188,16 @@ export default function Para({ article }) {
         </div>
         <Divider style={{ margin: 0, borderTop: '1px solid rgba(0,0,0,0.2)' }} />
         <div className={styles['action-article']}>
-          <FontAwesomeIcon className={styles['action-article-icon']} icon={faHeart} />
+          <FontAwesomeIcon
+            className={`${styles['action-article-icon']} ${styles['action-like']}`}
+            icon={actionLike === 0 ? faHeart : faHeartSolid}
+            onMouseEnter={(e) => {
+              setActionLike(1);
+            }}
+            onMouseLeave={(e) => {
+              setActionLike(0);
+            }}
+          />
           <FontAwesomeIcon className={styles['action-article-icon']} icon={faComment} />
           <FontAwesomeIcon className={styles['action-article-icon']} icon={faShareSquare} />
         </div>
