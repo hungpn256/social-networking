@@ -80,7 +80,7 @@ function App() {
         />
         {renderRoute()}
       </Switch>
-      <CircleSOS />
+      {login.success && <CircleSOS />}
     </>
   );
 }
