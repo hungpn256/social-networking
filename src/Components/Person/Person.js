@@ -37,6 +37,7 @@ function Person({ person }) {
           onClick={() => {
             handleFollow();
           }}
+          style={{ color: !follow ? '#00a7ff' : '#fff', background: follow ? '#00a7ff' : '#fff' }}
         >
           {follow ? 'Un Follow' : 'Follow'}
         </button>

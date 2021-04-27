@@ -172,20 +172,21 @@ export default function Profile({ user }) {
 
             <div className={styles['infor-nav']}>
               <ul className={styles['infor-nav-list']}>
-                <li className={styles['infor-nav-item']}>
-                  <Link to={'/phôt'} className={styles['infor-nav-item-link']}>
-                    More
-                  </Link>
-                </li>
-                <li className={styles['infor-nav-item']}>
-                  <Link className={styles['infor-nav-item-link']}>Follower</Link>
-                </li>
-                <li className={styles['infor-nav-item']}>
-                  <Link className={styles['infor-nav-item-link']}>Photos</Link>
-                </li>
-                <li className={styles['infor-nav-item']}>
-                  <Link className={styles['infor-nav-item-link']}>About</Link>
-                </li>
+                <Link to={'/profile/' + _id + '/photos'} className={styles['infor-nav-item-link']}>
+                  <li className={styles['infor-nav-item']}>More</li>
+                </Link>
+                <Link
+                  to={'/profile/' + _id + '/follower'}
+                  className={styles['infor-nav-item-link']}
+                >
+                  <li className={styles['infor-nav-item']}>Follower</li>
+                </Link>
+                <Link to={'/profile/' + _id + '/photos'} className={styles['infor-nav-item-link']}>
+                  <li className={styles['infor-nav-item']}>Photos</li>
+                </Link>
+                <Link to={'/profile/' + _id + '/about'} className={styles['infor-nav-item-link']}>
+                  <li className={styles['infor-nav-item']}>About</li>
+                </Link>
               </ul>
             </div>
           </div>
@@ -241,9 +242,10 @@ export default function Profile({ user }) {
                   <h3>Photos</h3>
                   <div className={styles['photo-list']}>
                     <Image.PreviewGroup>
-                      {listImg?.map((article) => {
+                      {listImg?.map((article, index) => {
                         return (
                           <Image
+                            key={index + Math.random()}
                             width={'98%'}
                             height={120}
                             src={article.images[0].url}
@@ -261,8 +263,8 @@ export default function Profile({ user }) {
                   <PostArticle loading={profileState?.postArticleRequesting ?? false} />
                 )}
                 {articles &&
-                  articles.map((article) => {
-                    return <Article article={article} />;
+                  articles.map((article, index: number) => {
+                    return <Article key={article._id} article={article} />;
                   })}
               </div>
             </div>

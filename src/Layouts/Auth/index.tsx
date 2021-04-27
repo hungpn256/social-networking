@@ -15,8 +15,14 @@ function Auth({ routes }) {
               <Route path="/auth" exact>
                 <Redirect to="/auth/login"></Redirect>
               </Route>
-              {routes.map((route: any) => {
-                return <Route path={route.path} component={route.component}></Route>;
+              {routes.map((route: any, index: number) => {
+                return (
+                  <Route
+                    key={index + Math.random()}
+                    path={route.path}
+                    component={route.component}
+                  ></Route>
+                );
               })}
             </div>
           </section>

@@ -9,8 +9,8 @@ function Content({ articles }) {
     <div className={styles['content-menu']}>
       <PostArticle loading={profileState?.postArticleRequesting ?? false} />
       {articles &&
-        articles.map((article) => {
-          return <Article article={article} />;
+        articles.map((article, index) => {
+          return <Article article={article} key={index} />;
         })}
     </div>
   );

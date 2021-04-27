@@ -32,6 +32,7 @@
   font-size: 17px;
   text-transform: capitalize;
   cursor: pointer;
+  transition: 1s;
 }
 .send-follow-request button:hover {
   background: #d8eeff;

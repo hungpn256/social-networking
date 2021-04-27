@@ -11,7 +11,7 @@ function* changeCoverSaga({ payload }: { payload: any }) {
   try {
     const urlImage = yield call(handleUpload, payload);
     const res = yield call(services.updateProfile, { cover: urlImage });
-    yield put(profileActions.postArticle({ images: [{ url: urlImage }] }));
+    yield put(profileActions.postArticle({ images: [{ url: urlImage }], action: 'Changed cover' }));
     yield put(profileActions.changeCoverSuccess(res.data));
     toast.success('change cover success');
   } catch (err) {
@@ -27,7 +27,9 @@ function* changeAvatarSaga({ payload }: { payload: any }) {
   try {
     const urlImage = yield call(handleUpload, payload);
     const res = yield call(services.updateProfile, { avatar: urlImage });
-    yield put(profileActions.postArticle({ images: [{ url: urlImage }] }));
+    yield put(
+      profileActions.postArticle({ images: [{ url: urlImage }], action: 'Changed avatar' })
+    );
     yield put(profileActions.changeAvatarSuccess(res.data));
     toast.success('change avatar success');
   } catch (err) {

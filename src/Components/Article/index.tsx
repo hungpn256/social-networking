@@ -145,9 +145,11 @@ export default function Para({ article }) {
                     {user.name.firstName + ' ' + user.name.lastName}
                   </h3>
                 </Link>
-                <div style={{ fontSize: 11, fontWeight: 300, marginLeft: 4, color: '#666' }}>
-                  Changed avatar
-                </div>
+                {article?.action && (
+                  <div style={{ fontSize: 11, fontWeight: 300, marginLeft: 4, color: '#666' }}>
+                    {article?.action}
+                  </div>
+                )}
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center' }}>

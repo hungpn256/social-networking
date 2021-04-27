@@ -36,7 +36,6 @@ i {
   margin: 0 auto;
   position: relative;
   overflow: hidden;
-  border-radius: 10px;
 }
 @keyframes fadeIn {
   from {
@@ -156,7 +155,8 @@ i {
   width: 100%;
   background-color: rgb(255, 244, 245);
   display: block;
-  border-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   border: 1px solid #d8d8d8;
 }
 .infor-nav-list {
@@ -170,7 +170,7 @@ i {
   text-align: center;
   line-height: 40px;
   cursor: pointer;
-  transition: all ease-in 0.2s;
+  transition: background ease-in 0.2s;
   font-size: 14px;
   margin: 0;
   padding: 0;
@@ -184,13 +184,14 @@ i {
 .infor-nav-item-link {
   color: #777777;
 }
-.infor-nav-item:hover .infor-nav-item-link {
+.infor-nav-item-link:hover {
+  color: #fff;
+}
+.infor-nav-item:hover {
   color: #fff;
 }
 .infor-nav-item:active {
   background-color: #ec410d;
-}
-.infor-nav-item-link {
 }
 
 .detail {
