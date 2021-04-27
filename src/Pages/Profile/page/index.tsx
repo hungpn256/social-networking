@@ -30,7 +30,10 @@ export default function Profile({ user }) {
   const { token } = login;
   const [offsetTop, setOffset] = useState(60);
   const { loadingPage, user: userProfile, articles, isFollowed } = profileState;
-  const [f, setF] = useState(!!isFollowed);
+  const [f, setF] = useState(isFollowed === 1 ? true : false);
+  useEffect(() => {
+    setF(isFollowed === 1 ? true : false);
+  }, [isFollowed]);
   const params = useParams();
   const { _id } = params;
   const dispatch = useDispatch();
@@ -55,9 +58,6 @@ export default function Profile({ user }) {
       window.removeEventListener('resize', setOffsetTop);
     };
   }, []);
-  if (loadingPage) {
-    return <LoadingGlobal />;
-  }
   const handleChangeCover = (file) => {
     if (file) {
       dispatch(profileActions.changeCover(file));
@@ -83,6 +83,9 @@ export default function Profile({ user }) {
       </Menu.Item>
     </Menu>
   );
+  if (loadingPage) {
+    return <LoadingGlobal />;
+  }
   return (
     <div className={styles['DevKen']}>
       <div className={styles['content']}>
@@ -111,17 +114,11 @@ export default function Profile({ user }) {
                     className={styles['change-cover']}
                     onClick={() => {
                       dispatch(loginActions.followUser(_id));
-                      let btn = document.getElementById('content-button-follow');
-                      if (btn?.textContent === 'Follow') {
-                        btn.textContent = 'UnFollow';
-                      } else btn.textContent = 'Follow';
                       setF(!f);
                     }}
                   >
                     <FontAwesomeIcon icon={f ? faEyeSlash : faEye} />{' '}
-                    <span id="content-button-follow">
-                      {isFollowed === 1 ? 'UnFollow' : 'Follow'}
-                    </span>
+                    <span id="content-button-follow">{f ? 'UnFollow' : 'Follow'}</span>
                   </label>
                 </>
               ) : (

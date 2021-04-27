@@ -236,6 +236,9 @@ i {
   font-size: 16px;
   font-weight: 400;
 }
+.detail-resume-item .mr-10 {
+  min-width: 15px;
+}
 
 .photo {
   margin-top: 10px;

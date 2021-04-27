@@ -27,7 +27,7 @@ import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import styles from './styles.module.css';
 import * as profileActions from '../../Pages/Profile/actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 const { TextArea } = Input;
 
 const CommentList = ({ comments }) => (
@@ -63,6 +63,7 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
 const { Paragraph } = Typography;
 export default function Para({ article }) {
   const { createBy: user } = article;
+  const userLogin = useSelector((state) => state.login);
   const [comments, setComments] = useState([]);
   const [actionLike, setActionLike] = useState(0);
   const [loading, setLoading] = React.useState(false);
@@ -88,7 +89,7 @@ export default function Para({ article }) {
   );
   useEffect(() => {
     article?.images[0]?.url && setLoading(true);
-  }, [article._id]);
+  }, [article._id, article?.images]);
   useEffect(() => {
     const setvisiableTrue = setTimeout(() => {
       setLoading(false);
@@ -108,8 +109,8 @@ export default function Para({ article }) {
       setComments([
         ...comments,
         {
-          author: 'Han Solo',
-          avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+          author: userLogin.name.firstName + ' ' + userLogin.name.lastName,
+          avatar: userLogin.avatar,
           content: <p>{value}</p>,
           datetime: moment().fromNow(),
         },
