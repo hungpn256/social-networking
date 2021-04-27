@@ -17,11 +17,7 @@ function Auth({ routes }) {
               </Route>
               {routes.map((route: any, index: number) => {
                 return (
-                  <Route
-                    key={index + Math.random()}
-                    path={route.path}
-                    component={route.component}
-                  ></Route>
+                  <Route key={route.path} path={route.path} component={route.component}></Route>
                 );
               })}
             </div>

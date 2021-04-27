@@ -250,7 +250,7 @@ export default function Profile() {
                       {listImg?.map((article: IArticle, index: number) => {
                         return (
                           <Image
-                            key={index + Math.random()}
+                            key={index}
                             width={'98%'}
                             height={120}
                             src={article.images[0].url}
