@@ -3,7 +3,8 @@ import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import * as loginActions from './actions';
 import * as loginConstants from './constants';
 import services from './service';
-function* loginSaga({ payload }) {
+import { AnyAction } from 'redux';
+function* loginSaga({ payload }: AnyAction) {
   yield put(loginActions.changeState({ requesting: true }));
   try {
     const res = yield call(services.login, payload);
@@ -17,7 +18,7 @@ function* loginSaga({ payload }) {
     yield put(loginActions.changeState({ requesting: false }));
   }
 }
-function* followUserSaga({ payload }) {
+function* followUserSaga({ payload }: AnyAction) {
   try {
     yield call(services.followUser, payload);
     toast.success('follow success');

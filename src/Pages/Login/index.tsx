@@ -7,13 +7,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import styles from '../Signup/styles.module.css';
 import * as LoginActions from './actions';
+import IloginState from '../../Models/login';
 // import {fa} from '@fortawesome/free-solid-svg-icons
 export interface ILogin {
-  username: string;
+  email: string;
   password: string;
 }
 function Login() {
-  const location = useLocation();
+  const { state: stateLocation }: { state: { prePath: string } } = useLocation();
   const dispatch = useDispatch();
   const {
     register,
@@ -24,10 +25,10 @@ function Login() {
     const { email, password } = data;
     dispatch(LoginActions.login({ email, password }));
   };
-  const login = useSelector((state) => state.login);
+  const login = useSelector((state: { login: IloginState }) => state.login);
   const { requesting, success } = login;
   if (success) {
-    return <Redirect to={location.state?.prePath ?? '/'}></Redirect>;
+    return <Redirect to={stateLocation?.prePath ?? '/'}></Redirect>;
   }
   return (
     <div className={styles['contentBx']}>

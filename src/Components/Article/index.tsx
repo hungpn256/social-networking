@@ -22,15 +22,26 @@ import {
   Typography,
 } from 'antd';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import styles from './styles.module.css';
 import * as profileActions from '../../Pages/Profile/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import IArticle from '../../Models/article';
+import ILogin from '../../Models/login';
 const { TextArea } = Input;
 
-const CommentList = ({ comments }) => (
+const CommentList = ({
+  comments,
+}: {
+  comments: Array<{
+    author: string;
+    avatar: string | undefined;
+    content: JSX.Element;
+    datetime: string;
+  }>;
+}) => (
   <List
     dataSource={comments}
     header={`${comments.length} ${comments.length > 1 ? 'replies' : 'reply'}`}
@@ -39,7 +50,17 @@ const CommentList = ({ comments }) => (
   />
 );
 
-const Editor = ({ onChange, onSubmit, submitting, value }) => (
+const Editor = ({
+  onChange,
+  onSubmit,
+  submitting,
+  value,
+}: {
+  onChange: (e: ChangeEvent<HTMLElement>) => void;
+  onSubmit: () => void;
+  submitting: boolean;
+  value: string;
+}) => (
   <>
     <Form.Item>
       <TextArea
@@ -61,10 +82,17 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
   </>
 );
 const { Paragraph } = Typography;
-export default function Para({ article }) {
+export default function Para({ article }: { article: IArticle }) {
   const { createBy: user } = article;
-  const userLogin = useSelector((state) => state.login);
-  const [comments, setComments] = useState([]);
+  const { user: userLogin } = useSelector((state: { login: ILogin }) => state.login);
+  const [comments, setComments] = useState<
+    Array<{
+      author: string;
+      avatar: string | undefined;
+      content: JSX.Element;
+      datetime: string;
+    }>
+  >([]);
   const [actionLike, setActionLike] = useState(0);
   const [loading, setLoading] = React.useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -109,15 +137,15 @@ export default function Para({ article }) {
       setComments([
         ...comments,
         {
-          author: userLogin.name.firstName + ' ' + userLogin.name.lastName,
-          avatar: userLogin.avatar,
+          author: userLogin?.name.firstName + ' ' + userLogin?.name.lastName,
+          avatar: userLogin?.avatar,
           content: <p>{value}</p>,
           datetime: moment().fromNow(),
         },
       ]);
     }, 1000);
   };
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
   return (

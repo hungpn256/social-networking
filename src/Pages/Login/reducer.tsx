@@ -1,11 +1,12 @@
 import * as loginConstants from './constants';
 import * as profileConstant from '../Profile/constants';
 import axios from 'axios';
-const initialState = {
+import ILogin from '../../Models/login';
+const initialState: ILogin = {
   requesting: false,
   success: false,
   user: null,
-  token: localStorage.getItem('token'),
+  token: JSON.stringify(localStorage.getItem('token')),
   error: null,
 };
 

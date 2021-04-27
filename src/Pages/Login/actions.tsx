@@ -1,5 +1,5 @@
 import * as constantsType from './constants';
-export const login = (payload: { username: string; password: string }) => ({
+export const login = (payload: { email: string; password: string }) => ({
   type: constantsType.LOGIN,
   payload,
 });

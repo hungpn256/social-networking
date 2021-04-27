@@ -1,4 +1,5 @@
 import { toast } from 'react-toastify';
+import { AnyAction } from 'redux';
 import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import handleUpload from '../../Helper/UploadImage';
 import * as profileActions from './actions';
@@ -6,7 +7,7 @@ import * as profileConstant from './constants';
 import services from './service';
 
 //Change cover
-function* changeCoverSaga({ payload }: { payload: any }) {
+function* changeCoverSaga({ payload }: AnyAction) {
   yield put(profileActions.changeState({ changeCoverRequesting: true }));
   try {
     const urlImage = yield call(handleUpload, payload);
@@ -22,7 +23,7 @@ function* changeCoverSaga({ payload }: { payload: any }) {
   }
 }
 // Change avatar
-function* changeAvatarSaga({ payload }: { payload: any }) {
+function* changeAvatarSaga({ payload }: AnyAction) {
   yield put(profileActions.changeState({ requesting: true }));
   try {
     const urlImage = yield call(handleUpload, payload);
@@ -41,7 +42,7 @@ function* changeAvatarSaga({ payload }: { payload: any }) {
 }
 
 //Change User
-function* changeUserSaga({ payload }: { payload: any }) {
+function* changeUserSaga({ payload }: AnyAction) {
   yield put(profileActions.changeState({ loadingPage: true }));
   const { _id } = payload;
   const arrayService = [
@@ -64,7 +65,7 @@ function* changeUserSaga({ payload }: { payload: any }) {
 }
 
 // Post Article
-function* postArticleSaga({ payload }: { payload: any }) {
+function* postArticleSaga({ payload }: AnyAction) {
   yield put(profileActions.changeState({ postArticleRequesting: true }));
   try {
     if (payload.images.length > 0 && typeof payload.images[0]?.url !== 'string') {
@@ -82,7 +83,7 @@ function* postArticleSaga({ payload }: { payload: any }) {
   }
 }
 //deleteArticle
-function* deleteArticleSaga({ payload }) {
+function* deleteArticleSaga({ payload }: AnyAction) {
   yield put(profileActions.changeState({ deleteArticleRequesting: true }));
   try {
     const res = yield call(services.deleteArticle, payload);
@@ -96,7 +97,7 @@ function* deleteArticleSaga({ payload }) {
   }
 }
 //Get Articles
-function* getArticlesSaga({ payload }: { payload: any }) {
+function* getArticlesSaga({ payload }: AnyAction) {
   yield put(profileActions.changeState({ getArticleRequesting: true }));
   try {
     const res = yield call(services.getArticles, { ...payload });

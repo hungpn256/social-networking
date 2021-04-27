@@ -1,5 +1,6 @@
+import ISignUp from '../../Models/signUp';
 import * as signUpConstants from './constants';
-const initialState = {
+const initialState: ISignUp = {
   requesting: false,
   success: false,
   error: null,

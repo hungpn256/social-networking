@@ -5,9 +5,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import * as signUpActions from './actions';
 import styles from './styles.module.css';
+import ISignUpState from '../../Models/signUp';
 export interface ISignup {
-  username: string;
+  email: string;
   password: string;
+  EPassword?: string;
+  gender: number;
+  phoneNumber: string;
+  firstName: string;
+  lastName: string;
 }
 function Signup(props: any) {
   const dispatch = useDispatch();
@@ -16,7 +22,7 @@ function Signup(props: any) {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const signUp = useSelector((state) => state.signUp);
+  const signUp = useSelector((state: { signUp: ISignUpState }) => state.signUp);
   const { requesting, success } = signUp;
   const onSubmit = (data: ISignup) => {
     const { password, EPassword } = data;

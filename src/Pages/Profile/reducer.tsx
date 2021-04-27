@@ -1,6 +1,7 @@
 import * as profileConstant from './constants';
 import * as _ from 'lodash';
-const initialState = {
+import Iprofile from '../../Models/profile';
+const initialState: Iprofile = {
   requesting: false,
   success: false,
   user: null,

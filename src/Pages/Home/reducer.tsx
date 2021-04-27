@@ -1,7 +1,8 @@
 import * as homeConstants from './constants';
 import * as profileConstant from '../Profile/constants';
 import * as _ from 'lodash';
-const initialState = {
+import IHome from '../../Models/home';
+const initialState: IHome = {
   requesting: false,
   success: false,
   usersRecomment: null,

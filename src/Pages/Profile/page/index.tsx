@@ -14,27 +14,31 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Affix, Dropdown, Image, Menu, Spin } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import userImg from '../../../Assets/user.png';
 import Article from '../../../Components/Article';
 import LoadingGlobal from '../../../Components/LoadingGlobal';
 import PostArticle from '../../../Components/PostArticle';
+import * as loginActions from '../../Login/actions';
 import * as profileActions from '../actions';
 import styles from './styles.module.css';
-import * as loginActions from '../../Login/actions';
-export default function Profile({ user }) {
-  const profileState = useSelector((state) => state.profile);
-  const login = useSelector((state) => state.login);
+import IArticle from '../../../Models/article';
+import ILogin from '../../../Models/login';
+import IProfile from '../../../Models/profile';
+export default function Profile() {
+  const { profile: profileState, login } = useSelector(
+    (state: { login: ILogin; profile: IProfile }) => state
+  );
   const { token } = login;
-  const [offsetTop, setOffset] = useState(60);
+  const [offsetTop, setOffset] = useState<string | number>(60);
   const { loadingPage, user: userProfile, articles, isFollowed } = profileState;
-  const [f, setF] = useState(isFollowed === 1 ? true : false);
+  const [f, setF] = useState<boolean>(isFollowed === 1 ? true : false);
   useEffect(() => {
     setF(isFollowed === 1 ? true : false);
   }, [isFollowed]);
-  const params = useParams();
+  const params: { _id: string } = useParams();
   const { _id } = params;
   const dispatch = useDispatch();
   const history = useHistory();
@@ -42,8 +46,9 @@ export default function Profile({ user }) {
     dispatch({ type: 'CLEAR_STATE_PROFILE' });
     dispatch(profileActions.getUser({ _id }));
   }, [_id, token, dispatch]);
-  const onChangeAvatar = (e) => {
-    const file = e.target.files[0];
+  const onChangeAvatar = (e: ChangeEvent<HTMLInputElement>) => {
+    const target = e.target;
+    const file: File = (target.files as FileList)[0];
     if (file) {
       dispatch(profileActions.changeAvatar(file));
     }
@@ -58,19 +63,20 @@ export default function Profile({ user }) {
       window.removeEventListener('resize', setOffsetTop);
     };
   }, []);
-  const handleChangeCover = (file) => {
+  const handleChangeCover = (file: File) => {
     if (file) {
       dispatch(profileActions.changeCover(file));
     }
   };
-  const listImg = articles && articles.filter((article) => article.images[0]).splice(0, 9);
+  const listImg =
+    articles && articles.filter((article: IArticle) => article.images[0]).splice(0, 9);
   const menu = (
     <Menu style={{ marginTop: 20, borderRadius: 10 }}>
       <Menu.Item
         key="1"
         onClick={() => {
-          const changeAvatar = document.getElementById('changeAvatar');
-          changeAvatar.click();
+          const changeAvatar: HTMLElement | null = document.getElementById('changeAvatar');
+          changeAvatar?.click();
         }}
       >
         <label> Update profile picture</label>
@@ -105,7 +111,9 @@ export default function Profile({ user }) {
                     accept="image"
                     id="change-cover"
                     style={{ display: 'none' }}
-                    onChange={(e) => handleChangeCover(e.target.files[0])}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                      handleChangeCover((e.target.files as FileList)[0])
+                    }
                   ></input>
                 </>
               ) : isFollowed === 2 || isFollowed === 1 ? (
@@ -239,7 +247,7 @@ export default function Profile({ user }) {
                   <h3>Photos</h3>
                   <div className={styles['photo-list']}>
                     <Image.PreviewGroup>
-                      {listImg?.map((article, index) => {
+                      {listImg?.map((article: IArticle, index: number) => {
                         return (
                           <Image
                             key={index + Math.random()}
@@ -260,7 +268,7 @@ export default function Profile({ user }) {
                   <PostArticle loading={profileState?.postArticleRequesting ?? false} />
                 )}
                 {articles &&
-                  articles.map((article, index: number) => {
+                  articles.map((article: IArticle, index: number) => {
                     return <Article key={article._id} article={article} />;
                   })}
               </div>
