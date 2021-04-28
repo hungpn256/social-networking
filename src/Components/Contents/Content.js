@@ -10,7 +10,7 @@ function Content({ articles }) {
       <PostArticle loading={profileState?.postArticleRequesting ?? false} />
       {articles &&
         articles.map((article, index) => {
-          return <Article article={article} key={index} />;
+          return <Article article={article} key={article._id} />;
         })}
     </div>
   );
