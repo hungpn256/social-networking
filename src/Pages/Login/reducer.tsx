@@ -6,7 +6,7 @@ const initialState: ILogin = {
   requesting: false,
   success: false,
   user: null,
-  token: JSON.stringify(localStorage.getItem('token')),
+  token: localStorage.getItem('token'),
   error: null,
 };
 
