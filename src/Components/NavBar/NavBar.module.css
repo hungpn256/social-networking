@@ -1,7 +1,6 @@
 .options-menu {
   width: 99.8%;
   border-right: 1px solid #e8e8e8;
-  height: 760px;
 }
 .options-center {
   width: 75%;
@@ -33,8 +32,9 @@
 }
 .option {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
 }
 .option div a {
   text-decoration: none;
@@ -53,8 +53,14 @@
   }
 }
 @media (max-width: 892px) {
+  .options-menu {
+    position: fixed;
+    bottom: 0;
+    z-index: 100;
+    background-color: rgba(255, 255, 255, 0.9);
+  }
   .option {
-    align-items: center;
+    justify-content: center;
   }
   .option div a span {
     display: none;
@@ -69,12 +75,7 @@
     margin-right: 0;
   }
   .logo {
-    padding: 2% 0 8% 0% !important;
-  }
-  .logo-avatar {
-    margin: 0 auto;
-    width: 35px;
-    height: 35px;
+    display: none;
   }
   .link-profile .logo .name {
     display: none;

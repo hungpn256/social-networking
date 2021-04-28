@@ -2,8 +2,8 @@
   background-color: rgba(255, 82, 82, 1);
   border-radius: 50%;
   animation: pulse-red 2s infinite;
-  height: 60px;
-  width: 60px;
+  height: calc(30px + 3vw);
+  width: calc(30px + 3vw);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,8 +13,8 @@
 .circle-item {
   background-color: rgba(255, 82, 82, 1);
   border-radius: 50%;
-  height: 60px;
-  width: 60px;
+  height: calc(30px + 6vw);
+  width: calc(30px + 6vw);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -46,7 +46,6 @@
     transform: scale(1.1);
     box-shadow: 0 0 0 15px rgba(255, 82, 82, 0);
   }
-
   100% {
     transform: scale(0.9);
     box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.2);
@@ -54,6 +53,6 @@
 }
 .container {
   position: fixed;
-  bottom: 20px;
+  bottom: 80px;
   right: 20px;
 }

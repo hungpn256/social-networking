@@ -200,12 +200,17 @@ export default function Para({ article }: { article: IArticle }) {
             ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}
             style={{ fontSize: 14, margin: '5px 15px' }}
           >
-            {article?.text?.split(/\n/).map((line) => (
-              <>
-                {line}
-                <br />
-              </>
-            ))}
+            {article?.text?.split(/\n/).map((line, index, array) => {
+              if (index !== array.length - 1) {
+                return (
+                  <>
+                    {line}
+                    <br />
+                  </>
+                );
+              }
+              return line;
+            })}
           </Paragraph>
           {article.images[0]?.url && (
             <Image.PreviewGroup>

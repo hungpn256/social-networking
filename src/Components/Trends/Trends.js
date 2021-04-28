@@ -11,8 +11,8 @@ function Trends({ userRecomment }) {
             <p>What 's happening'</p>
           </div>
           <div className={styles['trends']}>
-            {[1, 2].map((item) => (
-              <Trend key={item} />
+            {[1, 2].map((item, index) => (
+              <Trend key={index} />
             ))}
           </div>
           {/* <div className={styles['show-more']}>
