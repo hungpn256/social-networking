@@ -1,5 +1,5 @@
 .options-menu {
-  width: 99.8%;
+  width: 100%;
   border-right: 1px solid #e8e8e8;
 }
 .options-center {
@@ -56,11 +56,21 @@
   .options-menu {
     position: fixed;
     bottom: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
     background-color: rgba(255, 255, 255, 0.9);
   }
+  .options-center {
+    width: 100%;
+    margin: 0;
+  }
   .option {
     justify-content: center;
+    background-color: #f1f1f1;
+  }
+  .option div:nth-child(even) {
+    display: none;
   }
   .option div a span {
     display: none;
@@ -70,6 +80,10 @@
   }
   .option div {
     padding: 0% 0 0% 0%;
+    width: 25%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
   }
   .option div .icon {
     margin-right: 0;

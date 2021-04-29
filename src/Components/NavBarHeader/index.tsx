@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import { Badge, Dropdown, Input, Menu } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import Logo from '../../Assets/logo.png';
@@ -16,7 +16,7 @@ import styles from './styles.module.css';
 import { faFacebookMessenger } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
-
+import * as _ from 'lodash';
 const { Search } = Input;
 
 export default function Home(props: any) {
@@ -26,6 +26,9 @@ export default function Home(props: any) {
   const checkBtn = document.querySelector(`#${styles['check']}`);
   const dispatch = useDispatch();
   const onSearch = (value: string) => console.log(value);
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onSearch(e.target.value);
+  };
   const menu = (
     <Menu style={{ borderRadius: 10, minWidth: 150, marginTop: 7 }}>
       <Menu.Item key="0">
@@ -71,6 +74,7 @@ export default function Home(props: any) {
                 allowClear
                 size="large"
                 onSearch={onSearch}
+                onChange={onChange}
                 style={{ width: 250 }}
               />
             </label>
