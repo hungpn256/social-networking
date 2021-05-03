@@ -6,6 +6,7 @@ import NotFound from '../Components/NotFound';
 import NavBarHeader from '../Components/NavBarHeader';
 import Profile from '../Pages/Profile';
 import SearchComponent from '../Pages/SearchNav';
+import ShellChat from '../Pages/Chat/shell';
 
 enum Roles {
   USER = 'user',
@@ -29,6 +30,11 @@ const ROUTES = [
         name: 'Sign up',
       },
     ],
+  },
+  {
+    path: '/messenger',
+    component: ShellChat,
+    name: 'messenger',
   },
   {
     path: '/',
