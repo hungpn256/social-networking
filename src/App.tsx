@@ -23,6 +23,7 @@ function App() {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
+  const { pathname } = location;
   useEffect(() => {
     axios.defaults.headers.common['Authorization'] = token ? `${token}` : '';
     services
@@ -32,7 +33,7 @@ function App() {
         setReady(true);
       })
       .catch((err) => {
-        const currentPath = location.pathname;
+        const currentPath = pathname;
         const findRoute = _.findLast(ROUTES, (item) => currentPath.includes(item.path));
         if (findRoute.hasOwnProperty('authority')) {
           history.push({
@@ -42,7 +43,7 @@ function App() {
         }
         setReady(true);
       });
-  }, [token, history, dispatch, location]);
+  }, [token, dispatch]);
   const renderRoute = () => {
     if (!ready) {
       return <LoadingGlobal></LoadingGlobal>;

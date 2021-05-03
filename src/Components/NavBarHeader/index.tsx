@@ -8,9 +8,9 @@ import {
 } from '@ant-design/icons';
 import { Badge, Dropdown, Input, Menu } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import Logo from '../../Assets/logo.png';
 import styles from './styles.module.css';
 import { faFacebookMessenger } from '@fortawesome/free-brands-svg-icons';
@@ -21,12 +21,17 @@ const { Search } = Input;
 
 export default function Home(props: any) {
   const location = useLocation();
+  const history = useHistory();
   const login = useSelector((state) => state.login);
   const { user } = login;
   const checkBtn = document.querySelector(`#${styles['check']}`);
   const dispatch = useDispatch();
-  const onSearch = (value: string) => console.log(value);
+  const onSearch = (value: string) => {
+    console.log(value);
+  };
+  const [textSearch, setTextSearch] = useState('');
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTextSearch(e.target.value);
     onSearch(e.target.value);
   };
   const menu = (
@@ -73,7 +78,17 @@ export default function Home(props: any) {
                 placeholder="Search"
                 allowClear
                 size="large"
-                onSearch={onSearch}
+                value={textSearch}
+                onSearch={() =>
+                  history.push({
+                    pathname: `/search?q=${textSearch}`,
+                  })
+                }
+                onPressEnter={() =>
+                  history.push({
+                    pathname: `/search?q=${textSearch}`,
+                  })
+                }
                 onChange={onChange}
                 style={{ width: 250 }}
               />

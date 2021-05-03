@@ -5,6 +5,8 @@ import Signup from '../Pages/Signup';
 import NotFound from '../Components/NotFound';
 import NavBarHeader from '../Components/NavBarHeader';
 import Profile from '../Pages/Profile';
+import SearchComponent from '../Pages/SearchNav';
+
 enum Roles {
   USER = 'user',
   ADMIN = 'admin',
@@ -42,9 +44,16 @@ const ROUTES = [
         name: 'Home',
       },
       {
+        path: '/search?q=:txt',
+        exact: false,
+        component: SearchComponent,
+        authority: [Roles.USER, Roles.ADMIN],
+        name: 'search',
+      },
+      {
         path: '/profile/:_id',
         component: Profile,
-        name: 'Home',
+        name: 'Profile',
       },
       {
         path: '*',
