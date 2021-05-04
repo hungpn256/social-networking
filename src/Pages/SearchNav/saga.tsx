@@ -1,4 +1,3 @@
-import { toast } from 'react-toastify';
 import { AnyAction } from 'redux';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import * as searchActions from './actions';

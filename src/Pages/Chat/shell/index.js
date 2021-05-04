@@ -34,7 +34,6 @@ const ChatShell = ({
       <NoConversations></NoConversations>
     </>
   );
-
   if (conversations.length > 0) {
     conversationContent = (
       <>
@@ -60,6 +59,7 @@ const ChatShell = ({
       <ChatForm
         selectedConversation={selectedConversation}
         onMessageSubmitted={onMessageSubmitted}
+        conversationId={selectedConversation?.id ?? 0}
       />
     </div>
   );
@@ -74,8 +74,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   conversationChanged: (conversationId) => dispatch(conversationChanged(conversationId)),
-  onMessageSubmitted: (messageText) => {
-    dispatch(newMessageAdded(messageText));
+  onMessageSubmitted: (messageText, conversationId) => {
+    dispatch(newMessageAdded(messageText, conversationId));
   },
   onDeleteConversation: () => {
     dispatch(conversationDeleted());

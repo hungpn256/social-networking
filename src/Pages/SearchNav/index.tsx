@@ -1,15 +1,13 @@
+import { Result } from 'antd';
+import qs from 'query-string';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
 import Content from '../../Components/Contents/Content';
 import NavBar from '../../Components/NavBar/NavBar';
-import Trends from '../../Components/Trends/Trends';
-import styles from './styles.module.css';
-import * as searchActions from './actions';
 import Person from '../../Components/Person/Person';
-import qs from 'query-string';
-import { useLocation } from 'react-router';
-import NotFound from '../../Components/NotFound';
-import { Button, Result } from 'antd';
+import * as searchActions from './actions';
+import styles from './styles.module.css';
 function SearchComponent() {
   const dispatch = useDispatch();
   const location = useLocation();

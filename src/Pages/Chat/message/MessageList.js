@@ -9,7 +9,6 @@ const MessageList = ({ conversationId, getMessagesForConversation, loadMessages 
   const messageDetails = getMessagesForConversation(conversationId);
   const messages = messageDetails ? messageDetails.messages : null;
   let messageItems = null;
-
   useEffect(() => {
     if (!messageDetails) {
       loadMessages(conversationId, null);

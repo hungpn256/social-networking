@@ -1,6 +1,5 @@
-import * as searchConstants from './constants';
-import * as _ from 'lodash';
 import ISearch from '../../Models/search';
+import * as searchConstants from './constants';
 const initialState: ISearch = {
   requesting: false,
   success: false,
@@ -14,7 +13,6 @@ const initialState: ISearch = {
     limit: 10,
   },
 };
-
 const reducer = (state = initialState, action: any) => {
   switch (action.type) {
     case searchConstants.SEARCH_CHANGE_STATE: {

@@ -6,18 +6,17 @@ import {
   UnorderedListOutlined,
   UserOutlined,
 } from '@ant-design/icons';
+import { faFacebookMessenger } from '@fortawesome/free-brands-svg-icons';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Badge, Dropdown, Input, Menu } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
+import qs from 'query-string';
 import React, { ChangeEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import Logo from '../../Assets/logo.png';
 import styles from './styles.module.css';
-import { faFacebookMessenger } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell } from '@fortawesome/free-solid-svg-icons';
-import * as _ from 'lodash';
-import qs from 'query-string';
 const { Search } = Input;
 
 export default function Home(props: any) {

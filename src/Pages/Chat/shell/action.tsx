@@ -11,9 +11,10 @@ export const conversationDeleted = () => ({
   type: 'DELETE_CONVERSATION',
 });
 
-export const newMessageAdded = (textMessage) => ({
+export const newMessageAdded = (textMessage, conversationId) => ({
   type: 'NEW_MESSAGE_ADDED',
   textMessage,
+  conversationId,
 });
 
 export const messagesRequested = (conversationId, numberOfMessages, lastMessageId) => ({

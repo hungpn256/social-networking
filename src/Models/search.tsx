@@ -7,7 +7,7 @@ export default interface ISearch {
   error: null | string;
   loadingPage: boolean;
   articles: Array<IArticle> | [];
-  user: Array<IUser> | [];
+  users: Array<IUser> | [];
   paging: {
     page: number;
     limit: number;
