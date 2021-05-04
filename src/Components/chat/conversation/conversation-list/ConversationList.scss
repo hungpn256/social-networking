@@ -1,7 +1,19 @@
-@import '../../../../styles/_colors';
-
+@import '../../../../styles/colors';
 #conversation-list {
   grid-area: conversation-list;
   background: $primary-color;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    background-color: transparent;
+    width: 5px;
+  }
+}
+#conversation-list:hover {
+  &::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: pink;
+    border-radius: 2px;
+  }
 }

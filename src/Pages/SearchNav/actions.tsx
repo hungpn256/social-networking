@@ -1,6 +1,7 @@
 import * as constantsType from './constants';
-export const search = () => ({
+export const search = (payload) => ({
   type: constantsType.SEARCH,
+  payload,
 });
 export const searchSuccess = (payload: any) => ({
   type: constantsType.SEARCH_SUCCESS,

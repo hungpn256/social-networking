@@ -39,7 +39,6 @@ const ROUTES = [
   {
     path: '/',
     component: NavBarHeader,
-    // layout: '',
     name: 'Home',
     routes: [
       {
@@ -50,7 +49,7 @@ const ROUTES = [
         name: 'Home',
       },
       {
-        path: '/search?q=:txt',
+        path: '/search',
         exact: false,
         component: SearchComponent,
         authority: [Roles.USER, Roles.ADMIN],

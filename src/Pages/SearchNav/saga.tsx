@@ -8,8 +8,7 @@ function* searchSaga({ payload }: AnyAction) {
   yield put(searchActions.changeState({ requesting: true }));
   try {
     const res = yield call(services.search, payload);
-    debugger;
-    yield put(searchActions.searchSuccess(res.data));
+    yield put(searchActions.searchSuccess(res.data.result));
   } catch (err) {
     searchActions.searchFail(err);
   } finally {

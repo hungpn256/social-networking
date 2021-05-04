@@ -17,6 +17,7 @@ import { faFacebookMessenger } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import * as _ from 'lodash';
+import qs from 'query-string';
 const { Search } = Input;
 
 export default function Home(props: any) {
@@ -29,7 +30,7 @@ export default function Home(props: any) {
   const onSearch = (value: string) => {
     console.log(value);
   };
-  const [textSearch, setTextSearch] = useState('');
+  const [textSearch, setTextSearch] = useState(qs.parse(location.search)?.q ?? '');
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTextSearch(e.target.value);
     onSearch(e.target.value);
@@ -81,12 +82,14 @@ export default function Home(props: any) {
                 value={textSearch}
                 onSearch={() =>
                   history.push({
-                    pathname: `/search?q=${textSearch}`,
+                    pathname: `/search`,
+                    search: `?q=${textSearch}`,
                   })
                 }
                 onPressEnter={() =>
                   history.push({
-                    pathname: `/search?q=${textSearch}`,
+                    pathname: `/search`,
+                    search: `?q=${textSearch}`,
                   })
                 }
                 onChange={onChange}
