@@ -22,20 +22,25 @@ function SearchComponent() {
     <div className={styles['App']}>
       <div className={styles['container']}>
         <NavBar />
-        <div>
-          <div>Articles:</div>
-          <Content articles={articles} hidePost={true} />
-        </div>
-        <div>
-          <h3>Users</h3>
-          {users.length > 0 ? (
-            users.map((person) => {
-              return <Person person={person} key={person._id} />;
-            })
-          ) : (
-            <Result title="No anyone" />
-          )}
-        </div>
+        {articles.length > 0 && (
+          <div>
+            <div>Articles:</div>
+            <Content articles={articles} hidePost={true} />
+          </div>
+        )}
+        {users.length > 0 && (
+          <div>
+            <h3>Users</h3>
+            {users.length > 0 ? (
+              users.map((person) => {
+                return <Person person={person} key={person._id} />;
+              })
+            ) : (
+              <Result title="No anyone" />
+            )}
+          </div>
+        )}
+        {users.length === 0 && articles.length === 0 && <Result title="Nothing" />}
       </div>
     </div>
   );
