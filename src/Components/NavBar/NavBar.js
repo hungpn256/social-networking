@@ -60,13 +60,12 @@ function NavBar() {
                 <span>Notifications</span>
               </a>
             </div>
-            <div>
+            {/* <div>
               <a href=" # ">
-                {/* <i className={styles['fa fa-envelope-o']}></i> */}
                 <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faEnvelopeOpen} />
                 <span>Messages</span>
               </a>
-            </div>
+            </div> */}
             <div>
               <a href=" # ">
                 {/* <i className={styles['fa fa-bookmark-o']}></i> */}

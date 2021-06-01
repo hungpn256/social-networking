@@ -241,7 +241,7 @@ export default function Para({ article }: { article: IArticle }) {
         <Divider style={{ margin: 0, borderTop: '1px solid rgba(0,0,0,0.2)' }} />
         {comments.length > 0 && <CommentList comments={comments} />}
         <Comment
-          avatar={<Avatar icon={<UserOutlined />} src={user?.avatar} alt="Han Solo" />}
+          avatar={<Avatar icon={<UserOutlined />} src={userLogin?.avatar} alt="Han Solo" />}
           className={styles['comment-form']}
           content={
             <Editor
