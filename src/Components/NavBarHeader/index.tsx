@@ -168,7 +168,7 @@ export default function Home(props: any) {
               </ul>
               {user && (
                 <ul className={styles['chat-notification-wrapper']}>
-                  <Badge count={5} style={{ transform: 'translate(0px,-5px)' }}>
+                  {/* <Badge count={5} style={{ transform: 'translate(0px,-5px)' }}>
                     <Link to={'/messenger'}>
                       <li className={`${styles['menu-item']} ${styles['wrap-icon']}`}>
                         <FontAwesomeIcon
@@ -177,7 +177,7 @@ export default function Home(props: any) {
                         />
                       </li>
                     </Link>
-                  </Badge>
+                  </Badge> */}
                   <Badge count={25} style={{ transform: 'translate(0px,-5px)' }}>
                     <li className={`${styles['menu-item']} ${styles['wrap-icon']}`}>
                       <FontAwesomeIcon className={styles['menu-item-icon']} icon={faBell} />

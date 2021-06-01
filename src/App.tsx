@@ -81,7 +81,7 @@ function App() {
         />
         {renderRoute()}
       </Switch>
-      {/* {login.success && <CircleSOS />} */}
+      {login.success && <CircleSOS />}
     </>
   );
 }

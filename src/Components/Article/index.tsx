@@ -149,12 +149,13 @@ export default function Para({ article }: { article: IArticle }) {
     setValue(e.target.value);
   };
   return (
-    <LazyLoad offset={100} height={100} style={{ background: '#f5f5f5' }}>
+    <LazyLoad offset={100} height={100}>
       <Card
         loading={loading}
         style={{
-          boxShadow: '0px 10px 15px rgba(0, 0, 0, 0.1)',
-          borderRadius: 10,
+          filter:
+            'drop-shadow(0px 4px 6px rgba(38, 50, 56, 0.16)), drop-shadow(0px 4px 16px rgba(38, 50, 56, 0.08))',
+          borderRadius: 20,
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
