@@ -61,13 +61,6 @@ const ModalSOS = () => {
               >
                 <Input />
               </Form.Item>
-              <Form.Item
-                name={['user', 'age']}
-                label="Age"
-                rules={[{ type: 'number', min: 0, max: 99 }]}
-              >
-                <InputNumber />
-              </Form.Item>
 
               <Form.Item name={['user', 'introduction']} label="Description">
                 <Input.TextArea />
