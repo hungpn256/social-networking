@@ -27,8 +27,15 @@ const ModalSOS = () => {
   };
   return (
     <div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-        <Checkbox value={1} checked={checked === 1} onClick={() => setChecked(1)}>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          margin: '30px 0',
+        }}
+      >
+        {/* <Checkbox value={1} checked={checked === 1} onClick={() => setChecked(1)}>
           Repair SOS
         </Checkbox>
         <Checkbox
@@ -38,7 +45,17 @@ const ModalSOS = () => {
           style={{ margin: 0 }}
         >
           Accident SOS
-        </Checkbox>
+        </Checkbox> */}
+        <Button
+          type="primary"
+          style={{ width: '100%', margin: '10px 0', backgroundColor: '#EB984E' }}
+          onClick={() => setChecked(1)}
+        >
+          Repair SOS
+        </Button>
+        <Button type="primary" style={{ width: '100%' }} danger onClick={() => setChecked(2)}>
+          Accident SOS
+        </Button>
       </div>
       <div>
         {checked === 1 && (
@@ -53,17 +70,19 @@ const ModalSOS = () => {
               <Form.Item name={['user', 'name']} label="Name" rules={[{ required: true }]}>
                 <Input />
               </Form.Item>
-              <Form.Item
-                name={['user', 'email']}
-                label="Phone Number"
-                rules={[{ type: 'email' }]}
-                rules={[{ required: true }]}
-              >
+              <Form.Item name={['user', 'email']} label="Phone Number" rules={[{ required: true }]}>
                 <Input />
               </Form.Item>
 
               <Form.Item name={['user', 'introduction']} label="Description">
                 <Input.TextArea />
+              </Form.Item>
+              <Form.Item
+                name={['user', 'introduction']}
+                rules={[{ required: true }]}
+                label="Share location"
+              >
+                <Button type="primary">Enable</Button>
               </Form.Item>
               <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
                 <Button type="primary" htmlType="submit">
@@ -83,7 +102,8 @@ export default function CircleSOS() {
     return Modal.info({
       title: <div style={{ fontWeight: 'bold' }}>SOS</div>,
       content: <ModalSOS />,
-      okText: 'cancel',
+      okText: 'Cancel',
+      style: { width: 1000, maxWidth: '100%' },
     });
   };
   return (
