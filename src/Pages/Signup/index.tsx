@@ -6,6 +6,7 @@ import { Link, Redirect } from 'react-router-dom';
 import * as signUpActions from './actions';
 import styles from './styles.module.css';
 import ISignUpState from '../../Models/signUp';
+import { toast } from 'react-toastify';
 export interface ISignup {
   email: string;
   password: string;
@@ -29,6 +30,8 @@ function Signup(props: any) {
     if (password === EPassword) {
       data.EPassword = undefined;
       dispatch(signUpActions.signUp(data));
+    } else {
+      toast.error('password does not match');
     }
   };
   useEffect(() => {
@@ -98,7 +101,7 @@ function Signup(props: any) {
           </div>
           <div className={styles['inputBx']}>
             <Spin delay={500} spinning={requesting}>
-              <input type="submit" value="Sign in" name="" />
+              <input type="submit" value="Sign up" name="" />
             </Spin>
           </div>
           <div className={styles['inputBx']}>
