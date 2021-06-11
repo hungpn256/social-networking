@@ -7,7 +7,10 @@ import {
   faHashtag,
   faHome,
   faListAlt,
+  faMapMarkerAlt,
+  faPlusSquare,
   faUser,
+  faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Avatar from 'antd/lib/avatar/avatar';
@@ -40,51 +43,40 @@ function NavBar() {
           </Link>
           <div className={styles['option']}>
             <div>
-              <a href=" # ">
-                {/* <i className={styles['fa fa-home']}></i> */}
+              <a href="/">
                 <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faHome} />
                 <span>Home</span>
               </a>
             </div>
             <div>
               <a href=" # ">
-                {/* <i className={styles['fa fa-hashtag']}></i> */}
-                <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faHashtag} />
-                <span>Explore</span>
+                <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faUsers} />
+                <span>Friends</span>
               </a>
             </div>
             <div>
               <a href=" # ">
-                {/* <i className={styles['fa fa-bell']}></i> */}
-                <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faBell} />
-                <span>Notifications</span>
+                <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faPlusSquare} />
+                <span>Create a group</span>
               </a>
             </div>
+
             {/* <div>
               <a href=" # ">
-                <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faEnvelopeOpen} />
-                <span>Messages</span>
+                <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faListAlt} />
+                <span>Lists</span>
               </a>
             </div> */}
             <div>
               <a href=" # ">
-                {/* <i className={styles['fa fa-bookmark-o']}></i> */}
+                <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faMapMarkerAlt} />
+                <span>Map</span>
+              </a>
+            </div>
+            <div>
+              <a href=" # ">
                 <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faBookmark} />
                 <span>Bookmarks</span>
-              </a>
-            </div>
-            <div>
-              <a href=" # ">
-                {/* <i className={styles['fa fa-list-alt']}></i> */}
-                <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faListAlt} />
-                <span>Lists</span>
-              </a>
-            </div>
-            <div>
-              <a href=" # ">
-                {/* <i className={styles['fa fa-user-o']}></i> */}
-                <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faUser} />
-                <span>Profile</span>
               </a>
             </div>
             <div>
@@ -94,9 +86,6 @@ function NavBar() {
                 <span>More</span>
               </a>
             </div>
-            {/* <div>
-              <button>Tweet</button>
-            </div> */}
           </div>
         </div>
       </div>

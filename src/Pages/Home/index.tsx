@@ -19,7 +19,8 @@ function App() {
       <div className={styles['container']}>
         <NavBar />
         <Content articles={articles} />
-        <Trends userRecomment={userRecomment} />
+        {/* <Trends userRecomment={userRecomment} /> */}
+        <div>Đang phát triển</div>
       </div>
     </div>
   );
