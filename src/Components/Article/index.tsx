@@ -19,6 +19,7 @@ import {
   Input,
   List,
   Menu,
+  Modal,
   Typography,
 } from 'antd';
 import moment from 'moment';
@@ -108,7 +109,12 @@ export default function Para({ article }: { article: IArticle }) {
       <Menu.Item
         key="1"
         onClick={() => {
-          dispatch(profileActions.deleteArticle(article._id));
+          Modal.confirm({
+            onOk: () => {
+              dispatch(profileActions.deleteArticle(article._id));
+            },
+            content: 'Bạn chắc chắn xóa bài viết này?',
+          });
         }}
       >
         Delete post

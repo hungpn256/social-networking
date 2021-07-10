@@ -77,10 +77,12 @@ const ModalSOS = () => {
               <Form.Item name={['user', 'introduction']} label="Description">
                 <Input.TextArea />
               </Form.Item>
-              <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-                <Button type="primary" style={{ backgroundColor: 'Background', marginBottom: 25 }}>
-                  Share location
-                </Button>
+              <Form.Item
+                name={['user', 'email']}
+                label="Share location"
+                rules={[{ required: true }]}
+              >
+                <Input />
               </Form.Item>
 
               <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
