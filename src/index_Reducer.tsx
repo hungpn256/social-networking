@@ -15,5 +15,5 @@ const rootReducer = combineReducers({
   conversationState,
   messagesState,
 });
-
 export default rootReducer;
+export type RootState = ReturnType<typeof rootReducer>;

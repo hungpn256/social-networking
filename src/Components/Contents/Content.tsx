@@ -3,7 +3,11 @@ import styles from './Content.module.css';
 import PostArticle from '../PostArticle';
 import Article from '../Article';
 import { useSelector } from 'react-redux';
-function Content({ articles, hidePost }) {
+interface Props {
+  articles: any[];
+  hidePost?: boolean;
+}
+function Content({ articles, hidePost }: Props) {
   const profileState = useSelector((state) => state.profile);
   return (
     <div className={styles['content-menu']}>

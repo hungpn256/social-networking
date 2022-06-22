@@ -31,11 +31,12 @@ const ROUTES = [
       },
     ],
   },
-  // {
-  //   path: '/messenger',
-  //   component: ShellChat,
-  //   name: 'messenger',
-  // },
+  {
+    path: '/messenger',
+    component: ShellChat,
+    authority: [Roles.USER, Roles.ADMIN],
+    name: 'messenger',
+  },
   {
     path: '/',
     component: NavBarHeader,

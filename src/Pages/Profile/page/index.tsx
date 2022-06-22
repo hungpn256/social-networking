@@ -32,7 +32,7 @@ export default function Profile() {
     (state: { login: ILogin; profile: IProfile }) => state
   );
   const { token } = login;
-  const [offsetTop, setOffset] = useState<string | number>(60);
+  const [offsetTop, setOffset] = useState<undefined | number>(60);
   const { loadingPage, user: userProfile, articles, isFollowed } = profileState;
   const [f, setF] = useState<boolean>(isFollowed === 1 ? true : false);
   useEffect(() => {
@@ -55,7 +55,7 @@ export default function Profile() {
   };
   useEffect(() => {
     const setOffsetTop = () => {
-      window.innerWidth > 768 ? setOffset(60) : setOffset('100%');
+      window.innerWidth > 768 ? setOffset(60) : setOffset(undefined);
     };
     setOffsetTop();
     window.addEventListener('resize', setOffsetTop);

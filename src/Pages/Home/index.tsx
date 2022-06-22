@@ -5,9 +5,10 @@ import NavBar from '../../Components/NavBar/NavBar';
 import Trends from '../../Components/Trends/Trends';
 import styles from './styles.module.css';
 import * as homeActions from './actions';
+import { RootState } from '../../index_Reducer';
 function App() {
   const dispatch = useDispatch();
-  const homeState = useSelector((state) => state.home);
+  const homeState = useSelector((state: RootState) => state.home);
   const { userRecomment } = homeState;
   const { articles } = homeState;
   useEffect(() => {

@@ -15,7 +15,6 @@ import Login from './Pages/Login';
 import { getUser } from './Pages/Login/actions';
 import services from './Pages/Login/service';
 import Signup from './Pages/Signup';
-import CircleSOS from './Components/CircleSOS';
 function App() {
   const login = useSelector((state) => state.login);
   const { token } = login;
@@ -35,7 +34,7 @@ function App() {
       .catch((err) => {
         const currentPath = pathname;
         const findRoute = _.findLast(ROUTES, (item) => currentPath.includes(item.path));
-        if (findRoute.hasOwnProperty('authority')) {
+        if (findRoute?.hasOwnProperty('authority')) {
           history.push({
             pathname: '/auth/login',
             state: { prePath: currentPath },
@@ -81,7 +80,6 @@ function App() {
         />
         {renderRoute()}
       </Switch>
-      {login.success && <CircleSOS />}
     </>
   );
 }

@@ -1,15 +1,10 @@
 import { UserOutlined } from '@ant-design/icons';
 import {
-  faBell,
   faBookmark,
   faEllipsisH,
-  faEnvelopeOpen,
-  faHashtag,
   faHome,
-  faListAlt,
   faMapMarkerAlt,
   faPlusSquare,
-  faUser,
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,9 +12,11 @@ import Avatar from 'antd/lib/avatar/avatar';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { RootState } from '../../index_Reducer';
+import IUser from '../../Models/user';
 import styles from './NavBar.module.css';
 function NavBar() {
-  const user = useSelector((state) => state.login.user);
+  const user = useSelector((state: RootState) => state.login.user);
   return (
     <div>
       <div className={styles['options-menu']}>
@@ -60,13 +57,6 @@ function NavBar() {
                 <span>Create a group</span>
               </a>
             </div>
-
-            {/* <div>
-              <a href=" # ">
-                <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faListAlt} />
-                <span>Lists</span>
-              </a>
-            </div> */}
             <div>
               <a href=" # ">
                 <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faMapMarkerAlt} />

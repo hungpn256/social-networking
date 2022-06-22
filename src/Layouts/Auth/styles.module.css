@@ -7,26 +7,6 @@
   align-items: center;
   background-image: url('https://img.freepik.com/free-vector/soft-pink-abstract-watercolor-background_3590-176.jpg?size=626&ext=jpg');
 }
-/* .Login::before {
-  content: '';
-  width: 30%;
-  height: 30%;
-  background: linear-gradient(255deg, rgb(253, 132, 152), #fcb1ca);
-  position: absolute;
-  right: 0;
-  top: 0;
-  z-index: 0;
-}
-.Login::after {
-  content: '';
-  width: 40%;
-  height: 30%;
-  background: linear-gradient(255deg, #03a9f4, #82c9eb);
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  z-index: 0;
-} */
 .WrapperApp {
   width: 90%;
   height: 90vh;
