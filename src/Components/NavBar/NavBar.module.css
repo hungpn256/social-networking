@@ -2,11 +2,9 @@
   width: 100%;
 }
 .options-center {
-  width: 75%;
-  margin: 0 auto;
+ margin-left: 50px;
 }
 .logo {
-  padding: 2% 0 8% 20% !important;
   color: #000;
   text-decoration: none;
   text-transform: uppercase;
@@ -32,8 +30,7 @@
 .option {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-start;
+  flex-direction: column;
 }
 .option div a {
   text-decoration: none;
@@ -44,12 +41,7 @@
   color: #000;
 }
 .option div {
-  padding: 2% 0 8% 20%;
-}
-@media (max-width: 972px) {
-  .option div {
-    padding: 2% 0 8% 10%;
-  }
+  padding: 16px 0;
 }
 @media (max-width: 892px) {
   .options-menu {
@@ -65,6 +57,7 @@
     margin: 0;
   }
   .option {
+    flex-direction: row;
     justify-content: center;
     background-color: #f1f1f1;
   }

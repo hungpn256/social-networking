@@ -1,38 +1,47 @@
 .person {
-  display: grid;
-  grid-template-columns: 12% 58% 30%;
-  padding: 10px 0;
+  display: flex;
+  padding: 8px 0;
   align-items: center;
-  border-bottom: 1px solid #d4d4d4;
+  justify-content: space-between;
+  border-bottom: 1px solid #e8e8e8;
+  width: 100%;
 }
+
+.link{
+  display: flex;
+  align-items: center;
+}
+
+.person:hover{
+  background-color: #f0f0f0
+}
+
 .person-profile {
-  padding: 0 0 0 10px;
   cursor: pointer;
 }
-.person-profile img {
-  opacity: 0.9;
-}
-.person-profile img:hover {
-  opacity: 1;
-}
 .name h3 {
-  font-size: 16px;
+  font-size: 14px;
+  margin: 0;
+  margin-left: 12px;
 }
 .name p {
   opacity: 0.6;
   padding: 5px 0 0 0;
 }
+
+.send-follow-request{
+  justify-self: flex-end;
+  align-self: flex-end;
+}
 .send-follow-request button {
-  width: 100%;
-  padding: 5px 20px;
+  padding: 5px 10px;
   outline: none;
-  border: 2px solid #00a7ff;
+  border: 1px solid #00a7ff;
   color: #00a7ff;
   border-radius: 20px;
   font-size: 17px;
   text-transform: capitalize;
   cursor: pointer;
-  transition: 1s;
 }
 .send-follow-request button:hover {
   background: #d8eeff;

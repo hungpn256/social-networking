@@ -14,7 +14,8 @@
   transition: all 0.5s;
 }
 .max-width {
-  width: 1200px;
+  /* width: 1200px; */
+  padding: 0 50px;
   max-width: 100%;
   margin: 0 auto;
   display: flex;
@@ -30,7 +31,8 @@
 .logo {
   width: 50px;
   border-radius: 5px;
-  margin-right: 10px;
+  margin-right: 15px;
+  margin-left: 8px;
 }
 .sticky .brand span {
   color: white !important;
@@ -42,8 +44,12 @@
 .header .header-nav .menu-item {
   display: inline-block;
   line-height: 60px;
-  margin: 0 5px;
+  margin: 0 8px;
   transition: 0.3s ease-in-out;
+}
+
+.header .header-nav .menu-item:nth-child(2){
+  margin-right: 20px;
 }
 .menu .menu-item .menu-item-link {
   color: #777;

@@ -1,6 +1,8 @@
 import { UserOutlined } from '@ant-design/icons';
+import { faUserMinus, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Avatar from 'antd/lib/avatar/avatar';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as loginActions from '../../Pages/Login/actions';
@@ -20,12 +22,10 @@ function Person({ person }) {
   }, []);
   return (
     <div className={styles['person']}>
-      <Link to={`/profile/${person._id}`}>
+      <Link className={styles['link']} to={`/profile/${person._id}`}>
         <div className={styles['person-profile']}>
-          <Avatar src={person?.avatar} shape="square" size="large" icon={<UserOutlined />} />
+          <Avatar src={person?.avatar} shape="circle" size="large" icon={<UserOutlined />} />
         </div>
-      </Link>
-      <Link to={`/profile/${person._id}`}>
         <div className={styles['name']}>
           <div className={styles['main-name']}>
             <h3>{person.name.firstName + ' ' + person.name.lastName}</h3>
@@ -39,7 +39,8 @@ function Person({ person }) {
           }}
           style={{ color: !follow ? '#00a7ff' : '#fff', background: follow ? '#00a7ff' : '#fff' }}
         >
-          {follow ? 'Un Follow' : 'Follow'}
+          <FontAwesomeIcon icon={follow ? faUserMinus : faUserPlus} />
+          {/* {follow ? 'Un Follow' : 'Follow'} */}
         </button>
       </div>
     </div>

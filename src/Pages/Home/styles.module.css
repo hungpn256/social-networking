@@ -6,7 +6,7 @@
 .container {
   display: grid;
   margin-top: 20px;
-  grid-template-columns: 26% 39% 35%;
+  grid-template-columns: 30% 40% 30%;
 }
 @media (max-width: 1236px) {
   .container {

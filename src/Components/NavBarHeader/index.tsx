@@ -4,7 +4,7 @@ import {
   LoginOutlined,
   SettingOutlined,
   UnorderedListOutlined,
-  UserOutlined,
+  UserOutlined
 } from '@ant-design/icons';
 import { faFacebookMessenger } from '@fortawesome/free-brands-svg-icons';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Badge, Dropdown, Input, Menu } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import qs from 'query-string';
-import React, { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import Logo from '../../Assets/logo.png';
@@ -24,7 +24,7 @@ export default function Home(props: any) {
   const history = useHistory();
   const login = useSelector((state) => state.login);
   const { user } = login;
-  const checkBtn = document.querySelector(`#${styles['check']}`);
+  const checkBtn = document.querySelector(`#${styles['check']}`) as any;
   const dispatch = useDispatch();
   const onSearch = (value: string) => {
     console.log(value);
@@ -92,7 +92,7 @@ export default function Home(props: any) {
                   })
                 }
                 onChange={onChange}
-                style={{ width: 250 }}
+                style={{ width: '20vw', marginLeft: 8 }}
               />
             </label>
             <div className={styles['wrapper-memu']} style={{ display: 'flex' }}>

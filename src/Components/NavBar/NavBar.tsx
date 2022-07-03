@@ -5,15 +5,13 @@ import {
   faHome,
   faMapMarkerAlt,
   faPlusSquare,
-  faUsers,
+  faUsers
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Avatar from 'antd/lib/avatar/avatar';
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { RootState } from '../../index_Reducer';
-import IUser from '../../Models/user';
 import styles from './NavBar.module.css';
 function NavBar() {
   const user = useSelector((state: RootState) => state.login.user);
