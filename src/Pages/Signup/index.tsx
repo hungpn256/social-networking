@@ -11,7 +11,7 @@ export interface ISignup {
   email: string;
   password: string;
   EPassword?: string;
-  gender: number;
+  gender: "MALE" | "FEMALE" | "OTHER";
   phoneNumber: string;
   firstName: string;
   lastName: string;
@@ -77,9 +77,9 @@ function Signup(props: any) {
           <div className={styles['inputBx']}>
             <span>Gender</span>
             <select className={styles['select-gender']} {...register('gender', { required: true })}>
-              <option value={0}>Male</option>
-              <option value={1}>Female</option>
-              <option value={2}>Other</option>
+              <option value={"MALE"}>Male</option>
+              <option value={"FEMALE"}>Female</option>
+              <option value={"OTHER"}>Other</option>
             </select>
             {errors.phoneNumber && <span className={styles['error']}>This field is required</span>}
           </div>
