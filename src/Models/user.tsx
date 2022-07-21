@@ -5,11 +5,9 @@ export default interface IUser {
     lastName: string;
   };
   phoneNumber: string;
-  gender: number;
+  gender: 'MALE' | 'FEMALE' | 'OTHER';
   avatar?: string;
   cover?: string;
-  role: string;
   _id: string;
-  place?: string;
-  school?: string;
+  fullName?: string;
 }

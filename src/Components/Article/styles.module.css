@@ -30,12 +30,15 @@
   color: pink;
   cursor: pointer;
 }
-.send-comment {
+.spin-comment{
   position: absolute;
   border-radius: 20px;
   overflow: hidden;
   right: 0;
-  bottom: 0;
+  top: 0;
+
+}
+.send-comment {
   border: none;
   color: #1da1f2;
   background: transparent;

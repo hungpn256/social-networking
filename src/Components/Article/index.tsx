@@ -3,8 +3,8 @@ import { faComment, faHeart, faShareSquare } from '@fortawesome/free-regular-svg
 import {
   faEllipsisV,
   faGlobeAmericas,
-  faPaperPlane,
   faHeart as faHeartSolid,
+  faPaperPlane,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -14,40 +14,56 @@ import {
   Comment,
   Divider,
   Dropdown,
-  Form,
   Image,
   Input,
   List,
   Menu,
   Modal,
+  Spin,
   Typography,
 } from 'antd';
 import moment from 'moment';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import LazyLoad from 'react-lazyload';
-import { Link } from 'react-router-dom';
-import styles from './styles.module.css';
-import * as profileActions from '../../Pages/Profile/actions';
 import { useDispatch, useSelector } from 'react-redux';
-import IArticle from '../../Models/article';
+import { Link } from 'react-router-dom';
+import IArticle, { IComment } from '../../Models/article';
 import ILogin from '../../Models/login';
+import IUser from '../../Models/user';
+import * as profileActions from '../../Pages/Profile/actions';
+import styles from './styles.module.css';
 const { TextArea } = Input;
 
-const CommentList = ({
-  comments,
-}: {
-  comments: Array<{
-    author: string;
-    avatar: string | undefined;
-    content: JSX.Element;
-    datetime: string;
-  }>;
-}) => (
+const CommentList = ({ comments }: { comments: IComment[] }) => (
   <List
     dataSource={comments}
     header={`${comments.length} ${comments.length > 1 ? 'replies' : 'reply'}`}
     itemLayout="horizontal"
-    renderItem={(props) => <Comment {...props} />}
+    renderItem={(props) => (
+      <>
+        <Comment
+          content={props.content}
+          author={props.createdBy.fullName}
+          avatar={props.createdBy.avatar}
+          datetime={moment(props.createdAt).fromNow()}
+        />
+        <List
+          dataSource={comments}
+          itemLayout="horizontal"
+          renderItem={(props) => (
+            <>
+              <Comment
+                style={{ marginLeft: 40 }}
+                content={props.content}
+                author={props.createdBy.fullName}
+                avatar={props.createdBy.avatar}
+                datetime={moment(props.createdAt).fromNow()}
+              />
+            </>
+          )}
+        />
+      </>
+    )}
   />
 );
 
@@ -57,45 +73,35 @@ const Editor = ({
   submitting,
   value,
 }: {
-  onChange: (e: ChangeEvent<HTMLElement>) => void;
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   onSubmit: () => void;
   submitting: boolean;
   value: string;
 }) => (
-  <>
-    <Form.Item>
-      <TextArea
-        placeholder={'Comment here...'}
-        style={{ borderRadius: 20, background: '#f5f5f5' }}
-        autoSize={{ minRows: 1, maxRows: 5 }}
-        onChange={onChange}
-        value={value}
-      />
-      <Button
-        className={styles['send-comment']}
-        htmlType="submit"
-        loading={submitting}
-        onClick={onSubmit}
-      >
-        <FontAwesomeIcon icon={faPaperPlane} />
-      </Button>
-    </Form.Item>
-  </>
+  <div className={styles['editor']}>
+    <TextArea
+      placeholder={'Comment here...'}
+      style={{ borderRadius: 20, background: '#f5f5f5', flex: 1 }}
+      autoSize={{ minRows: 1, maxRows: 5 }}
+      onChange={onChange}
+      value={value}
+    />
+    <div className={styles['spin-comment']}>
+      <Spin spinning={submitting}>
+        <Button className={styles['send-comment']} htmlType="submit" onClick={onSubmit}>
+          <FontAwesomeIcon icon={faPaperPlane} />
+        </Button>
+      </Spin>
+    </div>
+  </div>
 );
 const { Paragraph } = Typography;
 export default function Para({ article }: { article: IArticle }) {
-  const { createBy: user } = article;
+  const { createBy: user, comment } = article;
   const { user: userLogin } = useSelector((state: { login: ILogin }) => state.login);
-  const [comments, setComments] = useState<
-    Array<{
-      author: string;
-      avatar: string | undefined;
-      content: JSX.Element;
-      datetime: string;
-    }>
-  >([]);
+  const [comments, setComments] = useState<IComment[]>(comment);
   const [actionLike, setActionLike] = useState(0);
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
@@ -143,15 +149,16 @@ export default function Para({ article }: { article: IArticle }) {
       setComments([
         ...comments,
         {
-          author: userLogin?.name.firstName + ' ' + userLogin?.name.lastName,
-          avatar: userLogin?.avatar,
-          content: <p>{value}</p>,
-          datetime: moment().fromNow(),
+          createdBy: userLogin as IUser,
+          content: value,
+          createdAt: moment().toString(),
+          file: [],
+          liked: [],
         },
       ]);
     }, 1000);
   };
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
   };
   return (
