@@ -1,14 +1,12 @@
 import { faFacebook, faInstagram, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Spin } from 'antd';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect, useLocation } from 'react-router-dom';
+import IloginState from '../../Models/login';
 import styles from '../Signup/styles.module.css';
 import * as LoginActions from './actions';
-import IloginState from '../../Models/login';
-// import {fa} from '@fortawesome/free-solid-svg-icons
 export interface ILogin {
   email: string;
   password: string;

@@ -18,13 +18,7 @@ const RoutePrivate = ({ component: Component, authority, ...rest }: IRoute, logi
       {...rest}
       key={rest?.path}
       render={(props: any) => {
-        if (
-          authority === undefined ||
-          (authority &&
-            authority?.some((item: string) => {
-              return item === user?.role;
-            }))
-        ) {
+        if (authority === undefined || (authority && user)) {
           return (
             <Component {...props} routes={rest?.routes}>
               {rest?.routes && (
