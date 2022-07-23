@@ -16,10 +16,10 @@ export interface IComment {
   liked: ILike[];
   createdBy: IUser;
   createdAt: string;
-  replyTo?: string;
+  reply: IComment[];
 }
 
-export interface ILike {}
+export interface ILike { }
 export interface IFile {
   url: string;
 }

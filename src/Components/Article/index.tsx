@@ -39,31 +39,38 @@ const CommentList = ({ comments }: { comments: IComment[] }) => (
     dataSource={comments}
     header={`${comments.length} ${comments.length > 1 ? 'replies' : 'reply'}`}
     itemLayout="horizontal"
-    renderItem={(props) => (
-      <>
-        <Comment
-          content={props.content}
-          author={props.createdBy.fullName}
-          avatar={props.createdBy.avatar}
-          datetime={moment(props.createdAt).fromNow()}
-        />
-        <List
-          dataSource={comments}
-          itemLayout="horizontal"
-          renderItem={(props) => (
-            <>
-              <Comment
-                style={{ marginLeft: 40 }}
-                content={props.content}
-                author={props.createdBy.fullName}
-                avatar={props.createdBy.avatar}
-                datetime={moment(props.createdAt).fromNow()}
-              />
-            </>
-          )}
-        />
-      </>
-    )}
+    renderItem={(props) => {
+      return (
+        <>
+          <Comment
+            content={props.content}
+            author={props.createdBy.fullName}
+            avatar={props.createdBy.avatar}
+            datetime={moment(props.createdAt).fromNow()}
+            className={styles['comment']}
+          />
+          <div className="flex">
+            <div>like</div>
+            <div>reply</div>
+          </div>
+          {props.reply.length > 0 && <List
+            dataSource={props.reply}
+            itemLayout="horizontal"
+            renderItem={(comment) => (
+              <>
+                <Comment
+                  style={{ marginLeft: 40 }}
+                  content={comment.content}
+                  author={comment.createdBy.fullName}
+                  avatar={comment.createdBy.avatar}
+                  datetime={moment(comment.createdAt).fromNow()}
+                />
+              </>
+            )}
+          />}
+        </>
+      )
+    }}
   />
 );
 
