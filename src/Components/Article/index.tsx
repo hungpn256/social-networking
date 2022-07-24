@@ -22,59 +22,35 @@ import {
   Spin,
   Typography,
 } from 'antd';
+import axios from 'axios';
 import moment from 'moment';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import LazyLoad from 'react-lazyload';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { ip } from '../../configs/ip';
 import IArticle, { IComment } from '../../Models/article';
 import ILogin from '../../Models/login';
 import IUser from '../../Models/user';
 import * as profileActions from '../../Pages/Profile/actions';
+import CommentCustom from '../Comment';
 import styles from './styles.module.css';
 const { TextArea } = Input;
 
-const CommentList = ({ comments }: { comments: IComment[] }) => (
+const CommentList = ({ comments, numOfCmt }: { comments: IComment[], numOfCmt: number }) => (
   <List
     dataSource={comments}
-    header={`${comments.length} ${comments.length > 1 ? 'replies' : 'reply'}`}
+    header={`${numOfCmt} ${numOfCmt > 1 ? 'replies' : 'reply'}`}
     itemLayout="horizontal"
-    renderItem={(props) => {
+    renderItem={(item) => {
       return (
-        <>
-          <Comment
-            content={props.content}
-            author={props.createdBy.fullName}
-            avatar={props.createdBy.avatar}
-            datetime={moment(props.createdAt).fromNow()}
-            className={styles['comment']}
-          />
-          <div className="flex">
-            <div>like</div>
-            <div>reply</div>
-          </div>
-          {props.reply.length > 0 && <List
-            dataSource={props.reply}
-            itemLayout="horizontal"
-            renderItem={(comment) => (
-              <>
-                <Comment
-                  style={{ marginLeft: 40 }}
-                  content={comment.content}
-                  author={comment.createdBy.fullName}
-                  avatar={comment.createdBy.avatar}
-                  datetime={moment(comment.createdAt).fromNow()}
-                />
-              </>
-            )}
-          />}
-        </>
+        <CommentCustom comment={item} />
       )
     }}
   />
 );
 
-const Editor = ({
+export const Editor = ({
   onChange,
   onSubmit,
   submitting,
@@ -145,25 +121,29 @@ export default function Para({ article }: { article: IArticle }) {
       clearTimeout(setvisiableTrue);
     };
   }, []);
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!value) {
       return;
     }
-    setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
+    try {
+      setSubmitting(true);
+      const comment = {
+        content: value,
+        file: [],
+        liked: [],
+        reply: [],
+      }
+      const res = await axios.post(`${ip}/post/comment/${article._id}`, { comment })
       setValue('');
       setComments([
         ...comments,
-        {
-          createdBy: userLogin as IUser,
-          content: value,
-          createdAt: moment().toString(),
-          file: [],
-          liked: [],
-        },
+        res.data.comment,
       ]);
-    }, 1000);
+    } catch (e) {
+
+    } finally {
+      setSubmitting(false);
+    }
   };
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
@@ -259,7 +239,7 @@ export default function Para({ article }: { article: IArticle }) {
           <FontAwesomeIcon className={styles['action-article-icon']} icon={faShareSquare} />
         </div>
         <Divider style={{ margin: 0, borderTop: '1px solid rgba(0,0,0,0.2)' }} />
-        {comments.length > 0 && <CommentList comments={comments} />}
+        {comments.length > 0 && <CommentList comments={comments} numOfCmt={article.numOfCmt} />}
         <Comment
           avatar={<Avatar icon={<UserOutlined />} src={userLogin?.avatar} alt="Han Solo" />}
           className={styles['comment-form']}

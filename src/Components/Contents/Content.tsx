@@ -13,7 +13,7 @@ function Content({ articles, hidePost }: Props) {
     <div className={styles['content-menu']}>
       {hidePost !== true && <PostArticle loading={profileState?.postArticleRequesting ?? false} />}
       {articles &&
-        articles.map((article, index) => {
+        articles.map((article) => {
           return <Article article={article} key={article._id} />;
         })}
     </div>

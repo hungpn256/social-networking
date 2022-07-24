@@ -65,3 +65,6 @@
   border-radius: 50%;
   transition: 0.2s ease;
 }
+.comment div{
+  padding-bottom: 0;
+}

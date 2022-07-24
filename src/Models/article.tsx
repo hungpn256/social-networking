@@ -8,9 +8,11 @@ export default interface IArticle {
   liked: [];
   action?: string;
   comment: IComment[];
+  numOfCmt: number;
 }
 
 export interface IComment {
+  _id: string;
   content: string;
   file: IFile[];
   liked: ILike[];

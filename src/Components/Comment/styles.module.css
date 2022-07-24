@@ -1,0 +1,19 @@
+.comment div{
+  padding-bottom: 0;
+}
+.comment-form{
+  margin-left: 44px;
+}
+.icon-like{
+  color:#fff;
+  background-color: #1da1f2;
+  padding: 5px;
+  border-radius:99px;
+  font-size: 12px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.wrap-icon-like{
+  position: absolute;
+  bottom: -8px;
+  right: 20px;
+}

@@ -53,3 +53,8 @@
 .mr-20 {
   margin-right: 20px;
 }
+.comment .ant-comment-content{
+  background-color: #f5f5f5 !important;
+  border-radius: 8px;
+  padding: 8px;
+}
