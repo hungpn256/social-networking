@@ -5,7 +5,7 @@ export default interface IArticle {
   _id: string;
   createAt: Date;
   createBy: IUser;
-  liked: [];
+  liked: ILike[];
   action?: string;
   comment: IComment[];
   numOfCmt: number;
@@ -21,7 +21,11 @@ export interface IComment {
   reply: IComment[];
 }
 
-export interface ILike { }
+export interface ILike {
+  type: string;
+  _id: string;
+  likedBy: string | IUser;
+}
 export interface IFile {
   url: string;
 }

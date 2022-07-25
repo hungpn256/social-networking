@@ -4,7 +4,7 @@ import {
   faEllipsisV,
   faGlobeAmericas,
   faHeart as faHeartSolid,
-  faPaperPlane,
+  faPaperPlane
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -20,27 +20,27 @@ import {
   Menu,
   Modal,
   Spin,
-  Typography,
+  Typography
 } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import LazyLoad from 'react-lazyload';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ip } from '../../configs/ip';
-import IArticle, { IComment } from '../../Models/article';
+import IArticle, { IComment, ILike } from '../../Models/article';
 import ILogin from '../../Models/login';
-import IUser from '../../Models/user';
 import * as profileActions from '../../Pages/Profile/actions';
 import CommentCustom from '../Comment';
 import styles from './styles.module.css';
 const { TextArea } = Input;
+const { Paragraph } = Typography;
 
-const CommentList = ({ comments, numOfCmt }: { comments: IComment[], numOfCmt: number }) => (
+const CommentList = ({ comments, numOfCmt, numberOfLike }: { comments: IComment[], numOfCmt: number, numberOfLike: number }) => (
   <List
     dataSource={comments}
-    header={`${numOfCmt} ${numOfCmt > 1 ? 'replies' : 'reply'}`}
+    header={(numberOfLike > 0 ? `${numberOfLike} ${numberOfLike > 1 ? 'likes  ' : 'like  '}` : '') + (numOfCmt > 0 ? `${numOfCmt} ${numOfCmt > 1 ? 'replies' : 'reply'}` : '')}
     itemLayout="horizontal"
     renderItem={(item) => {
       return (
@@ -50,7 +50,7 @@ const CommentList = ({ comments, numOfCmt }: { comments: IComment[], numOfCmt: n
   />
 );
 
-export const Editor = ({
+export const Editor = forwardRef(({
   onChange,
   onSubmit,
   submitting,
@@ -60,34 +60,44 @@ export const Editor = ({
   onSubmit: () => void;
   submitting: boolean;
   value: string;
-}) => (
-  <div className={styles['editor']}>
-    <TextArea
-      placeholder={'Comment here...'}
-      style={{ borderRadius: 20, background: '#f5f5f5', flex: 1 }}
-      autoSize={{ minRows: 1, maxRows: 5 }}
-      onChange={onChange}
-      value={value}
-    />
-    <div className={styles['spin-comment']}>
-      <Spin spinning={submitting}>
-        <Button className={styles['send-comment']} htmlType="submit" onClick={onSubmit}>
-          <FontAwesomeIcon icon={faPaperPlane} />
-        </Button>
-      </Spin>
+}, ref) => {
+  const refInput = useRef<any>()
+  useImperativeHandle(ref, () => ({
+    focus: refInput.current?.focus
+  }))
+  return (
+    <div className={styles['editor']}>
+      <TextArea
+        placeholder={'Comment here...'}
+        style={{ borderRadius: 20, background: '#f5f5f5', flex: 1 }}
+        autoSize={{ minRows: 1, maxRows: 5 }}
+        onChange={onChange}
+        value={value}
+        ref={refInput}
+      />
+      <div className={styles['spin-comment']}>
+        <Spin spinning={submitting}>
+          <Button className={styles['send-comment']} htmlType="submit" onClick={onSubmit}>
+            <FontAwesomeIcon icon={faPaperPlane} />
+          </Button>
+        </Spin>
+      </div>
     </div>
-  </div>
-);
-const { Paragraph } = Typography;
+  )
+});
+
 export default function Para({ article }: { article: IArticle }) {
-  const { createBy: user, comment } = article;
+  const { createBy: user, comment, liked } = article;
   const { user: userLogin } = useSelector((state: { login: ILogin }) => state.login);
+  const [isLiked, setLiked] = useState(article.liked.some((i) => i.likedBy === userLogin?._id))
+  const [numOfComment, setNumOfComment] = useState(article.numOfCmt)
   const [comments, setComments] = useState<IComment[]>(comment);
-  const [actionLike, setActionLike] = useState(0);
+  const [numberOfLike, setNumberOfLike] = useState(liked.length);
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
+  const inputRef = useRef();
   const menu = (
     <Menu
       style={{
@@ -121,6 +131,21 @@ export default function Para({ article }: { article: IArticle }) {
       clearTimeout(setvisiableTrue);
     };
   }, []);
+
+  const handleLike = (id: string) => {
+    try {
+      setNumberOfLike(isLiked ? numberOfLike - 1 : numberOfLike + 1)
+      setLiked(!isLiked);
+      axios.post(`${ip}/post/like/${id}`, {
+        like: {
+          type: "LIKE"
+        }
+      })
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const handleSubmit = async () => {
     if (!value) {
       return;
@@ -139,6 +164,7 @@ export default function Para({ article }: { article: IArticle }) {
         ...comments,
         res.data.comment,
       ]);
+      setNumOfComment(numOfComment + 1)
     } catch (e) {
 
     } finally {
@@ -172,7 +198,7 @@ export default function Para({ article }: { article: IArticle }) {
               <div style={{ display: 'flex', alignItems: 'flex-end' }}>
                 <Link className={styles['link-avatar']} to={'/profile/' + user._id}>
                   <h3 style={{ fontWeight: 600, fontSize: 13, marginBottom: 0, color: 'black' }}>
-                    {user.name.firstName + ' ' + user.name.lastName}
+                    {user.fullName}
                   </h3>
                 </Link>
                 {article?.action && (
@@ -227,24 +253,20 @@ export default function Para({ article }: { article: IArticle }) {
         <div className={styles['action-article']}>
           <FontAwesomeIcon
             className={`${styles['action-article-icon']} ${styles['action-like']}`}
-            icon={actionLike === 0 ? faHeart : faHeartSolid}
-            onMouseEnter={(e) => {
-              setActionLike(1);
-            }}
-            onMouseLeave={(e) => {
-              setActionLike(0);
-            }}
+            icon={isLiked ? faHeartSolid : faHeart}
+            onClick={() => handleLike(article._id)}
           />
-          <FontAwesomeIcon className={styles['action-article-icon']} icon={faComment} />
+          <FontAwesomeIcon className={styles['action-article-icon']} icon={faComment} onClick={() => inputRef.current.focus()} />
           <FontAwesomeIcon className={styles['action-article-icon']} icon={faShareSquare} />
         </div>
         <Divider style={{ margin: 0, borderTop: '1px solid rgba(0,0,0,0.2)' }} />
-        {comments.length > 0 && <CommentList comments={comments} numOfCmt={article.numOfCmt} />}
+        {(comments.length > 0 || numberOfLike > 0) && <CommentList comments={comments} numOfCmt={numOfComment} numberOfLike={numberOfLike} />}
         <Comment
           avatar={<Avatar icon={<UserOutlined />} src={userLogin?.avatar} alt="Han Solo" />}
           className={styles['comment-form']}
           content={
             <Editor
+              ref={inputRef}
               onChange={handleChange}
               onSubmit={handleSubmit}
               submitting={submitting}

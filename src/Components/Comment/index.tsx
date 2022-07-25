@@ -10,12 +10,26 @@ import ILogin from '../../Models/login';
 import { ip } from '../../configs/ip';
 import axios from 'axios';
 
-export default function CommentCustom({ comment }: { comment: IComment }) {
+export default function CommentCustom({ comment, noReply }: { comment: IComment, noReply?: boolean }) {
   const [value, setValue] = useState('');
   const [submiting, setSubmitting] = useState(false);
   const [data, setData] = useState(comment);
   const { user: userLogin } = useSelector((state: { login: ILogin }) => state.login);
+  const [isLiked, setLiked] = useState(comment.liked.some((i) => i.likedBy === userLogin?._id))
   const [showEditor, setShowEditor] = useState(false);
+
+  const handleLike = (id: string) => {
+    try {
+      setLiked(!isLiked);
+      axios.post(`${ip}/post/like-comment/${id}`, {
+        like: {
+          type: "LIKE"
+        }
+      })
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   const handleSubmit = async () => {
     if (!value) {
@@ -60,13 +74,13 @@ export default function CommentCustom({ comment }: { comment: IComment }) {
           datetime={moment(data.createdAt).fromNow()}
           className={`${styles['comment']} comment`}
         />
-        <div className={styles["wrap-icon-like"]}>
+        {(comment.liked.length > 0 || isLiked) && <div className={styles["wrap-icon-like"]}>
           <LikeFilled className={styles['icon-like']} />
-        </div>
+        </div>}
       </div>
       <div className="flex ml-[46px]">
-        <div className="text-[#00000073] mr-[8px] cursor-pointer text-lg font-bold">like</div>
-        <div className="text-[#00000073] mr-[8px] cursor-pointer text-lg font-bold" onClick={() => { setShowEditor(true) }}>reply</div>
+        <div className={`${isLiked ? 'text-[#1da1f2]' : 'text-[#00000073]'} mr-[8px] cursor-pointer text-[13px] font-bold `} onClick={() => handleLike(comment._id)}>like</div>
+        {!noReply && <div className="text-[#00000073] mr-[8px] cursor-pointer text-[13px] font-bold" onClick={() => { setShowEditor(true) }}>reply</div>}
       </div>
       {showEditor && <Comment
         avatar={<Avatar icon={<UserOutlined />} src={userLogin?.avatar} alt="Han Solo" />}
@@ -80,23 +94,17 @@ export default function CommentCustom({ comment }: { comment: IComment }) {
           />
         }
       />}
-      {comment.reply.length > 0 && <List
+      {data.reply.length > 0 && <List
         dataSource={data.reply}
         itemLayout="horizontal"
-        renderItem={(replyItem) => (
-          <div style={{ marginLeft: 40 }}>
-            <Comment
-              content={replyItem.content}
-              author={replyItem.createdBy.fullName}
-              avatar={replyItem.createdBy.avatar}
-              datetime={moment(replyItem.createdAt).fromNow()}
-              className={`${styles['comment']} comment`}
-            />
-            <div className="flex ml-[46px]">
-              <div className="text-[#00000073] mr-[8px] cursor-pointer text-lg font-bold">like</div>
+        renderItem={(replyItem) => {
+          return (
+            <div style={{ marginLeft: 40 }}>
+              <CommentCustom comment={replyItem} noReply={true} />
             </div>
-          </div>
-        )}
+          )
+        }}
+
       />}
     </>
   )
