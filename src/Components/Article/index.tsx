@@ -210,7 +210,7 @@ export default function Para({ article }: { article: IArticle }) {
 
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <h5 style={{ margin: 0, marginRight: 4, fontSize: 12 }}>
-                  {moment().from(article.createAt)}
+                  {moment().from(article.createdAt)}
                 </h5>
                 <FontAwesomeIcon icon={faGlobeAmericas} />
               </div>

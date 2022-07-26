@@ -3,7 +3,7 @@ export default interface IArticle {
   text: string;
   images: IFile[];
   _id: string;
-  createAt: Date;
+  createdAt: Date;
   createBy: IUser;
   liked: ILike[];
   action?: string;

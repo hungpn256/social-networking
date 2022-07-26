@@ -1,5 +1,9 @@
-.comment div{
-  padding-bottom: 0;
+.comment{
+  background-color: #FFC0CB55;
+  border-radius: 12px;
+  margin-left: 8px;
+  padding: 8px;
+  margin-top: 8px;
 }
 .comment-form{
   margin-left: 44px;

@@ -3,15 +3,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import * as homeActions from './actions';
 import * as homeConstant from './constants';
 import services from './service';
-function* getUserRecommentSaga({ payload }) {
-  yield put(homeActions.changeState({ UserRecommentRequesting: true }));
-  try {
-    const userRecomment = yield call(services.getUserRecomment);
-    yield put(homeActions.getUserRecommentSuccess({ userRecomment: userRecomment.data }));
-  } catch (err) {
-    homeActions.getUserRecommentFail(err);
-  }
-}
+
 function* getArticleSaga() {
   try {
     const res = yield call(services.getArticle);

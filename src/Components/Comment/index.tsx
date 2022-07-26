@@ -67,13 +67,13 @@ export default function CommentCustom({ comment, noReply }: { comment: IComment,
   return (
     <>
       <div className="relative">
-        <Comment
-          content={data.content}
-          author={data.createdBy.fullName}
-          avatar={data.createdBy.avatar}
-          datetime={moment(data.createdAt).fromNow()}
-          className={`${styles['comment']} comment`}
-        />
+        <div className="flex">
+          <Avatar icon={<UserOutlined />} src={userLogin?.avatar} alt="Han Solo" />
+          <div className={`${styles['comment']}`}>
+            <div className="font-bold text-[12px]">{data.createdBy.fullName} <span className="ml-[8px] text-[#00000073] text-[11px]">{moment(data.createdAt).fromNow()}</span></div>
+            <div>{data.content}</div>
+          </div>
+        </div>
         {(comment.liked.length > 0 || isLiked) && <div className={styles["wrap-icon-like"]}>
           <LikeFilled className={styles['icon-like']} />
         </div>}

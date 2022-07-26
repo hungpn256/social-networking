@@ -5,8 +5,9 @@
 }
 .container {
   display: grid;
-  margin-top: 20px;
+  padding-top: 20px;
   grid-template-columns: 30% 40% 30%;
+  background-color: #FFC0CB55;
 }
 @media (max-width: 1236px) {
   .container {
