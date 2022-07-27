@@ -5,7 +5,7 @@ import IHome from '../../Models/home';
 const initialState: IHome = {
   requesting: false,
   success: false,
-  usersRecomment: null,
+  usersRecomment: [],
   error: null,
   loadingPage: false,
   articles: [],

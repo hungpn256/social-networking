@@ -41,10 +41,9 @@ const reducer = (state = initialState, action: any) => {
       return { ...state, ...action.payload };
     }
     case profileConstant.PROFILE_GET_ARTICLES_SUCCESS: {
-      let articles = [...state.articles, ...action.payload];
       return {
         ...state,
-        articles,
+        articles: action.payload,
       };
     }
     case profileConstant.PROFILE_POST_ARTICLE_SUCCESS: {

@@ -1,14 +1,14 @@
-import { Avatar, Comment, List } from 'antd'
-import moment from 'moment'
-import React, { useEffect, useState } from 'react'
-import { IComment } from '../../Models/article'
+import { LikeFilled, UserOutlined } from '@ant-design/icons';
+import { Avatar, Comment, List } from 'antd';
+import axios from 'axios';
+import moment from 'moment';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { ip } from '../../configs/ip';
+import { IComment } from '../../Models/article';
+import ILogin from '../../Models/login';
 import { Editor } from '../Article';
 import styles from './styles.module.css';
-import { UserOutlined, LikeFilled } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
-import ILogin from '../../Models/login';
-import { ip } from '../../configs/ip';
-import axios from 'axios';
 
 export default function CommentCustom({ comment, noReply }: { comment: IComment, noReply?: boolean }) {
   const [value, setValue] = useState('');
@@ -69,14 +69,14 @@ export default function CommentCustom({ comment, noReply }: { comment: IComment,
       <div className="relative">
         <div className="flex">
           <Avatar icon={<UserOutlined />} src={userLogin?.avatar} alt="Han Solo" />
-          <div className={`${styles['comment']}`}>
+          <div className={`${styles['comment']} relative`}>
             <div className="font-bold text-[12px]">{data.createdBy.fullName} <span className="ml-[8px] text-[#00000073] text-[11px]">{moment(data.createdAt).fromNow()}</span></div>
-            <div>{data.content}</div>
+            <div dangerouslySetInnerHTML={{ __html: data.content }}></div>
+            {(comment.liked.length > 0 || isLiked) && <div className={styles["wrap-icon-like"]}>
+              <LikeFilled className={styles['icon-like']} />
+            </div>}
           </div>
         </div>
-        {(comment.liked.length > 0 || isLiked) && <div className={styles["wrap-icon-like"]}>
-          <LikeFilled className={styles['icon-like']} />
-        </div>}
       </div>
       <div className="flex ml-[46px]">
         <div className={`${isLiked ? 'text-[#1da1f2]' : 'text-[#00000073]'} mr-[8px] cursor-pointer text-[13px] font-bold `} onClick={() => handleLike(comment._id)}>like</div>

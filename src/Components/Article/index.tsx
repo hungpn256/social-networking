@@ -29,7 +29,7 @@ import LazyLoad from 'react-lazyload';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ip } from '../../configs/ip';
-import IArticle, { IComment, ILike } from '../../Models/article';
+import IArticle, { IComment } from '../../Models/article';
 import ILogin from '../../Models/login';
 import * as profileActions from '../../Pages/Profile/actions';
 import CommentCustom from '../Comment';

@@ -47,14 +47,12 @@ function* changeUserSaga({ payload }: AnyAction) {
   const { _id } = payload;
   const arrayService = [
     { service: services.getProfileUser, payload: payload },
-    { service: services.getArticles, payload: { _id } },
   ];
   try {
-    const [resUser, resArticle] = yield all(
+    const [resUser] = yield all(
       arrayService.map((service) => call(service.service, service.payload))
     );
     yield put(profileActions.getUserSuccess({ ...resUser.data }));
-    yield put(profileActions.getArticlesSuccess(resArticle.data.posts));
     toast.success('get profile success');
   } catch (err) {
     yield put(profileActions.getUserFail(err));

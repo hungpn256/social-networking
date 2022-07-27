@@ -3,6 +3,19 @@ import Person from '../Person/Person';
 import Trend from '../trend/Trend';
 import styles from './Trend.module.css';
 function Trends({ userRecomment }) {
+  const data = [{
+    _id: 1,
+    avatar: 'https://scontent.fhan2-1.fna.fbcdn.net/v/t39.30808-6/295418634_7694463730627970_2373434662514321004_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=730e14&_nc_ohc=i4AzLB-X1dEAX-Tux0n&_nc_ht=scontent.fhan2-1.fna&oh=00_AT-hg1siqVr780u7ezgoopYQiMtL80Xls_V6pQeG_mqUPQ&oe=62E55D2B',
+    fullName: 'Huwng1231 jiahsd kjasd'
+  }, {
+    _id: 3,
+    avatar: 'https://scontent.fhan2-1.fna.fbcdn.net/v/t39.30808-6/295418634_7694463730627970_2373434662514321004_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=730e14&_nc_ohc=i4AzLB-X1dEAX-Tux0n&_nc_ht=scontent.fhan2-1.fna&oh=00_AT-hg1siqVr780u7ezgoopYQiMtL80Xls_V6pQeG_mqUPQ&oe=62E55D2B',
+    fullName: 'Huwng'
+  }, {
+    _id: 2,
+    avatar: 'https://scontent.fhan2-1.fna.fbcdn.net/v/t39.30808-6/295418634_7694463730627970_2373434662514321004_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=730e14&_nc_ohc=i4AzLB-X1dEAX-Tux0n&_nc_ht=scontent.fhan2-1.fna&oh=00_AT-hg1siqVr780u7ezgoopYQiMtL80Xls_V6pQeG_mqUPQ&oe=62E55D2B',
+    fullName: 'Huwng'
+  }]
   return (
     <div className={styles['trending-menu']}>
       <div className={styles['trending-center']}>
@@ -15,18 +28,15 @@ function Trends({ userRecomment }) {
               <Trend key={index} />
             ))}
           </div>
-          {/* <div className={styles['show-more']}>
-            <a href=" # ">Show more</a>
-          </div> */}
         </div>
         <div className={styles['follow']}>
           <div className={styles['header']}>
-            <p>Who to Follow</p>
+            <p>Contact</p>
           </div>
           <div className={styles['persons']}>
-            {userRecomment &&
-              userRecomment.map((person, index) => {
-                return <Person key={index} person={person} />;
+            {data &&
+              data.map((person, index) => {
+                return <Person key={person._id} person={person} />;
               })}
           </div>
         </div>

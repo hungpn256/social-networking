@@ -6,13 +6,14 @@ class serviceLogin extends serviceBase {
     return axios.put(`${ip}/user/profile`, payload);
   };
   getProfileUser = (payload) => {
+    console.log("🚀 ~ file: service.js ~ line 9 ~ serviceLogin ~ payload", payload)
     const { _id } = payload;
     return axios.get(`${ip}/user/${_id}`);
   };
   getArticles = (payload) => {
-    const { _id } = payload;
+    const { _id, currentId } = payload;
     payload._id = undefined;
-    return axios.get(`${ip}/post/${_id}`, { params: { ...payload.paging } });
+    return axios.get(`${ip}/post/${_id}`, { params: { _id: currentId } });
   };
   postArticle = (payload) => {
     // let formData = new FormData();

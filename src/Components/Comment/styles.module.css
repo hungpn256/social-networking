@@ -1,8 +1,8 @@
 .comment{
   background-color: #FFC0CB55;
-  border-radius: 12px;
+  border-radius: 16px;
   margin-left: 8px;
-  padding: 8px;
+  padding: 8px 16px;
   margin-top: 8px;
 }
 .comment-form{
@@ -19,5 +19,5 @@
 .wrap-icon-like{
   position: absolute;
   bottom: -8px;
-  right: 20px;
+  right: 12px;
 }

@@ -13,6 +13,5 @@ function* getArticleSaga() {
   }
 }
 export default function* watchHomeSaga() {
-  yield takeLatest(homeConstant.HOME_GET_USER_RECOMMENT, getUserRecommentSaga);
   yield takeLatest(homeConstant.HOME_GET_ARTICLE, getArticleSaga);
 }

@@ -10,23 +10,39 @@ import { Image, Input, Spin } from 'antd';
 import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { v1 as uuidv1 } from 'uuid';
+import { RootState } from '../../index_Reducer';
 import * as profileActions from '../../Pages/Profile/actions';
 import styles from './styles.module.css';
 const { TextArea } = Input;
-export default function PostArticle({ loading }) {
+
+interface Props {
+  loading: boolean
+}
+
+export default function PostArticle({ loading }: Props) {
   const posterText = useRef(null);
-  const profileState = useSelector((state) => state.profile);
+  const profileState = useSelector((state: RootState) => state.profile);
   const { record } = profileState;
   const dispatch = useDispatch();
-  const onSubmit = (e) => {
+  const onSubmit = (e: any) => {
     e.preventDefault();
     dispatch(profileActions.postArticle(record));
   };
+  console.log(123);
+
   const urlImage = Array.from(profileState.record.images).map((image) => {
-    return URL.createObjectURL(image);
+    return URL.createObjectURL(image as MediaSource);
   });
   const handleDeleteImgPreview = (index: number) => {
-    setImages([]);
+    dispatch(profileActions.changeState({
+      record: {
+        ...record,
+        images: record.images.filter(
+          (i: MediaSource, idx: number) => {
+            return idx !== index
+          })
+      }
+    }))
   };
   return (
     <Spin delay={500} spinning={loading}>
@@ -83,11 +99,13 @@ export default function PostArticle({ loading }) {
                     style={{ display: 'none' }}
                     ref={posterText}
                     onChange={(e) => {
-                      dispatch(
-                        profileActions.changeState({
-                          record: { ...record, images: e.target.files },
-                        })
-                      );
+                      if (e.target.files) {
+                        dispatch(
+                          profileActions.changeState({
+                            record: { ...record, images: Array.from(e.target.files) },
+                          })
+                        );
+                      }
                     }}
                   />
                 </li>
