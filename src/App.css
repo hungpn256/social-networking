@@ -51,3 +51,6 @@
 .anticon{
   vertical-align:unset
 }
+img {
+  display: unset;
+}

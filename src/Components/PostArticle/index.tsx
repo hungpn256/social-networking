@@ -7,7 +7,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Image, Input, Spin } from 'antd';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { v1 as uuidv1 } from 'uuid';
 import { RootState } from '../../index_Reducer';
@@ -16,7 +16,7 @@ import styles from './styles.module.css';
 const { TextArea } = Input;
 
 interface Props {
-  loading: boolean
+  loading: boolean;
 }
 
 export default function PostArticle({ loading }: Props) {
@@ -28,21 +28,26 @@ export default function PostArticle({ loading }: Props) {
     e.preventDefault();
     dispatch(profileActions.postArticle(record));
   };
-  console.log(123);
+  const [urlImage, setUrlImage] = useState<string[]>([]);
+  useEffect(() => {
+    setUrlImage(
+      Array.from(profileState.record.images).map((image) => {
+        return URL.createObjectURL(image as MediaSource);
+      })
+    );
+  }, [profileState.record.images]);
 
-  const urlImage = Array.from(profileState.record.images).map((image) => {
-    return URL.createObjectURL(image as MediaSource);
-  });
   const handleDeleteImgPreview = (index: number) => {
-    dispatch(profileActions.changeState({
-      record: {
-        ...record,
-        images: record.images.filter(
-          (i: MediaSource, idx: number) => {
-            return idx !== index
-          })
-      }
-    }))
+    dispatch(
+      profileActions.changeState({
+        record: {
+          ...record,
+          images: record.images.filter((i: MediaSource, idx: number) => {
+            return idx !== index;
+          }),
+        },
+      })
+    );
   };
   return (
     <Spin delay={500} spinning={loading}>
@@ -68,8 +73,14 @@ export default function PostArticle({ loading }: Props) {
                   {urlImage &&
                     urlImage.map((urlImage, index) => {
                       return (
-                        <div key={uuidv1()} style={{ position: 'relative' }}>
-                          <Image src={urlImage} height={100} width={100} key={index}></Image>
+                        <div key={uuidv1()} style={{ position: 'relative' }} className="mr-[16px]">
+                          <Image
+                            src={urlImage}
+                            height={100}
+                            width={100}
+                            key={index}
+                            className="rounded-xl"
+                          ></Image>
                           <FontAwesomeIcon
                             className={styles['icon-close']}
                             icon={faTimesCircle}
@@ -95,6 +106,8 @@ export default function PostArticle({ loading }: Props) {
                 >
                   <FontAwesomeIcon icon={faImages} />
                   <input
+                    multiple
+                    accept="video/*,image/*"
                     type="file"
                     style={{ display: 'none' }}
                     ref={posterText}

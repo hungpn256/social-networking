@@ -4,7 +4,7 @@ import {
   faEllipsisV,
   faGlobeAmericas,
   faHeart as faHeartSolid,
-  faPaperPlane
+  faPaperPlane,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -20,7 +20,7 @@ import {
   Menu,
   Modal,
   Spin,
-  Typography
+  Typography,
 } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
@@ -37,60 +37,74 @@ import styles from './styles.module.css';
 const { TextArea } = Input;
 const { Paragraph } = Typography;
 
-const CommentList = ({ comments, numOfCmt, numberOfLike }: { comments: IComment[], numOfCmt: number, numberOfLike: number }) => (
+const CommentList = ({
+  comments,
+  numOfCmt,
+  numberOfLike,
+}: {
+  comments: IComment[];
+  numOfCmt: number;
+  numberOfLike: number;
+}) => (
   <List
     dataSource={comments}
-    header={(numberOfLike > 0 ? `${numberOfLike} ${numberOfLike > 1 ? 'likes  ' : 'like  '}` : '') + (numOfCmt > 0 ? `${numOfCmt} ${numOfCmt > 1 ? 'replies' : 'reply'}` : '')}
+    header={
+      (numberOfLike > 0 ? `${numberOfLike} ${numberOfLike > 1 ? 'likes  ' : 'like  '}` : '') +
+      (numOfCmt > 0 ? `${numOfCmt} ${numOfCmt > 1 ? 'replies' : 'reply'}` : '')
+    }
     itemLayout="horizontal"
     renderItem={(item) => {
-      return (
-        <CommentCustom comment={item} />
-      )
+      return <CommentCustom comment={item} />;
     }}
   />
 );
 
-export const Editor = forwardRef(({
-  onChange,
-  onSubmit,
-  submitting,
-  value,
-}: {
-  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-  onSubmit: () => void;
-  submitting: boolean;
-  value: string;
-}, ref) => {
-  const refInput = useRef<any>()
-  useImperativeHandle(ref, () => ({
-    focus: refInput.current?.focus
-  }))
-  return (
-    <div className={styles['editor']}>
-      <TextArea
-        placeholder={'Comment here...'}
-        style={{ borderRadius: 20, background: '#f5f5f5', flex: 1 }}
-        autoSize={{ minRows: 1, maxRows: 5 }}
-        onChange={onChange}
-        value={value}
-        ref={refInput}
-      />
-      <div className={styles['spin-comment']}>
-        <Spin spinning={submitting}>
-          <Button className={styles['send-comment']} htmlType="submit" onClick={onSubmit}>
-            <FontAwesomeIcon icon={faPaperPlane} />
-          </Button>
-        </Spin>
+export const Editor = forwardRef(
+  (
+    {
+      onChange,
+      onSubmit,
+      submitting,
+      value,
+    }: {
+      onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+      onSubmit: () => void;
+      submitting: boolean;
+      value: string;
+    },
+    ref
+  ) => {
+    const refInput = useRef<any>();
+    useImperativeHandle(ref, () => ({
+      focus: refInput.current?.focus,
+    }));
+    return (
+      <div className={styles['editor']}>
+        <TextArea
+          placeholder={'Comment here...'}
+          style={{ borderRadius: 20, background: '#f5f5f5', flex: 1 }}
+          autoSize={{ minRows: 1, maxRows: 5 }}
+          onChange={onChange}
+          value={value}
+          ref={refInput}
+        />
+        <div className={styles['spin-comment']}>
+          <Spin spinning={submitting}>
+            <Button className={styles['send-comment']} htmlType="submit" onClick={onSubmit}>
+              <FontAwesomeIcon icon={faPaperPlane} />
+            </Button>
+          </Spin>
+        </div>
       </div>
-    </div>
-  )
-});
+    );
+  }
+);
 
 export default function Para({ article }: { article: IArticle }) {
   const { createBy: user, comment, liked } = article;
   const { user: userLogin } = useSelector((state: { login: ILogin }) => state.login);
-  const [isLiked, setLiked] = useState(article.liked.some((i) => i.likedBy === userLogin?._id))
-  const [numOfComment, setNumOfComment] = useState(article.numOfCmt)
+  const [isLiked, setLiked] = useState(article.liked.some((i) => i.likedBy === userLogin?._id));
+  const [numOfComment, setNumOfComment] = useState(article.numOfCmt);
   const [comments, setComments] = useState<IComment[]>(comment);
   const [numberOfLike, setNumberOfLike] = useState(liked.length);
   const [loading, setLoading] = useState(false);
@@ -134,17 +148,17 @@ export default function Para({ article }: { article: IArticle }) {
 
   const handleLike = (id: string) => {
     try {
-      setNumberOfLike(isLiked ? numberOfLike - 1 : numberOfLike + 1)
+      setNumberOfLike(isLiked ? numberOfLike - 1 : numberOfLike + 1);
       setLiked(!isLiked);
       axios.post(`${ip}/post/like/${id}`, {
         like: {
-          type: "LIKE"
-        }
-      })
+          type: 'LIKE',
+        },
+      });
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   const handleSubmit = async () => {
     if (!value) {
@@ -157,16 +171,12 @@ export default function Para({ article }: { article: IArticle }) {
         file: [],
         liked: [],
         reply: [],
-      }
-      const res = await axios.post(`${ip}/post/comment/${article._id}`, { comment })
+      };
+      const res = await axios.post(`${ip}/post/comment/${article._id}`, { comment });
       setValue('');
-      setComments([
-        ...comments,
-        res.data.comment,
-      ]);
-      setNumOfComment(numOfComment + 1)
+      setComments([...comments, res.data.comment]);
+      setNumOfComment(numOfComment + 1);
     } catch (e) {
-
     } finally {
       setSubmitting(false);
     }
@@ -239,15 +249,33 @@ export default function Para({ article }: { article: IArticle }) {
               return line;
             })}
           </Paragraph>
-          {article.images[0]?.url && (
-            <Image.PreviewGroup>
-              <Image
-                width="100%"
-                style={{ aspectRatio: '4 / 3', maxWidth: '100%', objectFit: 'cover' }}
-                src={article.images[0].url}
-              ></Image>
-            </Image.PreviewGroup>
-          )}
+          <div className="flex flex-wrap">
+            {article.images.length > 0 &&
+              article.images.map((i) => {
+                return (
+                  <div
+                    style={{
+                      minWidth: '50%',
+                      width: `${100 / article.images.length}%`,
+                      maxWidth: '100%',
+                      flex: 1,
+                    }}
+                  >
+                    <Image.PreviewGroup>
+                      <Image
+                        width="100%"
+                        style={{
+                          aspectRatio: '4 / 3',
+
+                          objectFit: 'cover',
+                        }}
+                        src={i.url}
+                      ></Image>
+                    </Image.PreviewGroup>
+                  </div>
+                );
+              })}
+          </div>
         </div>
         <Divider style={{ margin: 0, borderTop: '1px solid rgba(0,0,0,0.2)' }} />
         <div className={styles['action-article']}>
@@ -256,11 +284,17 @@ export default function Para({ article }: { article: IArticle }) {
             icon={isLiked ? faHeartSolid : faHeart}
             onClick={() => handleLike(article._id)}
           />
-          <FontAwesomeIcon className={styles['action-article-icon']} icon={faComment} onClick={() => inputRef.current.focus()} />
+          <FontAwesomeIcon
+            className={styles['action-article-icon']}
+            icon={faComment}
+            onClick={() => inputRef.current.focus()}
+          />
           <FontAwesomeIcon className={styles['action-article-icon']} icon={faShareSquare} />
         </div>
         <Divider style={{ margin: 0, borderTop: '1px solid rgba(0,0,0,0.2)' }} />
-        {(comments.length > 0 || numberOfLike > 0) && <CommentList comments={comments} numOfCmt={numOfComment} numberOfLike={numberOfLike} />}
+        {(comments.length > 0 || numberOfLike > 0) && (
+          <CommentList comments={comments} numOfCmt={numOfComment} numberOfLike={numberOfLike} />
+        )}
         <Comment
           avatar={<Avatar icon={<UserOutlined />} src={userLogin?.avatar} alt="Han Solo" />}
           className={styles['comment-form']}

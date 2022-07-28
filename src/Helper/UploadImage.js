@@ -13,7 +13,7 @@ const handleUpload = async (image) =>
       },
       async () => {
         const url = await storage.ref('images').child(image.name).getDownloadURL();
-        resolve(url);
+        resolve({ url, type: image.type });
       }
     );
   });
