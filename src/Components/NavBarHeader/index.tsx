@@ -4,7 +4,7 @@ import {
   LoginOutlined,
   SettingOutlined,
   UnorderedListOutlined,
-  UserOutlined
+  UserOutlined,
 } from '@ant-design/icons';
 import { faFacebookMessenger } from '@fortawesome/free-brands-svg-icons';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
@@ -16,12 +16,14 @@ import { ChangeEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import Logo from '../../Assets/logo.png';
+import Notification from '../Notification';
 import styles from './styles.module.css';
 const { Search } = Input;
 
 export default function Home(props: any) {
   const location = useLocation();
   const history = useHistory();
+  const [showNotificaiton, setShowNotificaiton] = useState(false);
   const login = useSelector((state) => state.login);
   const { user } = login;
   const checkBtn = document.querySelector(`#${styles['check']}`) as any;
@@ -178,11 +180,17 @@ export default function Home(props: any) {
                       </li>
                     </Link>
                   </Badge>
-                  <Badge count={25} style={{ transform: 'translate(0px,-5px)' }}>
-                    <li className={`${styles['menu-item']} ${styles['wrap-icon']}`}>
-                      <FontAwesomeIcon className={styles['menu-item-icon']} icon={faBell} />
-                    </li>
-                  </Badge>
+                  <div className="relative">
+                    <Badge count={25} style={{ transform: 'translate(0px,-5px)' }}>
+                      <li
+                        className={`${styles['menu-item']} ${styles['wrap-icon']}`}
+                        onClick={() => setShowNotificaiton(!showNotificaiton)}
+                      >
+                        <FontAwesomeIcon className={styles['menu-item-icon']} icon={faBell} />
+                      </li>
+                    </Badge>
+                    {showNotificaiton && <Notification />}
+                  </div>
                   <li
                     className={`${styles['menu-item']}`}
                     style={{
