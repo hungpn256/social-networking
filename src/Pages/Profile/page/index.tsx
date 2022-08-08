@@ -3,33 +3,33 @@ import {
   faChevronDown,
   faEdit,
   faEye,
-  faEyeSlash,
-  faGraduationCap,
-  faHome,
-  faMars,
+  faEyeSlash, faMars,
   faPhone,
+  faPlus,
   faSignInAlt,
+  faTrash,
   faVenus,
-  faVenusMars,
+  faVenusMars
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Affix, Dropdown, Image, Menu, Spin } from 'antd';
-import React, { useEffect, useState, ChangeEvent, useRef } from 'react';
+import axios from 'axios';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import userImg from '../../../Assets/user.png';
 import Article from '../../../Components/Article';
 import LoadingGlobal from '../../../Components/LoadingGlobal';
+import LoadingMore from '../../../Components/LoadingMore';
 import PostArticle from '../../../Components/PostArticle';
-import * as loginActions from '../../Login/actions';
-import * as profileActions from '../actions';
-import styles from './styles.module.css';
+import { ip } from '../../../configs/ip';
 import IArticle from '../../../Models/article';
 import ILogin from '../../../Models/login';
 import IProfile from '../../../Models/profile';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import services from '../service'
-import LoadingMore from '../../../Components/LoadingMore';
+import * as profileActions from '../actions';
+import services from '../service';
+import styles from './styles.module.css';
 
 export default function Profile() {
   const { profile: profileState, login } = useSelector(
@@ -37,11 +37,11 @@ export default function Profile() {
   );
   const { token } = login;
   const [offsetTop, setOffset] = useState<undefined | number>(60);
-  const { loadingPage, user: userProfile, articles, isFollowed } = profileState;
-  const [f, setF] = useState<boolean>(isFollowed === 1 ? true : false);
+  const { loadingPage, user: userProfile, articles, friendStatus } = profileState;
+  const [f, setF] = useState<string | undefined>(friendStatus);
   useEffect(() => {
-    setF(isFollowed === 1 ? true : false);
-  }, [isFollowed]);
+    setF(friendStatus);
+  }, [friendStatus]);
   const params: { _id: string } = useParams();
   const { _id } = params;
   const dispatch = useDispatch();
@@ -50,11 +50,34 @@ export default function Profile() {
   const currentId = useRef<string | null>();
   const isLoading = useRef(false);
 
+  const fetchData = async () => {
+    try {
+      if (isLoading.current) return;
+      isLoading.current = true;
+      if (hasMore) {
+        currentId.current = articles.length ? articles[articles.length - 1]._id : null;
+        const res = await services.getArticles({ _id, currentId: currentId.current })
+        const newPosts = [...articles, ...res.data.posts]
+        const totalPost = res.data.totalPost
+        if (newPosts.length >= totalPost) {
+          setHasMore(false)
+        }
+        dispatch(profileActions.getArticlesSuccess(newPosts))
+      }
+    }
+    catch (err) {
+      console.log(err);
+    } finally {
+      isLoading.current = false
+    }
+  }
+
   useEffect(() => {
     dispatch({ type: 'CLEAR_STATE_PROFILE' });
     dispatch(profileActions.getUser({ _id }));
     fetchData()
   }, [_id, token, dispatch]);
+
   const onChangeAvatar = (e: ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
     const file: File = (target.files as FileList)[0];
@@ -102,27 +125,6 @@ export default function Profile() {
     return <LoadingGlobal />;
   }
 
-  const fetchData = async () => {
-    try {
-      if (isLoading.current) return;
-      isLoading.current = true;
-      if (hasMore) {
-        currentId.current = articles.length ? articles[articles.length - 1]._id : null;
-        const res = await services.getArticles({ _id, currentId: currentId.current })
-        const newPosts = [...articles, ...res.data.posts]
-        const totalPost = res.data.totalPost
-        if (newPosts.length >= totalPost) {
-          setHasMore(false)
-        }
-        dispatch(profileActions.getArticlesSuccess(newPosts))
-      }
-    }
-    catch (err) {
-      console.log(err);
-    } finally {
-      isLoading.current = false
-    }
-  }
   return (
     <InfiniteScroll
       dataLength={articles.length}
@@ -139,7 +141,7 @@ export default function Profile() {
                 <Spin delay={500} spinning={profileState?.changeCoverRequesting ?? false}>
                   <img src={userProfile?.cover} alt="" className={styles['cover-image']} />
                 </Spin>
-                {isFollowed === 0 ? (
+                {friendStatus === "MINE" ? (
                   <>
                     <label className={styles['change-cover']} htmlFor="change-cover">
                       <FontAwesomeIcon icon={faCamera} /> <span>Edit cover picture</span>
@@ -154,36 +156,64 @@ export default function Profile() {
                       }
                     ></input>
                   </>
-                ) : isFollowed === 2 || isFollowed === 1 ? (
+                ) : (friendStatus === "REQUESTED" || !friendStatus) ? (
                   <>
                     <label
                       className={styles['change-cover']}
-                      onClick={() => {
-                        dispatch(loginActions.followUser(_id));
-                        setF(!f);
+                      onClick={async () => {
+                        if (f === "REQUESTED") {
+                          await axios.put(`${ip}/friend/${_id}`, { status: "REJECTED" })
+                          setF(undefined);
+                        } else {
+                          await axios.post(`${ip}/friend/${_id}`)
+                          setF("REQUESTED");
+                        }
                       }}
                     >
                       <FontAwesomeIcon icon={f ? faEyeSlash : faEye} />{' '}
-                      <span id="content-button-follow">{f ? 'UnFollow' : 'Follow'}</span>
+                      <span id="content-button-follow">{f === "REQUESTED" ? 'REMOVE REQUEST' : 'ADD FRIEND'}</span>
                     </label>
                   </>
-                ) : (
-                  <>
+                ) : (friendStatus === "PENDING") ? (
+                  <div className={styles['wrap-btn']}>
                     <label
-                      className={styles['change-cover']}
-                      onClick={() => {
-                        history.push({
-                          pathname: '/auth/login',
-                          state: {
-                            prePath: history.location.pathname,
-                          },
-                        });
+                      className={`${styles['btn']} ${styles['btn-add']}`}
+                      onClick={async () => {
+                        await axios.put(`${ip}/friend/${_id}`, { status: "ACCEPTED" })
+                        setF("FRIEND");
                       }}
                     >
-                      <FontAwesomeIcon icon={faSignInAlt} /> <span>Đăng nhập</span>
+                      <FontAwesomeIcon icon={faPlus} /> <span>ADD FRIEND</span>
                     </label>
-                  </>
-                )}
+                    <label
+                      className={styles['btn']}
+                      onClick={async () => {
+                        await axios.put(`${ip}/friend/${_id}`, { status: "REJECTED" })
+                        setF("REJECTED");
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faTrash} /> <span>REMOVE</span>
+                    </label>
+                  </div>
+                ) : (friendStatus === "FRIEND") ?
+                  <></>
+                  : (
+                    <>
+                      <label
+                        className={styles['change-cover']}
+                        onClick={() => {
+                          history.push({
+                            pathname: '/auth/login',
+                            state: {
+                              prePath: history.location.pathname,
+                            },
+                          });
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faSignInAlt} /> <span>Đăng nhập</span>
+                      </label>
+                    </>
+                  )}
               </div>
               <div className={styles['avatar']}>
                 <Spin delay={500} spinning={profileState.requesting}>
@@ -201,7 +231,7 @@ export default function Profile() {
                     )}
                   </Image.PreviewGroup>
                 </Spin>
-                {isFollowed === 0 && (
+                {friendStatus === "MINE" && (
                   <Dropdown overlay={menu} trigger={['click']}>
                     <FontAwesomeIcon icon={faChevronDown} className={styles['avatar-dropdown']} />
                   </Dropdown>
@@ -302,7 +332,7 @@ export default function Profile() {
                   </div>
                 </Affix>
                 <div className={styles['detail-video']}>
-                  {isFollowed === 0 && (
+                  {friendStatus === "MINE" && (
                     <PostArticle loading={profileState?.postArticleRequesting ?? false} />
                   )}
                   {articles &&

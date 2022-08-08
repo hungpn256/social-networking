@@ -6,6 +6,7 @@ import { useLocation } from 'react-router';
 import Content from '../../Components/Contents/Content';
 import NavBar from '../../Components/NavBar/NavBar';
 import Person from '../../Components/Person/Person';
+import IUser from '../../Models/user';
 import * as searchActions from './actions';
 import styles from './styles.module.css';
 function SearchComponent() {
@@ -32,7 +33,7 @@ function SearchComponent() {
           <div>
             <h3>Users</h3>
             {users.length > 0 ? (
-              users.map((person) => {
+              users.map((person: IUser) => {
                 return <Person person={person} key={person._id} />;
               })
             ) : (

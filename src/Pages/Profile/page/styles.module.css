@@ -87,6 +87,39 @@ i {
   cursor: pointer;
   transition: 0.5s;
 }
+
+.wrap-btn{
+  position: absolute;
+  right: 10%;
+  bottom: 40px;
+  z-index: 10;
+}
+
+.btn{
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: 0.5s;
+  min-width: 150px;
+  margin-left: 12px;
+  border-radius: 10px;
+}
+
+.btn-add{
+  background-color: #1da1f2cc;
+  color: #fff
+}
+
+.btn:hover {
+  background-color: #fff;
+  transform: scale(1.05);
+}
+
+.btn-add:hover {
+  background-color: #1da1f2;
+  transform: scale(1.05);
+}
+
 .change-cover:hover {
   background-color: #fff;
   transform: scale(1.05);
@@ -266,7 +299,7 @@ i {
   object-fit: cover;
   border-radius: 4px;
   cursor: pointer;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
 }
 .detail-video {
   width: 64%;

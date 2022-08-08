@@ -17,7 +17,7 @@ const initialState: Iprofile = {
     page: 1,
     limit: 10,
   },
-  isFollowed: 4,
+  friendStatus: undefined,
 };
 
 const reducer = (state = initialState, action: any) => {

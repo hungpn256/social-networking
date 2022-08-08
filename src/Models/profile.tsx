@@ -17,7 +17,7 @@ export default interface Iprofile {
     page: number;
     limit: number;
   };
-  isFollowed: number;
+  friendStatus?: "FRIEND" | "PENDING" | "REQUESTED" | "MINE"
   changeCoverRequesting?: boolean;
   postArticleRequesting?: boolean;
 }

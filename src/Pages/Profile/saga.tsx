@@ -44,7 +44,6 @@ function* changeAvatarSaga({ payload }: AnyAction) {
 //Change User
 function* changeUserSaga({ payload }: AnyAction) {
   yield put(profileActions.changeState({ loadingPage: true }));
-  const { _id } = payload;
   const arrayService = [{ service: services.getProfileUser, payload: payload }];
   try {
     const [resUser] = yield all(
@@ -66,7 +65,6 @@ function* postArticleSaga({ payload }: AnyAction) {
   try {
     if (payload.images.length > 0) {
       const urlImage: any = yield all(payload.images.map((i) => call(handleUpload, i)));
-      console.log('🚀 ~ file: saga.tsx ~ line 69 ~ function*postArticleSaga ~ urlImage', urlImage);
       payload.images = urlImage;
     }
     const res = yield call(services.postArticle, payload);

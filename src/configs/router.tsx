@@ -8,10 +8,6 @@ import Profile from '../Pages/Profile';
 import SearchComponent from '../Pages/SearchNav';
 import ShellChat from '../Pages/Chat/shell';
 
-enum Roles {
-  USER = 'user',
-  ADMIN = 'admin',
-}
 const ROUTES = [
   {
     path: '/auth',
@@ -34,7 +30,7 @@ const ROUTES = [
   {
     path: '/messenger',
     component: ShellChat,
-    authority: [Roles.USER, Roles.ADMIN],
+    authority: true,
     name: 'messenger',
   },
   {
@@ -46,14 +42,14 @@ const ROUTES = [
         path: '/',
         component: Home,
         exact: true,
-        authority: [Roles.USER, Roles.ADMIN],
+        authority: true,
         name: 'Home',
       },
       {
         path: '/search',
         exact: false,
         component: SearchComponent,
-        authority: [Roles.USER, Roles.ADMIN],
+        authority: true,
         name: 'search',
       },
       {

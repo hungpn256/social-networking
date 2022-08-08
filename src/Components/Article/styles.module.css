@@ -68,3 +68,13 @@
 .comment div{
   padding-bottom: 0;
 }
+.header-comment{
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+.more{
+  color: #777;
+  font-weight: bold;
+  cursor: pointer;
+}
