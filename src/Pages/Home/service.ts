@@ -9,13 +9,18 @@ function followUser(payload: string) {
   return axios.put(`${ip}/user/follow/${payload}`);
 }
 
-function  getArticle(_id?: string) {
-  return axios.get(`${ip}/post`,{params: {_id}});
+function getArticle(_id?: string) {
+  return axios.get(`${ip}/post`, { params: { _id } });
+}
+
+function getFriend() {
+  return axios.get(`${ip}/friend`);
 }
 
 const service = {
   getUserRecomment,
   followUser,
-  getArticle
-}
-export default service
+  getArticle,
+  getFriend,
+};
+export default service;

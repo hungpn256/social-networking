@@ -5,7 +5,7 @@ import IHome from '../../Models/home';
 const initialState: IHome = {
   requesting: false,
   success: false,
-  usersRecomment: [],
+  friend: [],
   error: null,
   loadingPage: false,
   articles: [],
@@ -21,7 +21,7 @@ const reducer = (state = initialState, action: any) => {
     case homeConstants.HOME_CHANGE_STATE: {
       return { ...state, ...action.payload };
     }
-    case homeConstants.HOME_GET_USER_RECOMMENT_SUCCESS: {
+    case homeConstants.HOME_GET_FRIEND_SUCCESS: {
       return { ...state, ...action.payload };
     }
     case homeConstants.HOME_GET_ARTICLE_SUCCESS: {

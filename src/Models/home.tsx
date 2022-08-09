@@ -4,7 +4,7 @@ import IUser from './user';
 export default interface IHome {
   requesting: boolean;
   success: boolean;
-  usersRecomment: [] | IUser[];
+  friend: [] | IUser[];
   error: null | string;
   loadingPage: boolean;
   articles: Array<IArticle> | [];
