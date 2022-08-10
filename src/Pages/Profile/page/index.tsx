@@ -1,33 +1,28 @@
 import {
   faCamera,
   faChevronDown,
-  faEdit,
   faEye,
-  faEyeSlash, faMars,
-  faPhone,
+  faEyeSlash,
   faPlus,
   faSignInAlt,
   faTrash,
-  faVenus,
-  faVenusMars
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Affix, Dropdown, Image, Menu, Spin } from 'antd';
+import { Dropdown, Image, Menu, Spin } from 'antd';
 import axios from 'axios';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, Route, useHistory, useParams } from 'react-router-dom';
 import userImg from '../../../Assets/user.png';
-import Article from '../../../Components/Article';
 import LoadingGlobal from '../../../Components/LoadingGlobal';
 import LoadingMore from '../../../Components/LoadingMore';
-import PostArticle from '../../../Components/PostArticle';
 import { ip } from '../../../configs/ip';
-import IArticle from '../../../Models/article';
 import ILogin from '../../../Models/login';
 import IProfile from '../../../Models/profile';
 import * as profileActions from '../actions';
+import Detail from '../Components/Detail/Detail';
+import Friend from '../Components/Friend';
 import services from '../service';
 import styles from './styles.module.css';
 
@@ -56,26 +51,28 @@ export default function Profile() {
       isLoading.current = true;
       if (hasMore) {
         currentId.current = articles.length ? articles[articles.length - 1]._id : null;
-        const res = await services.getArticles({ _id, currentId: currentId.current })
-        const newPosts = [...articles, ...res.data.posts]
-        const totalPost = res.data.totalPost
+        const res = await services.getArticles({ _id, currentId: currentId.current });
+        const newPosts = [...articles, ...res.data.posts];
+        const totalPost = res.data.totalPost;
         if (newPosts.length >= totalPost) {
-          setHasMore(false)
+          setHasMore(false);
         }
-        dispatch(profileActions.getArticlesSuccess(newPosts))
+        dispatch(profileActions.getArticlesSuccess(newPosts));
       }
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err);
     } finally {
-      isLoading.current = false
+      isLoading.current = false;
     }
-  }
+  };
 
   useEffect(() => {
     dispatch({ type: 'CLEAR_STATE_PROFILE' });
     dispatch(profileActions.getUser({ _id }));
-    fetchData()
+    fetchData();
+    return () => {
+      dispatch({ type: 'CLEAR_STATE_PROFILE' });
+    };
   }, [_id, token, dispatch]);
 
   const onChangeAvatar = (e: ChangeEvent<HTMLInputElement>) => {
@@ -85,23 +82,13 @@ export default function Profile() {
       dispatch(profileActions.changeAvatar(file));
     }
   };
-  useEffect(() => {
-    const setOffsetTop = () => {
-      window.innerWidth > 768 ? setOffset(60) : setOffset(undefined);
-    };
-    setOffsetTop();
-    window.addEventListener('resize', setOffsetTop);
-    return () => {
-      window.removeEventListener('resize', setOffsetTop);
-    };
-  }, []);
+
   const handleChangeCover = (file: File) => {
     if (file) {
       dispatch(profileActions.changeCover(file));
     }
   };
-  const listImg =
-    articles && articles.filter((article: IArticle) => article.images[0]).splice(0, 9);
+
   const menu = (
     <Menu style={{ marginTop: 20, borderRadius: 10 }}>
       <Menu.Item
@@ -141,7 +128,7 @@ export default function Profile() {
                 <Spin delay={500} spinning={profileState?.changeCoverRequesting ?? false}>
                   <img src={userProfile?.cover} alt="" className={styles['cover-image']} />
                 </Spin>
-                {friendStatus === "MINE" ? (
+                {friendStatus === 'MINE' ? (
                   <>
                     <label className={styles['change-cover']} htmlFor="change-cover">
                       <FontAwesomeIcon icon={faCamera} /> <span>Edit cover picture</span>
@@ -156,31 +143,33 @@ export default function Profile() {
                       }
                     ></input>
                   </>
-                ) : (friendStatus === "REQUESTED" || !friendStatus) ? (
+                ) : friendStatus === 'REQUESTED' || !friendStatus ? (
                   <>
                     <label
                       className={styles['change-cover']}
                       onClick={async () => {
-                        if (f === "REQUESTED") {
-                          await axios.put(`${ip}/friend/${_id}`, { status: "REJECTED" })
+                        if (f === 'REQUESTED') {
+                          await axios.put(`${ip}/friend/${_id}`, { status: 'REJECTED' });
                           setF(undefined);
                         } else {
-                          await axios.post(`${ip}/friend/${_id}`)
-                          setF("REQUESTED");
+                          await axios.post(`${ip}/friend/${_id}`);
+                          setF('REQUESTED');
                         }
                       }}
                     >
                       <FontAwesomeIcon icon={f ? faEyeSlash : faEye} />{' '}
-                      <span id="content-button-follow">{f === "REQUESTED" ? 'REMOVE REQUEST' : 'ADD FRIEND'}</span>
+                      <span id="content-button-follow">
+                        {f === 'REQUESTED' ? 'REMOVE REQUEST' : 'ADD FRIEND'}
+                      </span>
                     </label>
                   </>
-                ) : (friendStatus === "PENDING") ? (
+                ) : friendStatus === 'PENDING' ? (
                   <div className={styles['wrap-btn']}>
                     <label
                       className={`${styles['btn']} ${styles['btn-add']}`}
                       onClick={async () => {
-                        await axios.put(`${ip}/friend/${_id}`, { status: "ACCEPTED" })
-                        setF("FRIEND");
+                        await axios.put(`${ip}/friend/${_id}`, { status: 'ACCEPTED' });
+                        setF('FRIEND');
                       }}
                     >
                       <FontAwesomeIcon icon={faPlus} /> <span>ADD FRIEND</span>
@@ -188,32 +177,32 @@ export default function Profile() {
                     <label
                       className={styles['btn']}
                       onClick={async () => {
-                        await axios.put(`${ip}/friend/${_id}`, { status: "REJECTED" })
-                        setF("REJECTED");
+                        await axios.put(`${ip}/friend/${_id}`, { status: 'REJECTED' });
+                        setF('REJECTED');
                       }}
                     >
                       <FontAwesomeIcon icon={faTrash} /> <span>REMOVE</span>
                     </label>
                   </div>
-                ) : (friendStatus === "FRIEND") ?
+                ) : friendStatus === 'FRIEND' ? (
                   <></>
-                  : (
-                    <>
-                      <label
-                        className={styles['change-cover']}
-                        onClick={() => {
-                          history.push({
-                            pathname: '/auth/login',
-                            state: {
-                              prePath: history.location.pathname,
-                            },
-                          });
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faSignInAlt} /> <span>Đăng nhập</span>
-                      </label>
-                    </>
-                  )}
+                ) : (
+                  <>
+                    <label
+                      className={styles['change-cover']}
+                      onClick={() => {
+                        history.push({
+                          pathname: '/auth/login',
+                          state: {
+                            prePath: history.location.pathname,
+                          },
+                        });
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faSignInAlt} /> <span>Đăng nhập</span>
+                    </label>
+                  </>
+                )}
               </div>
               <div className={styles['avatar']}>
                 <Spin delay={500} spinning={profileState.requesting}>
@@ -231,30 +220,34 @@ export default function Profile() {
                     )}
                   </Image.PreviewGroup>
                 </Spin>
-                {friendStatus === "MINE" && (
+                {friendStatus === 'MINE' && (
                   <Dropdown overlay={menu} trigger={['click']}>
                     <FontAwesomeIcon icon={faChevronDown} className={styles['avatar-dropdown']} />
                   </Dropdown>
                 )}
               </div>
               <div className={styles['infor-name']}>
-                <h2 className={styles['name']}>
-                  {userProfile?.fullName}
-                </h2>
+                <h2 className={styles['name']}>{userProfile?.fullName}</h2>
               </div>
 
               <div className={styles['infor-nav']}>
                 <ul className={styles['infor-nav-list']}>
-                  <Link to={'/profile/' + _id + '/photos'} className={styles['infor-nav-item-link']}>
+                  <Link
+                    to={'/profile/' + _id + '/photos'}
+                    className={styles['infor-nav-item-link']}
+                  >
                     <li className={styles['infor-nav-item']}>More</li>
                   </Link>
                   <Link
-                    to={'/profile/' + _id + '/follower'}
+                    to={'/profile/' + _id + '/friend'}
                     className={styles['infor-nav-item-link']}
                   >
-                    <li className={styles['infor-nav-item']}>Follower</li>
+                    <li className={styles['infor-nav-item']}>Friend</li>
                   </Link>
-                  <Link to={'/profile/' + _id + '/photos'} className={styles['infor-nav-item-link']}>
+                  <Link
+                    to={'/profile/' + _id + '/photos'}
+                    className={styles['infor-nav-item-link']}
+                  >
                     <li className={styles['infor-nav-item']}>Photos</li>
                   </Link>
                   <Link to={'/profile/' + _id + '/about'} className={styles['infor-nav-item-link']}>
@@ -263,85 +256,19 @@ export default function Profile() {
                 </ul>
               </div>
             </div>
-            <div className={styles['detail']}>
-              <div className={`${styles['detail-grid']}`}>
-                <Affix offsetTop={offsetTop} className={styles['detail-resume']}>
-                  <ul className={styles['detail-resume-list']}>
-                    <h3 id="">
-                      About <FontAwesomeIcon icon={faEdit} className={styles['edit-info-about']} />{' '}
-                    </h3>
-                    {userProfile?.phoneNumber && (
-                      <li className={styles['detail-resume-item']}>
-                        <FontAwesomeIcon icon={faPhone} className={styles['mr-10']} />
-                        Phone: {userProfile.phoneNumber}
-                      </li>
-                    )}
-                    {/* {userProfile?.place && (
-                    <li className={styles['detail-resume-item']}>
-                      <FontAwesomeIcon icon={faHome} className={styles['mr-10']} />
-                      Home town: {userProfile?.place}
-                    </li>
-                  )} */}
-
-                    {(userProfile?.gender || userProfile?.gender === "MALE") && (
-                      <li className={styles['detail-resume-item']}>
-                        <FontAwesomeIcon
-                          icon={
-                            userProfile.gender === "MALE"
-                              ? faMars
-                              : userProfile.gender === "FEMALE"
-                                ? faVenus
-                                : faVenusMars
-                          }
-                          className={styles['mr-10']}
-                        />
-                        Gender:{' '}
-                        {userProfile.gender === "MALE"
-                          ? 'Male'
-                          : userProfile.gender === "FEMALE"
-                            ? 'Female'
-                            : 'Other'}
-                      </li>
-                    )}
-
-                    {/* {userProfile?.school && (
-                    <li className={styles['detail-resume-item']}>
-                      <FontAwesomeIcon icon={faGraduationCap} className={styles['mr-10']} />
-                      School: {userProfile?.school}
-                    </li>
-                  )} */}
-                  </ul>
-                  <div className={styles['photo']}>
-                    <h3>Photos</h3>
-                    <div className={styles['photo-list']}>
-                      <Image.PreviewGroup>
-                        {listImg?.map((article: IArticle, index: number) => {
-                          return (
-                            <Image
-                              key={article._id + 'image'}
-                              width={'98%'}
-                              height={120}
-                              src={article.images[0].url}
-                              alt=""
-                              className={styles['photo-item-img']}
-                            />
-                          );
-                        })}
-                      </Image.PreviewGroup>
-                    </div>
-                  </div>
-                </Affix>
-                <div className={styles['detail-video']}>
-                  {friendStatus === "MINE" && (
-                    <PostArticle loading={profileState?.postArticleRequesting ?? false} />
-                  )}
-                  {articles &&
-                    articles.map((article: IArticle, index: number) => {
-                      return <Article key={article._id} article={article} />;
-                    })}
-                </div>
-              </div>
-            </div>
+            <Route
+              exact
+              path={'/profile/:id'}
+              render={() => (
+                <Detail
+                  articles={articles}
+                  userProfile={userProfile}
+                  friendStatus={friendStatus}
+                  profileState={profileState}
+                />
+              )}
+            ></Route>
+            <Route exact path={'/profile/:id/friend'} render={() => <Friend />}></Route>
           </div>
         </div>
       </div>
