@@ -250,7 +250,7 @@ export default function Profile() {
                   >
                     <li className={styles['infor-nav-item']}>Photos</li>
                   </Link>
-                  <Link to={'/profile/' + _id + '/about'} className={styles['infor-nav-item-link']}>
+                  <Link to={'/profile/' + _id} className={styles['infor-nav-item-link']}>
                     <li className={styles['infor-nav-item']}>About</li>
                   </Link>
                 </ul>
