@@ -21,7 +21,7 @@ const data = [
 export default function Friend() {
   return (
     <div className={styles['grid']}>
-      <Tabs defaultActiveKey="1">
+      <Tabs type="card" centered animated>
         <TabPane tab="Bạn bè" key="1">
           <List
             grid={{ gutter: 16, column: 4 }}

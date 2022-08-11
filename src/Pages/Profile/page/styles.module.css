@@ -186,11 +186,12 @@ i {
 .infor-nav {
   z-index: 1;
   width: 100%;
-  background-color: rgb(255, 244, 245);
+  background-color: pink;
   display: block;
-  /* border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px; */
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   border: 1px solid #d8d8d8;
+  border-top: none;
 }
 .infor-nav-list {
   padding: 0;
@@ -215,7 +216,8 @@ i {
   border-radius: 10px;
 }
 .infor-nav-item-link {
-  color: #777777;
+  color: #fff;
+  font-weight: bold;
 }
 .infor-nav-item-link:hover {
   color: #fff;
