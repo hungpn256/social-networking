@@ -40,7 +40,7 @@ const CommentList = ({
   comments,
   numOfCmt,
   numberOfLike,
-  postId
+  postId,
 }: {
   comments: IComment[];
   numOfCmt: number;
@@ -51,19 +51,26 @@ const CommentList = ({
 
   const loadMore = async () => {
     if (postId) {
-      const res = await axios.get(`${ip}/post/comment/` + postId)
-      setComment(res.data.comment)
+      const res = await axios.get(`${ip}/post/comment/` + postId);
+      setComment(res.data.comment);
     }
-  }
+  };
   return (
     <div>
-      <div className={styles['header-comment']}>{numberOfLike > 0 ? `${numberOfLike} ${numberOfLike > 1 ? 'likes  ' : 'like  '}` : ''}
-        {numOfCmt > 0 ? `${numOfCmt} ${numOfCmt > 1 ? 'replies' : 'reply'}` : ''}</div>
-      {commentPost.map((item) => <CommentCustom comment={item} />)}
-      {numOfCmt > commentPost.length && <div className={styles['more']} onClick={loadMore}>
-        More....</div>}
+      <div className={styles['header-comment']}>
+        {numberOfLike > 0 ? `${numberOfLike} ${numberOfLike > 1 ? 'likes  ' : 'like  '}` : ''}
+        {numOfCmt > 0 ? `${numOfCmt} ${numOfCmt > 1 ? 'replies' : 'reply'}` : ''}
+      </div>
+      {commentPost.map((item) => (
+        <CommentCustom comment={item} />
+      ))}
+      {numOfCmt > commentPost.length && (
+        <div className={styles['more']} onClick={loadMore}>
+          More....
+        </div>
+      )}
     </div>
-  )
+  );
 };
 
 export const Editor = forwardRef(
@@ -284,7 +291,6 @@ export default function Para({ article }: { article: IArticle }) {
               })}
           </div>
         </div>
-        <Divider style={{ margin: 0, borderTop: '1px solid rgba(0,0,0,0.2)' }} />
         <div className={styles['action-article']}>
           <FontAwesomeIcon
             className={`${styles['action-article-icon']} ${styles['action-like']}`}
@@ -300,7 +306,12 @@ export default function Para({ article }: { article: IArticle }) {
         </div>
         <Divider style={{ margin: 0, borderTop: '1px solid rgba(0,0,0,0.2)' }} />
         {(comments.length > 0 || numberOfLike > 0) && (
-          <CommentList comments={comments} numOfCmt={numOfComment} numberOfLike={numberOfLike} postId={article._id} />
+          <CommentList
+            comments={comments}
+            numOfCmt={numOfComment}
+            numberOfLike={numberOfLike}
+            postId={article._id}
+          />
         )}
         <Comment
           avatar={<Avatar icon={<UserOutlined />} src={userLogin?.avatar} alt="Han Solo" />}

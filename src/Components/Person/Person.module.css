@@ -4,6 +4,8 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .link{
@@ -12,7 +14,7 @@
 }
 
 .person:hover{
-  background-color: #f0f0f0
+  background-color: #ffffffaa
 }
 
 .person-profile {

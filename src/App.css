@@ -1,7 +1,13 @@
+@import "./antd.css";
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+}
+
+.app{
+  background-color: #FFC0CB55;
+  min-height: 100vh;
 }
 
 .App-header {
@@ -55,4 +61,13 @@
 }
 img {
   display: unset;
+}
+
+.ant-tabs-tab-active{
+  background-color: pink !important;
+}
+
+.ant-tabs-tab-active .ant-tabs-tab-btn{
+  color: #fff !important;
+  font-weight: bold;
 }

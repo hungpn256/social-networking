@@ -23,10 +23,6 @@
   height: 64px;
   max-width: 64px;
 }
-.logo .icon-logo {
-  font-size: 33px;
-  color: #00a7ff;
-}
 .option {
   display: flex;
   flex-wrap: wrap;
@@ -92,8 +88,7 @@
   font-weight: 100;
 }
 .option div a:hover {
-  color: #00a7ff;
-  background: #e1f5ff;
+  background: #fff;
 }
 .option button {
   padding: 15px 80px;

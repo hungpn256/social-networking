@@ -52,7 +52,7 @@ function App() {
     });
   };
   return (
-    <>
+    <div className="app">
       <ToastContainer position="bottom-right" closeOnClick autoClose={2000} />
       <Switch>
         <Route
@@ -80,7 +80,7 @@ function App() {
         />
         {renderRoute()}
       </Switch>
-    </>
+    </div>
   );
 }
 
