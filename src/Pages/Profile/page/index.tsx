@@ -31,7 +31,6 @@ export default function Profile() {
     (state: { login: ILogin; profile: IProfile }) => state
   );
   const { token } = login;
-  const [offsetTop, setOffset] = useState<undefined | number>(60);
   const { loadingPage, user: userProfile, articles, friendStatus } = profileState;
   const [f, setF] = useState<string | undefined>(friendStatus);
   useEffect(() => {
@@ -50,14 +49,14 @@ export default function Profile() {
       if (isLoading.current) return;
       isLoading.current = true;
       if (hasMore) {
-        currentId.current = articles.length ? articles[articles.length - 1]._id : null;
         const res = await services.getArticles({ _id, currentId: currentId.current });
-        const newPosts = [...articles, ...res.data.posts];
+        const newPosts = currentId.current ? [...articles, ...res.data.posts] : res.data.posts;
         const totalPost = res.data.totalPost;
         if (newPosts.length >= totalPost) {
           setHasMore(false);
         }
         dispatch(profileActions.getArticlesSuccess(newPosts));
+        currentId.current = newPosts.length ? newPosts[newPosts.length - 1]._id : null;
       }
     } catch (err) {
       console.log(err);
@@ -67,11 +66,12 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    dispatch({ type: 'CLEAR_STATE_PROFILE' });
     dispatch(profileActions.getUser({ _id }));
     fetchData();
     return () => {
       dispatch({ type: 'CLEAR_STATE_PROFILE' });
+      currentId.current = null;
+      setHasMore(true);
     };
   }, [_id, token, dispatch]);
 
@@ -117,7 +117,7 @@ export default function Profile() {
       dataLength={articles.length}
       next={fetchData}
       hasMore={hasMore}
-      loader={hasMore ? <LoadingMore /> : <div />}
+      loader={<div />}
       style={{ overflow: 'hidden' }}
     >
       <div className={styles['DevKen']}>
@@ -148,12 +148,16 @@ export default function Profile() {
                     <label
                       className={styles['change-cover']}
                       onClick={async () => {
-                        if (f === 'REQUESTED') {
-                          await axios.put(`${ip}/friend/${_id}`, { status: 'REJECTED' });
-                          setF(undefined);
-                        } else {
-                          await axios.post(`${ip}/friend/${_id}`);
-                          setF('REQUESTED');
+                        try {
+                          if (f === 'REQUESTED') {
+                            setF(undefined);
+                            await axios.put(`${ip}/friend/${_id}`, { status: 'REJECTED' });
+                          } else {
+                            await axios.post(`${ip}/friend/${_id}`);
+                            setF('REQUESTED');
+                          }
+                        } catch (err) {
+                          console.log(err);
                         }
                       }}
                     >
@@ -168,8 +172,12 @@ export default function Profile() {
                     <label
                       className={`${styles['btn']} ${styles['btn-add']}`}
                       onClick={async () => {
-                        await axios.put(`${ip}/friend/${_id}`, { status: 'ACCEPTED' });
-                        setF('FRIEND');
+                        try {
+                          setF('FRIEND');
+                          await axios.put(`${ip}/friend/${_id}`, { status: 'ACCEPTED' });
+                        } catch (err) {
+                          console.log(err);
+                        }
                       }}
                     >
                       <FontAwesomeIcon icon={faPlus} /> <span>ADD FRIEND</span>
@@ -177,8 +185,12 @@ export default function Profile() {
                     <label
                       className={styles['btn']}
                       onClick={async () => {
-                        await axios.put(`${ip}/friend/${_id}`, { status: 'REJECTED' });
-                        setF('REJECTED');
+                        try {
+                          setF('REJECTED');
+                          await axios.put(`${ip}/friend/${_id}`, { status: 'REJECTED' });
+                        } catch (err) {
+                          console.log(err);
+                        }
                       }}
                     >
                       <FontAwesomeIcon icon={faTrash} /> <span>REMOVE</span>

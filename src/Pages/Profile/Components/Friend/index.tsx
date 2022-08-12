@@ -1,59 +1,142 @@
-import React from 'react';
+import { faCheck, faCommentDots, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar, Card, List, Tabs } from 'antd';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
+import imgUser from '../../../../Assets/user.png';
+import { ip } from '../../../../configs/ip';
+import { IFriend } from '../../../../Models/friend';
+import ILogin from '../../../../Models/login';
+import IUser from '../../../../Models/user';
 import styles from './styles.module.css';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+
 const { TabPane } = Tabs;
 const { Meta } = Card;
-const data = [
-  {
-    title: 'Title 1',
-  },
-  {
-    title: 'Title 2',
-  },
-  {
-    title: 'Title 3',
-  },
-  {
-    title: 'Title 4',
-  },
-];
+
+interface Params {
+  id: string;
+}
+
 export default function Friend() {
+  const [loading, setLoading] = useState(false);
+  const [friend, setFriend] = useState<IUser[]>([]);
+  const [friendPending, setFriendPending] = useState<IFriend[]>([]);
+  const { login } = useSelector((state: { login: ILogin }) => state);
+  const params = useParams();
+  const { id } = params as Params;
+  const { user } = login;
+  const getFriend = async (status: 'PENDING' | 'FRIEND' | 'REQUESTED', callBack: any) => {
+    if (status === 'FRIEND') {
+      const res = await axios.get(`${ip}/friend/${id}`);
+      callBack(res.data.friends);
+    } else {
+      const res = await axios.get(`${ip}/friend/byStatus`, { params: { status } });
+      callBack(res.data.friends);
+    }
+  };
+
+  const changeStatusFriend = async (userId: string, status: 'ACCEPTED' | 'REJECTED') => {
+    setLoading(true);
+    try {
+      await axios.put(`${ip}/friend/${userId}`, { status });
+      await getFriend('FRIEND', setFriend);
+      user?._id === id && (await getFriend('PENDING', setFriendPending));
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getFriend('FRIEND', setFriend);
+    user?._id === id && getFriend('PENDING', setFriendPending);
+  }, [id]);
   return (
     <div className={styles['grid']}>
       <Tabs type="card" centered animated>
         <TabPane tab="Bạn bè" key="1">
           <List
             grid={{ gutter: 16, column: 4 }}
-            dataSource={data}
+            dataSource={friend}
+            loading={loading}
             renderItem={(item) => (
               <List.Item>
                 <Card
                   cover={
-                    <img
-                      alt="example"
-                      src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                    />
+                    <img className={styles['avatar']} alt="avatar" src={item.cover || imgUser} />
                   }
                   actions={[
-                    <SettingOutlined key="setting" />,
-                    <EditOutlined key="edit" />,
-                    <EllipsisOutlined key="ellipsis" />,
+                    <FontAwesomeIcon
+                      icon={faTrash}
+                      className={`${styles['action-icon']} ${styles['action-icon-trash']}`}
+                      onClick={() => changeStatusFriend(item._id, 'REJECTED')}
+                    />,
+                    <FontAwesomeIcon
+                      icon={faCommentDots}
+                      className={`${styles['action-icon']} ${styles['action-icon-message']}`}
+                    />,
                   ]}
                 >
                   <Meta
-                    avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                    title="Card title"
-                    description="This is the description"
+                    avatar={
+                      <Link to={`/profile/${item._id}`}>
+                        <Avatar src={item.avatar || imgUser} />
+                      </Link>
+                    }
+                    title={item.fullName}
+                    description={item.phoneNumber}
                   />
                 </Card>
               </List.Item>
             )}
           />
         </TabPane>
-        <TabPane tab="Yêu cầu kết bạn" key="2">
-          Content of Tab Pane 2
-        </TabPane>
+        {user?._id === id && (
+          <TabPane tab="Yêu cầu kết bạn" key="2">
+            <List
+              grid={{ gutter: 16, column: 4 }}
+              dataSource={friendPending}
+              loading={loading}
+              renderItem={(item) => (
+                <List.Item>
+                  <Card
+                    cover={
+                      <img
+                        className={styles['avatar']}
+                        alt="avatar"
+                        src={item.requester.cover || imgUser}
+                      />
+                    }
+                    actions={[
+                      <FontAwesomeIcon
+                        icon={faCheck}
+                        className={`${styles['action-icon']} ${styles['action-icon-comfirm']}`}
+                        onClick={() => changeStatusFriend(item.requester._id, 'ACCEPTED')}
+                      />,
+                      <FontAwesomeIcon
+                        icon={faTimes}
+                        className={`${styles['action-icon']} ${styles['action-icon-trash']}`}
+                        onClick={() => changeStatusFriend(item.requester._id, 'REJECTED')}
+                      />,
+                    ]}
+                  >
+                    <Meta
+                      avatar={
+                        <Link to={`/profile/${item.requester._id}`}>
+                          <Avatar src={item.requester.avatar || imgUser} />
+                        </Link>
+                      }
+                      title={item.requester.fullName}
+                      description={item.requester.phoneNumber}
+                    />
+                  </Card>
+                </List.Item>
+              )}
+            />
+          </TabPane>
+        )}
       </Tabs>
     </div>
   );

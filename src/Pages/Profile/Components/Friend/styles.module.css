@@ -6,3 +6,20 @@
   overflow: hidden;
 
 }
+.action-icon{
+  font-size: 18px !important;
+  transition: 0.5s;
+}
+.action-icon-comfirm{
+  color: #1da1f2 !important;
+}
+.action-icon-trash{
+  color: rgb(253, 62, 62) !important;
+}
+.action-icon-message{
+  color: #1da1f2 !important;
+}
+.avatar{
+  object-fit: cover;
+  aspect-ratio: 16/12;
+}

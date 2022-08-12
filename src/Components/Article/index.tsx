@@ -41,18 +41,19 @@ const CommentList = ({
   numOfCmt,
   numberOfLike,
   postId,
+  setComments,
 }: {
   comments: IComment[];
   numOfCmt: number;
   numberOfLike: number;
   postId: string;
+  setComments: (comments: IComment[]) => void;
 }) => {
-  const [commentPost, setComment] = useState(comments || []);
-
   const loadMore = async () => {
     if (postId) {
       const res = await axios.get(`${ip}/post/comment/` + postId);
-      setComment(res.data.comment);
+      console.log('🚀 ~ file: index.tsx ~ line 55 ~ loadMore ~ res', res);
+      setComments(res.data.comment);
     }
   };
   return (
@@ -61,10 +62,10 @@ const CommentList = ({
         {numberOfLike > 0 ? `${numberOfLike} ${numberOfLike > 1 ? 'likes  ' : 'like  '}` : ''}
         {numOfCmt > 0 ? `${numOfCmt} ${numOfCmt > 1 ? 'replies' : 'reply'}` : ''}
       </div>
-      {commentPost.map((item) => (
-        <CommentCustom comment={item} />
+      {comments.map((item) => (
+        <CommentCustom key={item._id} comment={item} />
       ))}
-      {numOfCmt > commentPost.length && (
+      {numOfCmt > comments.length && (
         <div className={styles['more']} onClick={loadMore}>
           More....
         </div>
@@ -205,7 +206,7 @@ export default function Para({ article }: { article: IArticle }) {
         style={{
           filter:
             'drop-shadow(0px 4px 6px rgba(38, 50, 56, 0.16)), drop-shadow(0px 4px 16px rgba(38, 50, 56, 0.08))',
-          borderRadius: 20,
+          borderRadius: 10,
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -311,6 +312,7 @@ export default function Para({ article }: { article: IArticle }) {
             numOfCmt={numOfComment}
             numberOfLike={numberOfLike}
             postId={article._id}
+            setComments={setComments}
           />
         )}
         <Comment

@@ -90,7 +90,7 @@ export default function CommentCustom({
                   return line;
                 })}
             </div>
-            {(comment.liked.length > 0 || isLiked) && (
+            {(data.liked.length > 0 || isLiked) && (
               <div className={styles['wrap-icon-like']}>
                 <LikeFilled className={styles['icon-like']} />
               </div>
@@ -103,7 +103,7 @@ export default function CommentCustom({
           className={`${
             isLiked ? 'text-[#1da1f2]' : 'text-[#00000073]'
           } mr-[8px] cursor-pointer text-[13px] font-bold `}
-          onClick={() => handleLike(comment._id)}
+          onClick={() => handleLike(data._id)}
         >
           like
         </div>
