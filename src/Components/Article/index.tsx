@@ -250,19 +250,9 @@ export default function Para({ article }: { article: IArticle }) {
         <div>
           <Paragraph
             ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}
-            style={{ fontSize: 14, margin: '5px 15px' }}
+            style={{ fontSize: 14, margin: '5px 15px', whiteSpace: 'pre-line' }}
           >
-            {article?.text?.split(/\n/).map((line, index, array) => {
-              if (index !== array.length - 1) {
-                return (
-                  <>
-                    {line}
-                    <br />
-                  </>
-                );
-              }
-              return line;
-            })}
+            {article?.text}
           </Paragraph>
           <div className="flex flex-wrap">
             {article.images.length > 0 &&

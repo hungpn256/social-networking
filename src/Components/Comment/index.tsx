@@ -76,20 +76,7 @@ export default function CommentCustom({
                 {moment(data.createdAt).fromNow()}
               </span>
             </div>
-            <div>
-              {data.content &&
-                data.content?.split(/\n/).map((line, index, array) => {
-                  if (index !== array.length - 1) {
-                    return (
-                      <>
-                        {line}
-                        <br />
-                      </>
-                    );
-                  }
-                  return line;
-                })}
-            </div>
+            <div style={{ whiteSpace: 'pre-line' }}>{data.content}</div>
             {(data.liked.length > 0 || isLiked) && (
               <div className={styles['wrap-icon-like']}>
                 <LikeFilled className={styles['icon-like']} />
