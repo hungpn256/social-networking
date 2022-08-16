@@ -1,7 +1,7 @@
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import * as _ from 'lodash';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { createContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -12,13 +12,17 @@ import LoadingGlobal from './Components/LoadingGlobal';
 import RoutePrivate from './Components/RoutePrivate';
 import { ipSocket } from './configs/ip';
 import ROUTES from './configs/router';
+import { RootState } from './index_Reducer';
 import Auth from './Layouts/Auth';
 import Login from './Pages/Login';
 import { getUser } from './Pages/Login/actions';
 import services from './Pages/Login/service';
 import Signup from './Pages/Signup';
+
+export const SocketContext = createContext<{ socket: Socket | undefined }>({ socket: undefined });
+
 function App() {
-  const login = useSelector((state) => state.login);
+  const login = useSelector((state: RootState) => state.login);
   const { token } = login;
   const [ready, setReady] = useState(false);
   const dispatch = useDispatch();
@@ -29,8 +33,6 @@ function App() {
 
   useEffect(() => {
     if (token) {
-      console.log(123);
-
       socket.current = io(ipSocket, {
         transports: ['websocket'],
         auth: {
@@ -39,6 +41,12 @@ function App() {
       });
       socket.current.connect();
     }
+    if (socket.current) {
+      socket.current.on('friend-online', (res) => {
+        console.log(res);
+      });
+    }
+
     axios.defaults.headers.common['Authorization'] = token ? `${token}` : '';
     services
       .getUser()
@@ -65,6 +73,7 @@ function App() {
       }
     };
   }, [token, dispatch]);
+
   const renderRoute = () => {
     if (!ready) {
       return <LoadingGlobal></LoadingGlobal>;
@@ -75,33 +84,35 @@ function App() {
   };
   return (
     <div className="app">
-      <ToastContainer position="bottom-right" closeOnClick autoClose={2000} />
-      <Switch>
-        <Route
-          path="/auth"
-          render={() => {
-            return (
-              <Auth
-                routes={[
-                  {
-                    path: '/auth/login',
-                    component: Login,
-                    exact: true,
-                    name: 'Log in',
-                  },
-                  {
-                    path: '/auth/signup',
-                    component: Signup,
-                    exact: true,
-                    name: 'Sign up',
-                  },
-                ]}
-              ></Auth>
-            );
-          }}
-        />
-        {renderRoute()}
-      </Switch>
+      <SocketContext.Provider value={{ socket: socket.current }}>
+        <ToastContainer position="bottom-right" closeOnClick autoClose={2000} />
+        <Switch>
+          <Route
+            path="/auth"
+            render={() => {
+              return (
+                <Auth
+                  routes={[
+                    {
+                      path: '/auth/login',
+                      component: Login,
+                      exact: true,
+                      name: 'Log in',
+                    },
+                    {
+                      path: '/auth/signup',
+                      component: Signup,
+                      exact: true,
+                      name: 'Sign up',
+                    },
+                  ]}
+                ></Auth>
+              );
+            }}
+          />
+          {renderRoute()}
+        </Switch>
+      </SocketContext.Provider>
     </div>
   );
 }

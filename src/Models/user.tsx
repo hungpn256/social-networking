@@ -10,4 +10,5 @@ export default interface IUser {
   cover?: string;
   _id: string;
   fullName?: string;
+  online?: boolean;
 }

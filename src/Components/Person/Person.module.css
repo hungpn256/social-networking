@@ -47,3 +47,10 @@
 .send-follow-request button:hover {
   background: #d8eeff;
 }
+.dot{
+  width: 8px;
+  height: 8px;
+  background-color: #00a7ff;
+  border-radius: 50%;
+  justify-self: flex-end;
+}

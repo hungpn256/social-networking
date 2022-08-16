@@ -2,7 +2,7 @@ import { UserOutlined } from '@ant-design/icons';
 import Avatar from 'antd/lib/avatar/avatar';
 import { Link } from 'react-router-dom';
 import styles from './Person.module.css';
-import IUser from '../../Models/user'
+import IUser from '../../Models/user';
 
 function Person({ person }: { person: IUser }) {
   return (
@@ -17,6 +17,7 @@ function Person({ person }: { person: IUser }) {
           </div>
         </div>
       </Link>
+      <div className={styles['dot']} />
     </div>
   );
 }
