@@ -13,8 +13,8 @@ function getArticle(_id?: string) {
   return axios.get(`${ip}/post`, { params: { _id } });
 }
 
-function getFriend() {
-  return axios.get(`${ip}/friend`);
+function getFriend(id: string) {
+  return axios.get(`${ip}/friend/${id}`);
 }
 
 const service = {

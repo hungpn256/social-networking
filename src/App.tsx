@@ -1,14 +1,16 @@
 import 'antd/dist/antd.css';
 import axios from 'axios';
 import * as _ from 'lodash';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { io, Socket } from 'socket.io-client';
 import './App.css';
 import LoadingGlobal from './Components/LoadingGlobal';
 import RoutePrivate from './Components/RoutePrivate';
+import { ipSocket } from './configs/ip';
 import ROUTES from './configs/router';
 import Auth from './Layouts/Auth';
 import Login from './Pages/Login';
@@ -23,7 +25,20 @@ function App() {
   const history = useHistory();
   const location = useLocation();
   const { pathname } = location;
+  const socket = useRef<Socket | undefined>();
+
   useEffect(() => {
+    if (token) {
+      console.log(123);
+
+      socket.current = io(ipSocket, {
+        transports: ['websocket'],
+        auth: {
+          token: localStorage.getItem('token'),
+        },
+      });
+      socket.current.connect();
+    }
     axios.defaults.headers.common['Authorization'] = token ? `${token}` : '';
     services
       .getUser()
@@ -42,6 +57,13 @@ function App() {
         }
         setReady(true);
       });
+    return () => {
+      console.log(socket.current);
+
+      if (socket.current) {
+        socket.current.disconnect();
+      }
+    };
   }, [token, dispatch]);
   const renderRoute = () => {
     if (!ready) {

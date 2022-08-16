@@ -10,20 +10,18 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import LoadingMore from '../../Components/LoadingMore';
 import services from './service';
 import * as constantsType from './constants';
-import { io } from 'socket.io-client';
-import { ipSocket } from '../../configs/ip';
-const socket = io(ipSocket, { transports: ['websocket'] });
+import IUser from '../../Models/user';
 
 function App() {
   const dispatch = useDispatch();
   const homeState = useSelector((state: RootState) => state.home);
+  const user = useSelector((state: RootState) => state.login.user) as IUser;
   const { articles, friend } = homeState;
   const [hasMore, setHasMore] = useState(true);
   const currentId = useRef();
   useEffect(() => {
     fetchData();
     fetchFriends();
-    socket.connect();
   }, [dispatch]);
 
   const fetchData = async () => {
@@ -41,11 +39,11 @@ function App() {
 
   const fetchFriends = async () => {
     try {
-      const res = await services.getFriend();
+      const res = await services.getFriend(user._id);
       dispatch({
         type: constantsType.HOME_GET_FRIEND_SUCCESS,
         payload: {
-          friend: res.data.friend,
+          friend: res.data.friends,
         },
       });
     } catch (err) {
