@@ -36,7 +36,7 @@ function App() {
       socket.current = io(ipSocket, {
         transports: ['websocket'],
         auth: {
-          token: localStorage.getItem('token'),
+          token,
         },
       });
       socket.current.connect();
