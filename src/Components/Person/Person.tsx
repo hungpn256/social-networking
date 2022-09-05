@@ -17,7 +17,7 @@ function Person({ person }: { person: IUser }) {
           </div>
         </div>
       </Link>
-      <div className={styles['dot']} />
+      {person.status === 'ONLINE' && <div className={styles['dot']} />}
     </div>
   );
 }

@@ -11,3 +11,6 @@ export const HOME_GET_ARTICLE_SUCCESS: string = 'HOME_GET_ARTICLE_SUCCESS';
 export const HOME_GET_ARTICLE_FAIL: string = 'HOME_GET_ARTICLE_FAIL';
 
 export const HOME_CHANGE_STATE: string = 'HOME_CHANGE_STATE';
+
+export const GET_FRIEND: string = 'GET_FRIEND';
+export const GET_FRIEND_SUCCESS: string = 'GET_FRIEND_SUCCESS';

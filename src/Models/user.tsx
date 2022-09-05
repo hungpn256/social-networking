@@ -11,4 +11,5 @@ export default interface IUser {
   _id: string;
   fullName?: string;
   online?: boolean;
+  status: 'ONLINE' | 'OFFLINE';
 }

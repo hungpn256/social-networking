@@ -21,7 +21,7 @@ function App() {
   const currentId = useRef();
   useEffect(() => {
     fetchData();
-    fetchFriends();
+    dispatch({ type: constantsType.GET_FRIEND, payload: user._id });
   }, [dispatch]);
 
   const fetchData = async () => {
@@ -34,20 +34,6 @@ function App() {
         setHasMore(false);
       }
       dispatch(homeActions.getArticleSuccess(newPosts));
-    }
-  };
-
-  const fetchFriends = async () => {
-    try {
-      const res = await services.getFriend(user._id);
-      dispatch({
-        type: constantsType.HOME_GET_FRIEND_SUCCESS,
-        payload: {
-          friend: res.data.friends,
-        },
-      });
-    } catch (err) {
-      console.log(err);
     }
   };
 

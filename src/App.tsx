@@ -14,6 +14,7 @@ import { ipSocket } from './configs/ip';
 import ROUTES from './configs/router';
 import { RootState } from './index_Reducer';
 import Auth from './Layouts/Auth';
+import { GET_FRIEND } from './Pages/Home/constants';
 import Login from './Pages/Login';
 import { getUser } from './Pages/Login/actions';
 import services from './Pages/Login/service';
@@ -23,7 +24,7 @@ export const SocketContext = createContext<{ socket: Socket | undefined }>({ soc
 
 function App() {
   const login = useSelector((state: RootState) => state.login);
-  const { token } = login;
+  const { token, user } = login;
   const [ready, setReady] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -42,8 +43,8 @@ function App() {
       socket.current.connect();
     }
     if (socket.current) {
-      socket.current.on('friend-online', (res) => {
-        console.log(res);
+      socket.current.on('friend-status-change', () => {
+        dispatch({ type: GET_FRIEND, payload: user._id });
       });
     }
 
@@ -72,7 +73,7 @@ function App() {
         socket.current.disconnect();
       }
     };
-  }, [token, dispatch]);
+  }, [token, dispatch, user?._id]);
 
   const renderRoute = () => {
     if (!ready) {
