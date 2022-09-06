@@ -28,4 +28,5 @@ export interface ILike {
 }
 export interface IFile {
   url: string;
+  typeMedia: "IMAGE" | "VIDEO"
 }

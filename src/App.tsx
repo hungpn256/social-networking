@@ -14,6 +14,7 @@ import { ipSocket } from './configs/ip';
 import ROUTES from './configs/router';
 import { RootState } from './index_Reducer';
 import Auth from './Layouts/Auth';
+import Chat from './Pages/Chat';
 import { GET_FRIEND } from './Pages/Home/constants';
 import Login from './Pages/Login';
 import { getUser } from './Pages/Login/actions';
@@ -113,6 +114,7 @@ function App() {
           />
           {renderRoute()}
         </Switch>
+        <Chat />
       </SocketContext.Provider>
     </div>
   );

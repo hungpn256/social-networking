@@ -3,9 +3,8 @@ import watchLoginSaga from './Pages/Login/saga';
 import watchProfileSaga from './Pages/Profile/saga';
 import watchRegisterSaga from './Pages/Signup/saga';
 import watchHomeSaga from './Pages/Home/saga';
-import watchGetConversationsAsync from './Pages/Chat/shell/conversations';
-import watchGetMessagesAsync from './Pages/Chat/shell/messages';
 import watchsearchSaga from './Pages/SearchNav/saga';
+import watchChatSaga from './Pages/Chat/saga';
 function* rootSaga() {
   yield all([
     watchLoginSaga(),
@@ -13,8 +12,7 @@ function* rootSaga() {
     watchProfileSaga(),
     watchHomeSaga(),
     watchsearchSaga(),
-    watchGetConversationsAsync(),
-    watchGetMessagesAsync(),
+    watchChatSaga(),
   ]);
 }
 export default rootSaga;

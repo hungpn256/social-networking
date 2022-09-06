@@ -4,16 +4,14 @@ import profile from './Pages/Profile/reducer';
 import signUp from './Pages/Signup/reducer';
 import home from './Pages/Home/reducer';
 import search from './Pages/SearchNav/reducer';
-import conversationState from './Pages/Chat/shell/conversationsReducer';
-import messagesState from './Pages/Chat/shell/messagesReducer';
+import conversation from './Pages/Chat/reducer';
 const rootReducer = combineReducers({
   login,
   signUp,
   profile,
   home,
   search,
-  conversationState,
-  messagesState,
+  conversation
 });
 export default rootReducer;
 export type RootState = ReturnType<typeof rootReducer>;

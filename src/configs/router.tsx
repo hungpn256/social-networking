@@ -6,7 +6,6 @@ import NotFound from '../Components/NotFound';
 import NavBarHeader from '../Components/NavBarHeader';
 import Profile from '../Pages/Profile';
 import SearchComponent from '../Pages/SearchNav';
-import ShellChat from '../Pages/Chat/shell';
 
 const ROUTES = [
   {
@@ -27,12 +26,12 @@ const ROUTES = [
       },
     ],
   },
-  {
-    path: '/messenger',
-    component: ShellChat,
-    authority: true,
-    name: 'messenger',
-  },
+  // {
+  //   path: '/messenger',
+  //   component: ShellChat,
+  //   authority: true,
+  //   name: 'messenger',
+  // },
   {
     path: '/',
     component: NavBarHeader,
