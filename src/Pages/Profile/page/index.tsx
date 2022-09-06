@@ -1,3 +1,4 @@
+import { faFacebookMessenger } from '@fortawesome/free-brands-svg-icons';
 import {
   faCamera,
   faChevronDown,
@@ -197,7 +198,16 @@ export default function Profile() {
                     </label>
                   </div>
                 ) : friendStatus === 'FRIEND' ? (
-                  <></>
+                  <div className={styles['wrap-btn']}>
+                    <label
+                      className={`${styles['btn']} ${styles['btn-add']}`}
+                      onClick={async () => {
+                        await axios.post(`${ip}/conversation`, { targetIds: [_id] });
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faFacebookMessenger} /> <span>Messenger</span>
+                    </label>
+                  </div>
                 ) : (
                   <>
                     <label

@@ -71,3 +71,9 @@ img {
   color: #fff !important;
   font-weight: bold;
 }
+
+.message .ant-comment-content-detail p{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

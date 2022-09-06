@@ -2,7 +2,7 @@ import styles from './styles.module.css';
 export default function Notification() {
   return (
     <div className={styles['notification-container']}>
-      <div className="font-bold text-[25px] mb-[8px]">Notifications</div>
+      <div className="font-bold text-[25px] mb-[8px] ml-[12px]">Notifications</div>
       <div className={styles['notification-item']}>
         <div className="flex p-[4px]">
           <img

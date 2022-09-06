@@ -16,6 +16,7 @@ import { ChangeEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import Logo from '../../Assets/logo.png';
+import Messenger from '../Messenger';
 import Notification from '../Notification';
 import styles from './styles.module.css';
 const { Search } = Input;
@@ -24,6 +25,7 @@ export default function Home(props: any) {
   const location = useLocation();
   const history = useHistory();
   const [showNotificaiton, setShowNotificaiton] = useState(false);
+  const [showMessenger, setShowMessenger] = useState(false);
   const login = useSelector((state) => state.login);
   const { user } = login;
   const checkBtn = document.querySelector(`#${styles['check']}`) as any;
@@ -170,16 +172,22 @@ export default function Home(props: any) {
               </ul>
               {user && (
                 <ul className={styles['chat-notification-wrapper']}>
-                  <Badge count={5} style={{ transform: 'translate(0px,-5px)' }}>
-                    <Link to={'/messenger'}>
-                      <li className={`${styles['menu-item']} ${styles['wrap-icon']}`}>
+                  <div className="relative">
+                    <Badge count={5} style={{ transform: 'translate(0px,-5px)' }}>
+                      {/* <Link to={'/messenger'}> */}
+                      <li
+                        className={`${styles['menu-item']} ${styles['wrap-icon']}`}
+                        onClick={() => setShowMessenger(!showMessenger)}
+                      >
                         <FontAwesomeIcon
                           className={styles['menu-item-icon']}
                           icon={faFacebookMessenger}
                         />
                       </li>
-                    </Link>
-                  </Badge>
+                      {/* </Link> */}
+                    </Badge>
+                    {showMessenger && <Messenger />}
+                  </div>
                   <div className="relative">
                     <Badge count={25} style={{ transform: 'translate(0px,-5px)' }}>
                       <li
