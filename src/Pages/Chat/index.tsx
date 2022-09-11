@@ -9,7 +9,7 @@ export default function Chat() {
   const conversations = useSelector(
     (state: RootState) => state.conversation.conversations
   ) as IConversation[];
-  const conversationActive = conversations.filter((i: IConversation) => i.isActive);
+  const conversationActive = conversations.filter((i: IConversation) => i.isActive !== undefined);
   return (
     <div className={styles['container']}>
       {conversationActive.map((conversationActiveItem) => (

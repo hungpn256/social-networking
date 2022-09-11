@@ -24,15 +24,18 @@ const reducer = (state = initialState, action: any) => {
         (conversation): boolean => conversation._id === action.payload.conversationId
       );
 
+      console.log("🚀 ~ file: reducer.ts ~ line 29 ~ reducer ~ action.payload.isActive", action.payload.isActive)
       if (conversationChangeActive) {
         conversationChangeActive.isActive = action.payload.isActive;
       }
-      console.log('🚀 ~ file: reducer.ts ~ line 23 ~ reducer ~ conversations', conversations);
 
       return {
         ...state,
         conversations: [...conversations],
       };
+    case 'CLEAR_STATE_PROFILE': {
+      return { ...initialState };
+    }
     default:
       return { ...state };
   }

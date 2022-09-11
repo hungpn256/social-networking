@@ -1,3 +1,4 @@
+import { Affix } from 'antd';
 import React from 'react';
 import IUser from '../../Models/user';
 import Person from '../Person/Person';

@@ -4,7 +4,11 @@
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   margin-left: 10px;
+}
 
+.infor{
+  display: flex;
+  align-items: center;
 }
 
 .header{
@@ -15,6 +19,9 @@
   box-shadow: 0 2px 2px -2px rgb(180, 173, 173);
   padding: 8px;
   margin-bottom: 2px;
+  background-color: pink;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .icon-close{

@@ -39,13 +39,27 @@
 .conversation-item{
   width: 100%;
   display: flex;
+  padding: 10px;
 }
 .conversation-item-content{
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  color: #333;
 }
 .conversation-item-right{
   flex: 1;
   overflow: hidden;
+  margin-left: 8px;
+}
+.conversation-item-name{
+  font-weight: bold;
+}
+.conversation-item-time{
+  font-size: 12px;
+  font-weight: normal;
+  color: #999;
+}
+.conversation-list{
+  margin-top: 10px;
 }

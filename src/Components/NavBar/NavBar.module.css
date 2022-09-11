@@ -1,3 +1,18 @@
+.container{
+  position: relative;
+}
+@media (max-width: 1236px) {
+  .content{
+    display: none
+  }
+}
+.content{
+  position: fixed;
+  bottom: 0;
+  top: 80px;
+  overflow: auto
+}
+
 .options-menu {
   width: 100%;
 }

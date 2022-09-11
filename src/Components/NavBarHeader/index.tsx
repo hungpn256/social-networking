@@ -16,6 +16,7 @@ import { ChangeEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import Logo from '../../Assets/logo.png';
+import useClickOutSide from '../../Hook/useClickOutSide';
 import Messenger from '../Messenger';
 import Notification from '../Notification';
 import styles from './styles.module.css';
@@ -34,6 +35,12 @@ export default function Home(props: any) {
     console.log(value);
   };
   const [textSearch, setTextSearch] = useState(qs.parse(location.search)?.q ?? '');
+  const { refChildren: refNoti, refParent: refNotiIcon } = useClickOutSide(() => {
+    setShowNotificaiton(false)
+  })
+  const { refChildren: refMess, refParent: refMessIcon } = useClickOutSide(() => {
+    setShowMessenger(false)
+  })
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTextSearch(e.target.value);
     onSearch(e.target.value);
@@ -174,8 +181,8 @@ export default function Home(props: any) {
                 <ul className={styles['chat-notification-wrapper']}>
                   <div className="relative">
                     <Badge count={5} style={{ transform: 'translate(0px,-5px)' }}>
-                      {/* <Link to={'/messenger'}> */}
                       <li
+                        ref={refMessIcon}
                         className={`${styles['menu-item']} ${styles['wrap-icon']}`}
                         onClick={() => setShowMessenger(!showMessenger)}
                       >
@@ -184,22 +191,23 @@ export default function Home(props: any) {
                           icon={faFacebookMessenger}
                         />
                       </li>
-                      {/* </Link> */}
                     </Badge>
-                    {showMessenger && <Messenger />}
+                    {showMessenger && <Messenger ref={refMess} setShowMessenger={setShowMessenger} />}
                   </div>
                   <div className="relative">
                     <Badge count={25} style={{ transform: 'translate(0px,-5px)' }}>
                       <li
+                        ref={refNotiIcon}
                         className={`${styles['menu-item']} ${styles['wrap-icon']}`}
                         onClick={() => setShowNotificaiton(!showNotificaiton)}
                       >
                         <FontAwesomeIcon className={styles['menu-item-icon']} icon={faBell} />
                       </li>
                     </Badge>
-                    {showNotificaiton && <Notification />}
+                    {showNotificaiton && <Notification ref={refNoti} />}
                   </div>
                   <li
+
                     className={`${styles['menu-item']}`}
                     style={{
                       margin: 0,

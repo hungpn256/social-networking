@@ -54,6 +54,7 @@ const ROUTES = [
       {
         path: '/profile/:_id',
         component: Profile,
+        authority: true,
         name: 'Profile',
       },
       {

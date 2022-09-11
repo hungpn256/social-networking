@@ -2,10 +2,24 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.trending-menu ::-webkit-scrollbar {
+  display: none;
+}
+.trending-menu:hover ::-webkit-scrollbar {
+  display: block;
+}
 .trending-center,
 .follow-center {
   margin: 0 50px 0 50px;
-  width: 65%;
+  width: 20%;
+}
+
+.trending-center{
+  position: fixed;
+  bottom: 0;
+  top: 80px;
+  overflow: auto
 }
 
 .trending,

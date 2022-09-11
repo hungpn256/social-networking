@@ -1,7 +1,8 @@
+import { forwardRef } from 'react';
 import styles from './styles.module.css';
-export default function Notification() {
+export default forwardRef(function Notification(_, ref: any) {
   return (
-    <div className={styles['notification-container']}>
+    <div ref={ref} className={styles['notification-container']}>
       <div className="font-bold text-[25px] mb-[8px] ml-[12px]">Notifications</div>
       <div className={styles['notification-item']}>
         <div className="flex p-[4px]">
@@ -20,4 +21,4 @@ export default function Notification() {
       </div>
     </div>
   );
-}
+})
