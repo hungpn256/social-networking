@@ -1,41 +1,23 @@
 import { Comment, Input, List, Tooltip } from 'antd';
 import moment from 'moment';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getNameMessage } from '../../Helper/Chat';
+import { RootState } from '../../index_Reducer';
+import { IConversation } from '../../Models/chat';
+import { CHANGE_ACTIVE, GET_CONVERSATION } from '../../Pages/Chat/constants';
 import styles from './styles.module.css';
-const data = [
-  {
-    author: 'Han Solo',
-    avatar: 'https://joeschmoe.io/api/v1/random',
-    content: (
-      <p>
-        We supply a series of design principles, practical patterns and high quality design
-        resources (Sketch and Axure), to help people create their product prototypes beautifully and
-        efficiently.
-      </p>
-    ),
-    datetime: (
-      <Tooltip title={moment().subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss')}>
-        <span>{moment().subtract(1, 'days').fromNow()}</span>
-      </Tooltip>
-    ),
-  },
-  {
-    author: 'Han Solo',
-    avatar: 'https://joeschmoe.io/api/v1/random',
-    content: (
-      <p>
-        We supply a series of design principles, practical patterns and high quality design
-        resources (Sketch and Axure), to help people create their product prototypes beautifully and
-        efficiently.
-      </p>
-    ),
-    datetime: (
-      <Tooltip title={moment().subtract(2, 'days').format('YYYY-MM-DD HH:mm:ss')}>
-        <span>{moment().subtract(2, 'days').fromNow()}</span>
-      </Tooltip>
-    ),
-  },
-];
 export default function Messenger() {
+  const dispatch = useDispatch();
+  const conversations = useSelector(
+    (state: RootState) => state.conversation.conversations
+  ) as IConversation[];
+  const user = useSelector((state: RootState) => state.login.user);
+  useEffect(() => {
+    if (!(conversations.length > 0)) {
+      dispatch({ type: GET_CONVERSATION, payload: null });
+    }
+  }, []);
   return (
     <div className={styles['notification-container']}>
       <div className="font-bold text-[25px] mb-[8px] ml-[12px]">Messenger</div>
@@ -44,18 +26,35 @@ export default function Messenger() {
         <List
           className="comment-list"
           itemLayout="horizontal"
-          dataSource={data}
-          renderItem={(item) => (
-            <li>
-              <Comment
-                author={item.author}
-                avatar={item.avatar}
-                content={item.content}
-                datetime={item.datetime}
-                className="message"
-              />
-            </li>
+          dataSource={conversations.filter(
+            (conversation) => (conversation?.messages?.length ?? 0) > 0
           )}
+          renderItem={(item: IConversation) => {
+            return (
+              <li
+                onClick={() => {
+                  dispatch({
+                    type: CHANGE_ACTIVE,
+                    payload: {
+                      conversationId: item._id,
+                      isActive: true,
+                    },
+                  });
+                }}
+              >
+                <Comment
+                  author={getNameMessage(item, user)}
+                  avatar={
+                    item.participants[0].user.avatar ||
+                    'https://thuvienplus.com/themes/cynoebook/public/images/default-user-image.png'
+                  }
+                  content={item?.messages?.[0]?.content ?? ''}
+                  datetime={moment(item.updatedAt).fromNow()}
+                  className="message"
+                />
+              </li>
+            );
+          }}
         />
       </div>
     </div>

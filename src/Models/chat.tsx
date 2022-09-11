@@ -1,20 +1,22 @@
-import { IFile } from "./article";
-import IUser from "./user";
+import { IFile } from './article';
+import IUser from './user';
 
 export interface IConversation {
+  _id: string;
   createdAt: string;
   updatedAt: string;
-  type: "PRIVATE" | "GROUP",
-  host: IUser,
-  paticipants: {
-    user: IUser,
+  type: 'PRIVATE' | 'GROUP';
+  host: IUser;
+  participants: {
+    user: IUser;
     nickName: string;
     lastSeen?: string;
     lastDelete?: string;
-  }[],
+  }[];
   name: string;
   pinMessage: IMessage;
   messages?: IMessage[];
+  isActive?: boolean;
 }
 
 export interface IMessage {

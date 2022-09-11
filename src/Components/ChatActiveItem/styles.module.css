@@ -1,5 +1,5 @@
 .container{
-  width: 350px;
+  width: 320px;
   background-color: #fff;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -12,8 +12,9 @@
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  box-shadow: 0 4px 2px -2px gray;
+  box-shadow: 0 2px 2px -2px rgb(180, 173, 173);
   padding: 8px;
+  margin-bottom: 2px;
 }
 
 .icon-close{
@@ -44,6 +45,8 @@
 .input-wrapper{
   display: flex !important;
   align-items: center;
+  margin: 4px 0;
+  margin-right: 8px;
 }
 .icon{
   color: #777;
