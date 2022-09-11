@@ -20,3 +20,7 @@ export function getMessageByConversationId(
 export function createMessage(conversationId: string, message: IMessage) {
   return axios.post(`${ip}/conversation/${conversationId}/message`, { message });
 }
+
+export function createConversation(targetIds: string[]) {
+  return axios.post(`${ip}/conversation`, { targetIds });
+}

@@ -3,13 +3,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar, Card, List, Tabs } from 'antd';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import imgUser from '../../../../Assets/user.png';
 import { ip } from '../../../../configs/ip';
 import { IFriend } from '../../../../Models/friend';
 import ILogin from '../../../../Models/login';
 import IUser from '../../../../Models/user';
+import { GET_OR_CREATE_CONVERSATION } from '../../../Chat/constants';
+import { createConversation } from '../../../Chat/service';
 import styles from './styles.module.css';
 
 const { TabPane } = Tabs;
@@ -24,6 +26,7 @@ export default function Friend() {
   const [friend, setFriend] = useState<IUser[]>([]);
   const [friendPending, setFriendPending] = useState<IFriend[]>([]);
   const { login } = useSelector((state: { login: ILogin }) => state);
+  const dispatch = useDispatch();
   const params = useParams();
   const { id } = params as Params;
   const { user } = login;
@@ -36,6 +39,10 @@ export default function Friend() {
       callBack(res.data.friends);
     }
   };
+
+  const getOrCreateConversationById = async (targetIds: string[]) => {
+    dispatch({ type: GET_OR_CREATE_CONVERSATION, payload: targetIds });
+  }
 
   const changeStatusFriend = async (userId: string, status: 'ACCEPTED' | 'REJECTED') => {
     setLoading(true);
@@ -74,6 +81,7 @@ export default function Friend() {
                       onClick={() => changeStatusFriend(item._id, 'REJECTED')}
                     />,
                     <FontAwesomeIcon
+                      onClick={() => getOrCreateConversationById([item._id])}
                       icon={faCommentDots}
                       className={`${styles['action-icon']} ${styles['action-icon-message']}`}
                     />,

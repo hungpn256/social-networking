@@ -2,9 +2,8 @@ import { Avatar } from 'antd'
 import React from 'react'
 import styles from './styles.module.css'
 import { UserOutlined } from '@ant-design/icons';
-import { StyleHTMLAttributes } from 'react';
 
-export default function GroupAvatar({ src, style, size }: { src: (string | undefined)[], style?: StyleHTMLAttributes<HTMLElement>, size: number }) {
+export default function GroupAvatar({ src, style, size }: { src: (string | undefined)[], style?: React.CSSProperties, size?: number }) {
   return (
     <div style={style} className={styles['group-avatar']}>
       {src.map((i) => {

@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import GroupAvatar from '../GroupAvatar';
 import { getAvatarMessage, getNameMessage } from '../../Helper/Chat';
 import { RootState } from '../../index_Reducer';
+import { IConversationActive } from '../../Pages/Chat/reducer';
 
 const message: IMessage[] = [
   {
@@ -61,6 +62,11 @@ interface Props {
 
 export default function ChatActiveItem({ conversation }: Props) {
   const dispatch = useDispatch();
+  const active = useSelector(
+    (state: RootState) => state.conversation.activeConversationsIds
+  ) as IConversationActive[];
+  const typeActive = active.find((i) => i._id === conversation._id)?.type
+  const isActive = typeActive === TypeActiveMessage.ACTIVE
   const onClose = (type?: TypeActiveMessage) => {
     dispatch({
       type: CHANGE_ACTIVE,
@@ -71,13 +77,16 @@ export default function ChatActiveItem({ conversation }: Props) {
     });
   };
   const user = useSelector((state: RootState) => state.login.user)
-  const isActive = conversation.isActive === TypeActiveMessage.ACTIVE;
   return (
     <div className={styles['container']}>
       <div className={styles['header']} onClick={() =>
         onClose(isActive ? TypeActiveMessage.MINIMIZE : TypeActiveMessage.ACTIVE)}>
         <div className={styles['infor']}>
-          <GroupAvatar size={40} style={{ width: 40, height: 40 }} src={getAvatarMessage(conversation, user)} />
+          <GroupAvatar
+            size={40}
+            style={{ width: 40, height: 40 }}
+            src={getAvatarMessage(conversation, user)}
+          />
           <span className={styles['name']}>{getNameMessage(conversation, user)}</span>
         </div>
         <div className={styles['icon-close']} onClick={(e) => {

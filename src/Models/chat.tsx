@@ -16,7 +16,6 @@ export interface IConversation {
   name: string;
   pinMessage: IMessage;
   messages?: IMessage[];
-  isActive?: TypeActiveMessage;
 }
 
 export enum TypeActiveMessage {

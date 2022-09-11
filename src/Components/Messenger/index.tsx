@@ -54,7 +54,7 @@ export default forwardRef(function Messenger({ setShowMessenger }: Props, ref: a
                 <div className={styles['conversation-item']}>
                   <GroupAvatar src={getAvatarMessage(item, user)} />
                   <div className={styles['conversation-item-right']}>
-                    <div className={styles['conversation-item-name']}>{getNameMessage(item, user)} <span className={styles['conversation-item-time']}>{moment().format('YYYY-MM-DD HH:mm')}</span></div>
+                    <div className={styles['conversation-item-name']}>{getNameMessage(item, user)} <span className={styles['conversation-item-time']}>{moment(item.updatedAt).format('hh:mm')}</span></div>
                     <div className={styles['conversation-item-content']}>content dài content dàicontent dàicontent dàicontent dàicontent dài</div>
                   </div>
                 </div>

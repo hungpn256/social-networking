@@ -21,6 +21,7 @@ import LoadingMore from '../../../Components/LoadingMore';
 import { ip } from '../../../configs/ip';
 import ILogin from '../../../Models/login';
 import IProfile from '../../../Models/profile';
+import { createConversation } from '../../Chat/service';
 import * as profileActions from '../actions';
 import Detail from '../Components/Detail/Detail';
 import Friend from '../Components/Friend';
@@ -129,7 +130,7 @@ export default function Profile() {
                 <Spin delay={500} spinning={profileState?.changeCoverRequesting ?? false}>
                   <img src={userProfile?.cover} alt="" className={styles['cover-image']} />
                 </Spin>
-                {friendStatus === 'MINE' ? (
+                {f === 'MINE' ? (
                   <>
                     <label className={styles['change-cover']} htmlFor="change-cover">
                       <FontAwesomeIcon icon={faCamera} /> <span>Edit cover picture</span>
@@ -144,7 +145,7 @@ export default function Profile() {
                       }
                     ></input>
                   </>
-                ) : friendStatus === 'REQUESTED' || !friendStatus ? (
+                ) : f === 'REQUESTED' || !f ? (
                   <>
                     <label
                       className={styles['change-cover']}
@@ -168,7 +169,7 @@ export default function Profile() {
                       </span>
                     </label>
                   </>
-                ) : friendStatus === 'PENDING' ? (
+                ) : f === 'PENDING' ? (
                   <div className={styles['wrap-btn']}>
                     <label
                       className={`${styles['btn']} ${styles['btn-add']}`}
@@ -197,12 +198,12 @@ export default function Profile() {
                       <FontAwesomeIcon icon={faTrash} /> <span>REMOVE</span>
                     </label>
                   </div>
-                ) : friendStatus === 'FRIEND' ? (
+                ) : f === 'FRIEND' ? (
                   <div className={styles['wrap-btn']}>
                     <label
                       className={`${styles['btn']} ${styles['btn-add']}`}
                       onClick={async () => {
-                        await axios.post(`${ip}/conversation`, { targetIds: [_id] });
+                        await createConversation([_id]);
                       }}
                     >
                       <FontAwesomeIcon icon={faFacebookMessenger} /> <span>Messenger</span>

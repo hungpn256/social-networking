@@ -1,14 +1,23 @@
 import * as _ from 'lodash';
-import { IConversation } from '../../Models/chat';
+import { IConversation, TypeActiveMessage } from '../../Models/chat';
 import { CHANGE_ACTIVE, GET_CONVERSATION_SUCCESS } from './constants';
 const initialState: IConversationState = {
   requesting: false,
   conversations: [],
+  activeConversationsIds: [],
+  lastConversationId: null
 };
+
+export interface IConversationActive {
+  type: TypeActiveMessage,
+  _id: string
+}
 
 export interface IConversationState {
   requesting: boolean;
   conversations: IConversation[];
+  activeConversationsIds: IConversationActive[];
+  lastConversationId: string | null;
 }
 
 const reducer = (state = initialState, action: any) => {
@@ -19,19 +28,25 @@ const reducer = (state = initialState, action: any) => {
         conversations: action.payload,
       };
     case CHANGE_ACTIVE:
-      const { conversations } = state;
-      const conversationChangeActive = conversations.find(
-        (conversation): boolean => conversation._id === action.payload.conversationId
-      );
-
-      console.log("🚀 ~ file: reducer.ts ~ line 29 ~ reducer ~ action.payload.isActive", action.payload.isActive)
-      if (conversationChangeActive) {
-        conversationChangeActive.isActive = action.payload.isActive;
+      const { activeConversationsIds } = state;
+      const {payload} = action
+      let newActiveConversationIds = []
+      if(action.payload.isActive !== undefined) {
+        const conversation = activeConversationsIds.find((i)=>i._id === payload.conversationId)
+        console.log("🚀 ~ file: reducer.ts ~ line 36 ~ reducer ~ conversation", conversation)
+        if(!conversation){
+          newActiveConversationIds = [...activeConversationsIds, {type: payload.isActive, _id: payload.conversationId}].slice(-3)
+        }else{
+          conversation.type = action.payload.isActive;
+          newActiveConversationIds = [...activeConversationsIds]
+        }
+      }else{
+        newActiveConversationIds = activeConversationsIds.filter((i)=>i._id !== payload.conversationId)
       }
 
       return {
         ...state,
-        conversations: [...conversations],
+        activeConversationsIds: [...newActiveConversationIds],
       };
     case 'CLEAR_STATE_PROFILE': {
       return { ...initialState };
