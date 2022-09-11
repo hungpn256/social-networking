@@ -6,6 +6,7 @@ import { getNameMessage } from '../../Helper/Chat';
 import { RootState } from '../../index_Reducer';
 import { IConversation } from '../../Models/chat';
 import { CHANGE_ACTIVE, GET_CONVERSATION } from '../../Pages/Chat/constants';
+import GroupAvatar from '../GroupAvatar';
 import styles from './styles.module.css';
 export default function Messenger() {
   const dispatch = useDispatch();
@@ -27,9 +28,8 @@ export default function Messenger() {
           className="comment-list"
           itemLayout="horizontal"
           dataSource={conversations.filter(
-            (conversation) => (conversation?.messages?.length ?? 0) > 0
-          )}
-          renderItem={(item: IConversation) => {
+            (conversation) => (conversation?.messages?.length ?? 0) > 0)}
+          renderItem={(item: IConversation, id: number) => {
             return (
               <li
                 onClick={() => {
@@ -42,21 +42,18 @@ export default function Messenger() {
                   });
                 }}
               >
-                <Comment
-                  author={getNameMessage(item, user)}
-                  avatar={
-                    item.participants[0].user.avatar ||
-                    'https://thuvienplus.com/themes/cynoebook/public/images/default-user-image.png'
-                  }
-                  content={item?.messages?.[0]?.content ?? ''}
-                  datetime={moment(item.updatedAt).fromNow()}
-                  className="message"
-                />
+                <div className={styles['conversation-item']}>
+                  <GroupAvatar src={Array(id % 2 + 1).fill(1)} />
+                  <div className={styles['conversation-item-right']}>
+                    <div>Phạm Năng Hưng</div>
+                    <div className={styles['conversation-item-content']}>content dài content dàicontent dàicontent dàicontent dàicontent dài</div>
+                  </div>
+                </div>
               </li>
             );
           }}
         />
       </div>
     </div>
-  );
+  )
 }

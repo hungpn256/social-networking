@@ -53,21 +53,3 @@
   padding: 10px;
   cursor: pointer;
 }
-.isMine{
-  align-self: flex-end;
-  background-color: pink;
-  padding: 10px 8px;
-  border-radius: 10px;
-  margin-right: 8px;
-  color: #fff
-}
-.isNotMine{
-  padding: 10px 8px;
-  margin-right: 8px;
-}
-.text-isNotMine{
-  color: #000;
-  background-color: #f0f0f0;
-  padding: 10px 8px;
-  border-radius: 10px;
-}

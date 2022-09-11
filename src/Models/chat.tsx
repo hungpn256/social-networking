@@ -26,4 +26,5 @@ export interface IMessage {
   files: IFile[];
   reply: IMessage;
   conversationId: string;
+  createdBy: IUser;
 }

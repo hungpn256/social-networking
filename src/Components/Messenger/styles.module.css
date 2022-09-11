@@ -36,3 +36,16 @@
   font-size: 15px;
   word-break: break-word;
 }
+.conversation-item{
+  width: 100%;
+  display: flex;
+}
+.conversation-item-content{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.conversation-item-right{
+  flex: 1;
+  overflow: hidden;
+}

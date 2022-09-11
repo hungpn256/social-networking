@@ -114,7 +114,7 @@ function App() {
           />
           {renderRoute()}
         </Switch>
-        <Chat />
+        {user && <Chat />}
       </SocketContext.Provider>
     </div>
   );

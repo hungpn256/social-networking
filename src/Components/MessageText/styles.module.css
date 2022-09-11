@@ -1,0 +1,26 @@
+.isMine{
+  align-self: flex-end;
+  background-color: pink;
+  padding: 10px 8px;
+  border-radius: 10px;
+  margin-right: 8px;
+  color: #fff;
+  display: flex;
+}
+.isNotMine{
+  display: flex;
+  padding: 10px 8px;
+  margin-right: 8px;
+  align-items: flex-end;
+}
+.text-isNotMine{
+  color: #000;
+  background-color: #f0f0f0;
+  padding: 10px 8px;
+  border-radius: 10px;
+  white-space: pre;
+  margin-left: 4px;
+}
+.text-isMine{
+  white-space: pre;
+}
