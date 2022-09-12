@@ -4,7 +4,10 @@ import {
   CHANGE_ACTIVE,
   CONVERSATION_CHANGE_STATE,
   GET_CONVERSATION_SUCCESS,
+  GET_MESSAGE_SUCCESS,
   GET_OR_CREATE_CONVERSATION_SUCCESS,
+  SEND_MESSAGE_STATUS_LOADING,
+  SEND_MESSAGE_SUCCESS,
 } from './constants';
 const initialState: IConversationState = {
   requesting: false,
@@ -90,6 +93,36 @@ const reducer = (state = initialState, action: any): IConversationState => {
         activeConversationsIds: [...newActiveConversationIds],
         temporaryConversation: newTemporaryConversation,
       };
+    case GET_MESSAGE_SUCCESS: {
+      const conversation = state.conversations.find(i => i._id === action.payload.conversationId)
+      if (conversation) {
+        conversation.messages = [...conversation.messages, ...action.payload.messages]
+        conversation.totalMessage = action.payload.total
+      }
+      return {
+        ...state,
+        conversations: [...state.conversations]
+      }
+    }
+    case SEND_MESSAGE_STATUS_LOADING: {
+      const conversation = state.conversations.find(i => i._id === action.payload.conversationId)
+      conversation?.messages.unshift(action.payload.message)
+      return {
+        ...state,
+        conversations: [...state.conversations]
+      }
+    }
+    case SEND_MESSAGE_SUCCESS: {
+      const conversation = state.conversations.find(i => i._id === action.payload.conversationId)
+      // if(conversation){
+      //   conversation.messages.
+
+      // }
+      return {
+        ...state,
+        conversations: [...state.conversations]
+      }
+    }
     case CONVERSATION_CHANGE_STATE: {
       return {
         ...state,

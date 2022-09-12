@@ -15,7 +15,8 @@ export interface IConversation {
   }[];
   name: string;
   pinMessage: IMessage;
-  messages?: IMessage[];
+  messages: IMessage[];
+  totalMessage: 0;
 }
 
 export enum TypeActiveMessage {
@@ -24,6 +25,7 @@ export enum TypeActiveMessage {
 }
 
 export interface IMessage {
+  _id: string;
   createdAt: string;
   updatedAt: string;
   content: string;
@@ -31,4 +33,16 @@ export interface IMessage {
   reply: IMessage;
   conversationId: string;
   createdBy: IUser;
+  type: TypeMessage;
+  status?: IStatusMessage;
+}
+
+export enum TypeMessage {
+  TEXT,
+  IMAGE,
+  VIDEO
+}
+
+export enum IStatusMessage {
+  LOADING
 }
