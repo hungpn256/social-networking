@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import { IConversation, TypeActiveMessage } from '../../Models/chat';
 import {
   CHANGE_ACTIVE,
+  CONVERSATION_CHANGE_STATE,
   GET_CONVERSATION_SUCCESS,
   GET_OR_CREATE_CONVERSATION_SUCCESS,
 } from './constants';
@@ -11,6 +12,8 @@ const initialState: IConversationState = {
   activeConversationsIds: [],
   lastConversationId: null,
   temporaryConversation: undefined,
+  isLoadMore: true,
+  total: 0
 };
 
 export interface IConversationActive {
@@ -24,6 +27,8 @@ export interface IConversationState {
   activeConversationsIds: IConversationActive[];
   lastConversationId: string | null;
   temporaryConversation?: IConversation;
+  isLoadMore: boolean;
+  total: number;
 }
 
 const reducer = (state = initialState, action: any): IConversationState => {
@@ -31,17 +36,27 @@ const reducer = (state = initialState, action: any): IConversationState => {
   switch (action.type) {
     case GET_CONVERSATION_SUCCESS: {
       let newTemporaryConversation = temporaryConversation;
-      const newConversation = [...action.payload] as IConversation[];
+      const newConversation = [...action.payload.conversations] as IConversation[];
       if (
         temporaryConversation &&
         newConversation.find((i) => i._id === temporaryConversation._id)
       ) {
         newTemporaryConversation = undefined;
       }
+
+      let lastConversationId = null;
+
+      if (action.payload.conversations && action.payload.conversations.length > 0) {
+        lastConversationId = action.payload.conversations[action.payload.conversations.length - 1]._id
+      }
+
       return {
         ...state,
-        conversations: action.payload,
+        conversations: action.payload.conversations,
         temporaryConversation: newTemporaryConversation,
+        isLoadMore: action.payload.conversations.length < action.payload.total,
+        total: action.payload.total,
+        lastConversationId
       };
     }
     case CHANGE_ACTIVE:
@@ -75,6 +90,12 @@ const reducer = (state = initialState, action: any): IConversationState => {
         activeConversationsIds: [...newActiveConversationIds],
         temporaryConversation: newTemporaryConversation,
       };
+    case CONVERSATION_CHANGE_STATE: {
+      return {
+        ...state,
+        ...action.payload
+      };
+    }
     case 'CLEAR_STATE_PROFILE': {
       return { ...initialState };
     }

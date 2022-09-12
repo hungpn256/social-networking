@@ -1,8 +1,9 @@
 import { TakeableChannel } from 'redux-saga';
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
 import { TypeActiveMessage } from '../../Models/chat';
 import {
   CHANGE_ACTIVE,
+  CONVERSATION_CHANGE_STATE,
   GET_CONVERSATION,
   GET_CONVERSATION_SUCCESS,
   GET_OR_CREATE_CONVERSATION,
@@ -11,13 +12,22 @@ import {
 import { createConversation, getConversation } from './service';
 
 function* getConversationSaga({ payload }: any): any {
-  console.log('🚀 ~ file: saga.ts ~ line 6 ~ function*getConversationSaga ~ payload', payload);
+  yield put({ type: CONVERSATION_CHANGE_STATE, payload: { requesting: true } })
   try {
+    const currentConversations = yield select((state) => state.conversation.conversations);
     const res = yield call(getConversation, payload);
-    yield put({ type: GET_CONVERSATION_SUCCESS, payload: res.data.conversations });
-    console.log('🚀 ~ file: saga.ts ~ line 8 ~ function*getConversationSaga ~ res', res);
+    yield put({
+      type: GET_CONVERSATION_SUCCESS, payload:
+      {
+        conversations: [...currentConversations, ...res.data.conversations],
+        total: res.data.total
+      }
+    });
   } catch (err) {
     console.log('🚀 ~ file: saga.ts ~ line 9 ~ function*getConversationSaga ~ err', err);
+  }
+  finally {
+    yield put({ type: CONVERSATION_CHANGE_STATE, payload: { requesting: false } })
   }
 }
 
