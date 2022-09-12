@@ -20,7 +20,7 @@ const initialState: Iprofile = {
   friendStatus: undefined,
 };
 
-const reducer = (state = initialState, action: any) => {
+const reducer = (state = initialState, action: any): Iprofile => {
   switch (action.type) {
     case profileConstant.PROFILE_CHANGE_STATE: {
       return { ...state, ...action.payload };

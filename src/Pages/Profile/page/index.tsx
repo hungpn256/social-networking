@@ -21,6 +21,7 @@ import LoadingMore from '../../../Components/LoadingMore';
 import { ip } from '../../../configs/ip';
 import ILogin from '../../../Models/login';
 import IProfile from '../../../Models/profile';
+import { GET_OR_CREATE_CONVERSATION } from '../../Chat/constants';
 import { createConversation } from '../../Chat/service';
 import * as profileActions from '../actions';
 import Detail from '../Components/Detail/Detail';
@@ -203,7 +204,11 @@ export default function Profile() {
                     <label
                       className={`${styles['btn']} ${styles['btn-add']}`}
                       onClick={async () => {
-                        await createConversation([_id]);
+                        try {
+                          dispatch({ type: GET_OR_CREATE_CONVERSATION, payload: [_id] });
+                        } catch (err) {
+                          console.log(err);
+                        }
                       }}
                     >
                       <FontAwesomeIcon icon={faFacebookMessenger} /> <span>Messenger</span>
