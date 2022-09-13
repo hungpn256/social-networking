@@ -15,6 +15,7 @@ import ROUTES from './configs/router';
 import { RootState } from './index_Reducer';
 import Auth from './Layouts/Auth';
 import Chat from './Pages/Chat';
+import { ON_NEW_MESSGAGE } from './Pages/Chat/constants';
 import { GET_FRIEND } from './Pages/Home/constants';
 import Login from './Pages/Login';
 import { getUser } from './Pages/Login/actions';
@@ -46,6 +47,11 @@ function App() {
     if (socket.current) {
       socket.current.on('friend-status-change', () => {
         dispatch({ type: GET_FRIEND, payload: user._id });
+      });
+      socket.current.on('new-message', (conversation) => {
+        if (conversation) {
+          dispatch({ type: ON_NEW_MESSGAGE, payload: { conversation } })
+        }
       });
     }
 

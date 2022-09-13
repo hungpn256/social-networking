@@ -3,7 +3,7 @@ import moment from 'moment';
 import { forwardRef, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAvatarMessage, getNameMessage } from '../../Helper/Chat';
+import { getAvatarMessage, getLastMessage, getNameMessage } from '../../Helper/Chat';
 import { RootState } from '../../index_Reducer';
 import { IConversation, TypeActiveMessage } from '../../Models/chat';
 import { CHANGE_ACTIVE, GET_CONVERSATION } from '../../Pages/Chat/constants';
@@ -19,17 +19,17 @@ export default forwardRef(function Messenger({ setShowMessenger }: Props, ref: a
   const conversationsState = useSelector(
     (state: RootState) => state.conversation
   )
-  const { lastConversationId, conversations, isLoadMore, total, requesting } = conversationsState
+  const { lastConversationUpdatedAt, conversations, isLoadMore, total, requesting } = conversationsState
   const user = useSelector((state: RootState) => state.login.user);
   useEffect(() => {
     if (!(conversations.length > 0)) {
-      dispatch({ type: GET_CONVERSATION, payload: lastConversationId });
+      dispatch({ type: GET_CONVERSATION, payload: lastConversationUpdatedAt });
     }
   }, []);
 
   const onLoadMore = () => {
     if (requesting || !isLoadMore) return;
-    dispatch({ type: GET_CONVERSATION, payload: lastConversationId });
+    dispatch({ type: GET_CONVERSATION, payload: lastConversationUpdatedAt });
   }
   return (
     <div ref={ref}>
@@ -71,7 +71,7 @@ export default forwardRef(function Messenger({ setShowMessenger }: Props, ref: a
                       <GroupAvatar src={getAvatarMessage(item, user)} />
                       <div className={styles['conversation-item-right']}>
                         <div className={styles['conversation-item-name']}>{getNameMessage(item, user)} <span className={styles['conversation-item-time']}>{moment(item.updatedAt).format('hh:mm')}</span></div>
-                        <div className={styles['conversation-item-content']}>content dài content dàicontent dàicontent dàicontent dàicontent dài</div>
+                        <div className={styles['conversation-item-content']}>{getLastMessage(item)}</div>
                       </div>
                     </div>
                   </li>

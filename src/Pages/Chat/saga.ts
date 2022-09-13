@@ -1,5 +1,4 @@
-import { TakeableChannel } from 'redux-saga';
-import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import { TypeActiveMessage } from '../../Models/chat';
 import {
   CHANGE_ACTIVE,
@@ -12,7 +11,7 @@ import {
   GET_OR_CREATE_CONVERSATION_SUCCESS,
   SEND_MESSAGE,
   SEND_MESSAGE_STATUS_LOADING,
-  SEND_MESSAGE_SUCCESS,
+  SEND_MESSAGE_SUCCESS
 } from './constants';
 import { createConversation, createMessage, getConversation, getMessageByConversationId } from './service';
 

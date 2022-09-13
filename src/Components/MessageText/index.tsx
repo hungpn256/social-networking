@@ -8,8 +8,6 @@ import styles from './styles.module.css'
 
 export default function MessageText({ message }: { message: IMessage }) {
   const user = useSelector((state: RootState) => state.login.user) as IUser
-  console.log("🚀 ~ file: index.tsx ~ line 12 ~ MessageText ~ message", message)
-  console.log("🚀 ~ file: index.tsx ~ line 12 ~ MessageText ~ user", user)
   const isMine = user._id === message.createdBy._id
   return (
     <>

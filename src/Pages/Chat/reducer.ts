@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import moment from 'moment';
 import { IConversation, TypeActiveMessage } from '../../Models/chat';
 import {
   CHANGE_ACTIVE,
@@ -6,6 +7,7 @@ import {
   GET_CONVERSATION_SUCCESS,
   GET_MESSAGE_SUCCESS,
   GET_OR_CREATE_CONVERSATION_SUCCESS,
+  ON_NEW_MESSGAGE,
   SEND_MESSAGE_STATUS_LOADING,
   SEND_MESSAGE_SUCCESS,
 } from './constants';
@@ -13,7 +15,7 @@ const initialState: IConversationState = {
   requesting: false,
   conversations: [],
   activeConversationsIds: [],
-  lastConversationId: null,
+  lastConversationUpdatedAt: null,
   temporaryConversation: undefined,
   isLoadMore: true,
   total: 0
@@ -28,7 +30,7 @@ export interface IConversationState {
   requesting: boolean;
   conversations: IConversation[];
   activeConversationsIds: IConversationActive[];
-  lastConversationId: string | null;
+  lastConversationUpdatedAt: string | null;
   temporaryConversation?: IConversation;
   isLoadMore: boolean;
   total: number;
@@ -47,10 +49,10 @@ const reducer = (state = initialState, action: any): IConversationState => {
         newTemporaryConversation = undefined;
       }
 
-      let lastConversationId = null;
+      let lastConversationUpdatedAt = null;
 
       if (action.payload.conversations && action.payload.conversations.length > 0) {
-        lastConversationId = action.payload.conversations[action.payload.conversations.length - 1]._id
+        lastConversationUpdatedAt = action.payload.conversations[action.payload.conversations.length - 1].updatedAt
       }
 
       return {
@@ -59,7 +61,7 @@ const reducer = (state = initialState, action: any): IConversationState => {
         temporaryConversation: newTemporaryConversation,
         isLoadMore: action.payload.conversations.length < action.payload.total,
         total: action.payload.total,
-        lastConversationId
+        lastConversationUpdatedAt
       };
     }
     case CHANGE_ACTIVE:
@@ -104,20 +106,59 @@ const reducer = (state = initialState, action: any): IConversationState => {
         conversations: [...state.conversations]
       }
     }
-    case SEND_MESSAGE_STATUS_LOADING: {
-      const conversation = state.conversations.find(i => i._id === action.payload.conversationId)
-      conversation?.messages.unshift(action.payload.message)
+    case ON_NEW_MESSGAGE: {
+      const newConversation = action.payload.conversation;
+      const conversation = state.conversations.find(i => {
+        return i._id === newConversation._id
+      })
+      const { activeConversationsIds } = state
+      const conversationExist = activeConversationsIds.find((i) => i._id === newConversation._id)
+      let newActiveConversationIds = activeConversationsIds
+      if (!conversationExist) {
+        newActiveConversationIds = [{ _id: newConversation._id, type: TypeActiveMessage.ACTIVE }, ...activeConversationsIds]
+      }
+      if (conversation) {
+        newConversation.messages = [...newConversation.messages, ...conversation.messages]
+      }
+      state.conversations = state.conversations.filter((i) => i._id !== newConversation._id)
+      state.conversations.unshift(newConversation)
       return {
         ...state,
-        conversations: [...state.conversations]
+        conversations: [...state.conversations],
+        activeConversationsIds: newActiveConversationIds
+      }
+    }
+    case SEND_MESSAGE_STATUS_LOADING: {
+      let { temporaryConversation, conversations } = state
+      if (temporaryConversation && temporaryConversation._id === action.payload.conversationId) {
+        temporaryConversation.messages.push(action.payload.message)
+        temporaryConversation.updatedAt = new Date().toString()
+        conversations.unshift({ ...temporaryConversation })
+        temporaryConversation = undefined
+      } else {
+        const conversation = conversations.find(i => i._id === action.payload.conversationId)
+        if (conversation) {
+          conversation.messages.unshift(action.payload.message)
+          conversation.updatedAt = new Date().toString()
+        } else {
+          conversations.unshift(action.payload.conversation)
+        }
+      }
+      conversations.sort((a, b) => moment(a.updatedAt).isAfter(moment(b.updatedAt)) ? -1 : 1)
+      return {
+        ...state,
+        conversations: [...state.conversations],
+        temporaryConversation
       }
     }
     case SEND_MESSAGE_SUCCESS: {
       const conversation = state.conversations.find(i => i._id === action.payload.conversationId)
-      // if(conversation){
-      //   conversation.messages.
-
-      // }
+      if (conversation) {
+        const index = conversation.messages.findIndex((i) => i._id === action.payload.oldMessageId)
+        if (index !== -1) {
+          conversation.messages[index] = action.payload.message
+        }
+      }
       return {
         ...state,
         conversations: [...state.conversations]

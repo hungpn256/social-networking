@@ -91,19 +91,20 @@ export default function ChatActiveItem({ conversation }: Props) {
         </div>
       </div>
       <div style={{ display: isActive ? "flex" : "none" }} className={styles['content']}>
-        <InfiniteScroll
-          dataLength={messages?.length ?? 0}
-          next={onLoadMore}
-          hasMore={isLoadMore}
-          loader={<div />}
-          scrollableTarget={conversation._id}
-        >
-          <div className={styles['message']} id={conversation._id}>
+        <div className={styles['message']} id={conversation._id}>
+          <InfiniteScroll
+            dataLength={messages?.length ?? 0}
+            next={onLoadMore}
+            hasMore={isLoadMore}
+            loader={<div />}
+            scrollableTarget={conversation._id}
+            className={styles['message']}
+          >
             {messages && messages.map((i) => {
               return <MessageText message={i} />;
             })}
-          </div>
-        </InfiniteScroll>
+          </InfiniteScroll>
+        </div>
         <div className={styles['input-wrapper']}>
           <div className="flex">
             <div className={styles['icon']}>
@@ -121,6 +122,6 @@ export default function ChatActiveItem({ conversation }: Props) {
           </Input.Group>
         </div>
       </div>
-    </div>
+    </div >
   );
 }

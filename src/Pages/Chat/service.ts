@@ -6,8 +6,8 @@ export function getOrCreateMessage(targetIds: string[]) {
   return axios.post(`${ip}/conversation`, { targetIds });
 }
 
-export function getConversation(lastConversationId: undefined | string) {
-  return axios.get(`${ip}/conversation`, { params: { lastConversationId } });
+export function getConversation(lastConversationUpdatedAt: undefined | string) {
+  return axios.get(`${ip}/conversation`, { params: { lastConversationUpdatedAt } });
 }
 
 export function getMessageByConversationId(
