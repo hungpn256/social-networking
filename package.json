@@ -19,6 +19,7 @@
     "antd-img-crop": "^3.14.1",
     "axios": "^0.21.1",
     "compass-sass-mixins": "^0.12.7",
+    "emoji-picker-react": "^3.6.2",
     "firebase": "^8.4.2",
     "query-string": "^7.0.0",
     "react": "^17.0.2",

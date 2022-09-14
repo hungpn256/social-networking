@@ -21,6 +21,7 @@ import Login from './Pages/Login';
 import { getUser } from './Pages/Login/actions';
 import services from './Pages/Login/service';
 import Signup from './Pages/Signup';
+import soundReceiveMessage from './Assets/audio/receiveMessage.mp3';
 
 export const SocketContext = createContext<{ socket: Socket | undefined }>({ socket: undefined });
 
@@ -33,6 +34,7 @@ function App() {
   const location = useLocation();
   const { pathname } = location;
   const socket = useRef<Socket | undefined>();
+  const audioRef = useRef(new Audio(soundReceiveMessage));
 
   useEffect(() => {
     if (token) {
@@ -50,7 +52,12 @@ function App() {
       });
       socket.current.on('new-message', (conversation) => {
         if (conversation) {
-          dispatch({ type: ON_NEW_MESSGAGE, payload: { conversation } })
+          dispatch({ type: ON_NEW_MESSGAGE, payload: { conversation } });
+          try {
+            audioRef.current.play();
+          } catch (err) {
+            console.log(err);
+          }
         }
       });
     }
@@ -121,6 +128,15 @@ function App() {
           {renderRoute()}
         </Switch>
         {user && <Chat />}
+        {/* <audio
+          ref={audioRef}
+          src={'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'}
+          autoPlay
+          onLoadedData={(e) => {
+            console.log(e.target.play());
+          }}
+          muted={true}
+        /> */}
       </SocketContext.Provider>
     </div>
   );
