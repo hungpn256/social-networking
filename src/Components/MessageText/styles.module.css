@@ -1,26 +1,40 @@
 .isMine{
   align-self: flex-end;
-  background-color: pink;
-  padding: 10px 8px;
-  border-radius: 10px;
   margin-right: 8px;
   color: #fff;
   display: flex;
+  justify-content: flex-end;
 }
 .isNotMine{
   display: flex;
-  padding: 10px 8px;
   margin-right: 8px;
   align-items: flex-end;
 }
 .text-isNotMine{
   color: #000;
   background-color: #f0f0f0;
-  padding: 10px 8px;
-  border-radius: 10px;
+  padding: 8px 10px;
+  border-radius: 16px;
   white-space: pre;
   margin-left: 4px;
 }
 .text-isMine{
   white-space: pre;
+  background-color: pink;
+  padding: 8px 10px;
+  align-self: flex-end;
+  border-radius: 16px;
+}
+.wrap-images{
+  max-width: 70%;
+  justify-self: flex-start;
+  flex-wrap: wrap;
+  display: flex;
+}
+.image{
+  min-width: 50%;
+  flex:1;
+  max-width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
 }

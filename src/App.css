@@ -75,6 +75,20 @@ img {
   background-color: #00000011;
   border-radius: 10px;
 }
+
+.hover-icon{
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: flex;
+  align-items:center;
+  justify-content: center;
+}
+
+.hover-icon:hover{
+  background-color: #00000011;
+
+}
 ::-webkit-scrollbar {
   width: 10px;
 }

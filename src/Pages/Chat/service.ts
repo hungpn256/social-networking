@@ -18,7 +18,7 @@ export function getMessageByConversationId(
 }
 
 export function createMessage(conversationId: string, message: IMessage) {
-  console.log("🚀 ~ file: service.ts ~ line 21 ~ createMessage ~ conversationId", conversationId)
+  console.log("message", message)
   return axios.post(`${ip}/conversation/message`, { message, conversationId });
 }
 

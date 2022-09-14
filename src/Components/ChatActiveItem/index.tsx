@@ -1,32 +1,48 @@
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FileImageOutlined, LoadingOutlined, SendOutlined, LineOutlined } from '@ant-design/icons';
+import { faSmileBeam } from '@fortawesome/free-regular-svg-icons';
+import { faRulerHorizontal, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Avatar, Button, Card, Divider, Input, Skeleton } from 'antd';
-import React, { useEffect, useState } from 'react';
-import styles from './styles.module.css';
-import { SendOutlined, FileImageOutlined } from '@ant-design/icons';
-import { IMessage, IConversation, TypeActiveMessage, TypeMessage } from '../../Models/chat';
-import MessageText from '../MessageText';
-import { CHANGE_ACTIVE, GET_MESSAGE, SEND_MESSAGE } from '../../Pages/Chat/constants';
-import { useDispatch, useSelector } from 'react-redux';
-import GroupAvatar from '../GroupAvatar';
-import { getAvatarMessage, getNameMessage } from '../../Helper/Chat';
-import { RootState } from '../../index_Reducer';
-import { IConversationActive } from '../../Pages/Chat/reducer';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import { Button, Image, Input } from 'antd';
+import TextArea from 'antd/lib/input/TextArea';
 import Picker from 'emoji-picker-react';
+import { ChangeEvent, useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAvatarMessage, getNameMessage } from '../../Helper/Chat';
+import handleUpload from '../../Helper/UploadImage';
+import useClickOutSide from '../../Hook/useClickOutSide';
+import { RootState } from '../../index_Reducer';
+import { IConversation, TypeActiveMessage, TypeMessage } from '../../Models/chat';
+import { CHANGE_ACTIVE, GET_MESSAGE, SEND_MESSAGE } from '../../Pages/Chat/constants';
+import { IConversationActive } from '../../Pages/Chat/reducer';
+import GroupAvatar from '../GroupAvatar';
+import MessageText from '../MessageText';
+import styles from './styles.module.css';
+
 
 interface Props {
   conversation: IConversation;
 }
 
+export interface IImage {
+  url: string;
+  typeMedia: "IMAGE" | "VIDEO";
+}
+
+
 export default function ChatActiveItem({ conversation }: Props) {
   const dispatch = useDispatch();
   const [showPicker, setShowPicker] = useState(false);
+  const [images, setImages] = useState<IImage[]>([]);
+  const [loadingUploadImage, setLoadingUploadImage] = useState<boolean>(false);
   const active = useSelector(
     (state: RootState) => state.conversation.activeConversationsIds
   ) as IConversationActive[];
   const typeActive = active.find((i) => i._id === conversation._id)?.type;
   const isActive = typeActive === TypeActiveMessage.ACTIVE;
+  const { refParent, refChildren } = useClickOutSide(() => {
+    setShowPicker(false)
+  })
   const onClose = (type?: TypeActiveMessage) => {
     dispatch({
       type: CHANGE_ACTIVE,
@@ -53,30 +69,76 @@ export default function ChatActiveItem({ conversation }: Props) {
   }, []);
   const user = useSelector((state: RootState) => state.login.user);
   const sendMessage = () => {
-    dispatch({
-      type: SEND_MESSAGE,
-      payload: {
-        message: {
-          content: text,
-          _id: Date.now().toString(),
-          type: TypeMessage.TEXT,
-          conversation: conversation._id,
-          createdBy: {
-            _id: user._id,
-            avatar: user.avatar,
-            fullName: user.fullName,
+    if ((text.trim() || images.length > 0) && !loadingUploadImage) {
+      dispatch({
+        type: SEND_MESSAGE,
+        payload: {
+          message: {
+            content: text.trim(),
+            _id: Date.now().toString(),
+            type: TypeMessage.TEXT,
+            conversation: conversation._id,
+            createdBy: {
+              _id: user._id,
+              avatar: user.avatar,
+              fullName: user.fullName,
+            },
+            status: 'LOADING',
+            files: [...images]
           },
-          status: 'LOADING',
+          conversationId: conversation._id,
         },
-        conversationId: conversation._id,
-      },
-    });
+      });
+    }
 
     setText('');
+    setImages([])
   };
 
-  const onEmojiClick = (event, emojiObject) => {
-    console.log('🚀 ~ file: index.tsx ~ line 78 ~ onEmojiClick ~ emojiObject', emojiObject);
+  useEffect(() => {
+    return () => {
+      images.forEach((i) => {
+        URL.revokeObjectURL(i.url);
+      })
+    }
+  }, [images])
+
+  const onChangeImages = async (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.length) {
+      try {
+        const currentFiles = e.target.files
+        const newArr = Array.from(currentFiles).map((item) => {
+          return {
+            url: URL.createObjectURL(item),
+            typeMedia: item.type.includes('image') ? "IMAGE" : "VIDEO"
+          } as IImage
+        })
+        setLoadingUploadImage(true)
+        setImages(newArr);
+        const res = await Promise.all(Array.from(currentFiles).map((i) => {
+          return handleUpload(i)
+        }))
+        const newArrAfterUpload = newArr.map((i, index) => {
+          return {
+            ...i,
+            url: res[index].url
+          }
+        })
+        setImages(newArrAfterUpload)
+      }
+      catch (err) {
+        setImages([])
+        console.log(err);
+      }
+      finally {
+        setLoadingUploadImage(false)
+      }
+    }
+  }
+
+  const onEmojiClick = (_: any, emojiObject: any) => {
+    setText(text + emojiObject.emoji)
+    setShowPicker(false)
   };
   return (
     <div className={styles['container']}>
@@ -92,14 +154,25 @@ export default function ChatActiveItem({ conversation }: Props) {
           />
           <span className={styles['name']}>{getNameMessage(conversation, user)}</span>
         </div>
-        <div
-          className={styles['icon-close']}
-          onClick={(e) => {
-            e.stopPropagation();
-            onClose();
-          }}
-        >
-          <FontAwesomeIcon icon={faTimes} />
+        <div className="flex">
+          {isActive && <div
+            className={`${styles['icon-close']} hover-icon`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onClose(TypeActiveMessage.MINIMIZE);
+            }}
+          >
+            <LineOutlined />
+          </div>}
+          <div
+            className={`${styles['icon-close']} hover-icon`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onClose();
+            }}
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </div>
         </div>
       </div>
       <div style={{ display: isActive ? 'flex' : 'none' }} className={styles['content']}>
@@ -118,32 +191,54 @@ export default function ChatActiveItem({ conversation }: Props) {
               })}
           </InfiniteScroll>
         </div>
+        {images.length > 0 && <div className="flex">
+          {images.map((i) => {
+
+            return <div className="relative flex">
+              {loadingUploadImage && <div className={styles['icon-loading']}>
+                <LoadingOutlined />
+              </div>}
+              <Image width={80} height={80} src={i.url} />
+            </div>
+          })}
+        </div>}
         <div className={styles['input-wrapper']}>
           <div className="flex">
+            <label className={`${styles['icon']} hover-icon`} htmlFor={conversation._id + "images"}>
+              <FileImageOutlined style={{ fontSize: 20 }} className={styles['icon-image']} />
+            </label>
+            <input multiple onChange={onChangeImages} id={conversation._id + "images"} type="file" style={{ display: 'none' }} />
             <div
-              className={styles['icon']}
-              onClick={() => {
-                setShowPicker(!showPicker);
-              }}
+              className={`${styles['icon']} hover-icon`}
+
             >
               {showPicker && (
-                <div className={styles['picker-emoij']}>
+                <div className={styles['picker-emoij']} ref={refChildren}>
                   <Picker onEmojiClick={onEmojiClick} preload />
                 </div>
               )}
-              <FileImageOutlined style={{ fontSize: 20 }} />
-            </div>
-            <div className={styles['icon']}>
-              <FileImageOutlined style={{ fontSize: 20 }} />
+              <div onClick={() => {
+                setShowPicker(!showPicker);
+              }}
+                ref={refParent}>
+                <FontAwesomeIcon className={styles['icon-font']} icon={faSmileBeam} />
+              </div>
             </div>
           </div>
+
           <Input.Group compact className={styles['input-wrapper']}>
-            <Input
-              className={styles['input']}
-              value={text}
+            <TextArea className={styles['input']}
+              value={text} autoSize={{ minRows: 1, maxRows: 3 }}
+              placeholder="please enter...."
               onChange={(e) => setText(e.target.value)}
-            />
-            <Button type="ghost" onClick={sendMessage}>
+              onKeyPress={(event) => {
+                if (event.key === "Enter" && !event.shiftKey) {
+                  sendMessage()
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+              }} />
+            <Button type='ghost' onClick={sendMessage}>
               <SendOutlined />
             </Button>
           </Input.Group>

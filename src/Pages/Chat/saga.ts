@@ -83,7 +83,8 @@ function* sendMessageSaga({ payload }: any): any {
     });
     const res = yield call(createMessage, payload.conversationId, {
       content: message.content,
-      conversation: message.conversation
+      conversation: message.conversation,
+      files: message.files
     });
     const newMessage = res.data.message;
     yield put({

@@ -66,3 +66,25 @@
   bottom: 0;
   right: 0;
 }
+.icon-font{
+  font-size: 23px;
+  color: red;
+  margin-top: 4px;
+}
+.icon-image{
+  color: #1da1f2;
+}
+.icon-loading{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #00000044;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+
+  z-index: 10;
+}
