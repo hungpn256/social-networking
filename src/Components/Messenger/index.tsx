@@ -1,14 +1,15 @@
-import { Divider, Input, List, Skeleton } from 'antd';
+import { Button, Divider, Input, List, Modal, Skeleton } from 'antd';
 import moment from 'moment';
-import { forwardRef, useEffect } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAvatarMessage, getLastMessage, getNameMessage } from '../../Helper/Chat';
 import { RootState } from '../../index_Reducer';
 import { IConversation, TypeActiveMessage } from '../../Models/chat';
-import { CHANGE_ACTIVE, GET_CONVERSATION } from '../../Pages/Chat/constants';
+import { CHANGE_ACTIVE, CONVERSATION_CHANGE_STATE, GET_CONVERSATION } from '../../Pages/Chat/constants';
 import GroupAvatar from '../GroupAvatar';
 import styles from './styles.module.css';
+import { EditOutlined } from '@ant-design/icons'
 
 interface Props {
   setShowMessenger: (value: boolean) => void
@@ -23,6 +24,7 @@ export default forwardRef(function Messenger({ setShowMessenger }: Props, ref: a
   const user = useSelector((state: RootState) => state.login.user);
   useEffect(() => {
     if (!(conversations.length > 0)) {
+
       dispatch({ type: GET_CONVERSATION, payload: lastConversationUpdatedAt });
     }
   }, []);
@@ -31,10 +33,21 @@ export default forwardRef(function Messenger({ setShowMessenger }: Props, ref: a
     if (requesting || !isLoadMore) return;
     dispatch({ type: GET_CONVERSATION, payload: lastConversationUpdatedAt });
   }
+
+  const openModalCreateConversation = () => {
+    dispatch({ type: CONVERSATION_CHANGE_STATE, payload: { isOpenCreateConversationModal: true } })
+    setShowMessenger(false)
+  }
+
   return (
     <div ref={ref}>
       <div className={styles['notification-container']} id='conversation'>
-        <div className="font-bold text-[25px] mb-[8px] ml-[12px]">Messenger</div>
+        <div className="flex justify-between my-[8px]">
+          <div className="font-bold text-[25px] mb-[8px] ml-[12px]">Messenger</div>
+          <div className="mr-[8px] my-[8px]">
+            <Button onClick={openModalCreateConversation} type="default" shape="circle" icon={<EditOutlined />} />
+          </div>
+        </div>
         <Input placeholder="Search conversation...." className="mt-[12px]" />
         <div className={styles['notification-item']}>
           <InfiniteScroll
@@ -48,6 +61,8 @@ export default forwardRef(function Messenger({ setShowMessenger }: Props, ref: a
             <List
               className={styles['conversation-list']}
               itemLayout="horizontal"
+              loading={requesting}
+              loadMore={true}
               dataSource={conversations
                 // .filter(
                 // (conversation) => (conversation?.messages?.length ?? 0) > 0)

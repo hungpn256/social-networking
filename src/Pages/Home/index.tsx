@@ -21,7 +21,7 @@ function App() {
   const currentId = useRef();
   useEffect(() => {
     fetchData();
-    dispatch({ type: constantsType.GET_FRIEND, payload: user._id });
+    dispatch({ type: constantsType.GET_FRIEND, payload: { _id: user._id } });
   }, [dispatch]);
 
   const fetchData = async () => {

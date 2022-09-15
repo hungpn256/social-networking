@@ -1,12 +1,17 @@
-import { FileImageOutlined, LoadingOutlined, SendOutlined } from '@ant-design/icons';
+import {
+  CloseOutlined,
+  FileImageOutlined,
+  LineOutlined,
+  LoadingOutlined,
+  SendOutlined,
+} from '@ant-design/icons';
 import { faSmileBeam } from '@fortawesome/free-regular-svg-icons';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Image, Input } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import Picker from 'emoji-picker-react';
 import moment from 'moment';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAvatarMessage, getNameMessage } from '../../Helper/Chat';
@@ -60,6 +65,8 @@ export default function ChatActiveItem({ conversation }: Props) {
     if (messages && messages.length > 0) {
       lastMessageId = messages[messages.length - 1]._id;
     }
+    console.log(123);
+
     dispatch({ type: GET_MESSAGE, payload: { conversationId: conversation._id, lastMessageId } });
   };
 
@@ -150,7 +157,10 @@ export default function ChatActiveItem({ conversation }: Props) {
             style={{ width: 40, height: 40 }}
             src={getAvatarMessage(conversation, user)}
           />
-          <span className={styles['name']}>{getNameMessage(conversation, user)}</span>
+          <span className={styles['name']}>
+            {getNameMessage(conversation, user).slice(0, 15) +
+              `${getNameMessage(conversation, user).length > 15 ? '...' : ''}`}
+          </span>
         </div>
         <div className="flex">
           {isActive && (
@@ -161,7 +171,7 @@ export default function ChatActiveItem({ conversation }: Props) {
                 onClose(TypeActiveMessage.MINIMIZE);
               }}
             >
-              <div className={styles['icon-line']} />
+              <LineOutlined />
             </div>
           )}
           <div
@@ -171,7 +181,7 @@ export default function ChatActiveItem({ conversation }: Props) {
               onClose();
             }}
           >
-            <FontAwesomeIcon icon={faTimes} style={{ width: 18, height: 18 }} />
+            <CloseOutlined />
           </div>
         </div>
       </div>
@@ -181,9 +191,10 @@ export default function ChatActiveItem({ conversation }: Props) {
             dataLength={messages?.length ?? 0}
             next={onLoadMore}
             hasMore={isLoadMore}
-            loader={<div />}
+            loader={<div>loading...</div>}
             scrollableTarget={conversation._id}
-            className={styles['message']}
+            style={{ display: 'flex', flexDirection: 'column-reverse' }}
+            inverse
           >
             {messages &&
               messages.map((i, index) => {
@@ -213,7 +224,7 @@ export default function ChatActiveItem({ conversation }: Props) {
                     moment(i.createdAt).diff(moment(messages[index + 1].createdAt), 'hour') > 12;
                 }
                 return (
-                  <div>
+                  <div key={i._id}>
                     {isDifHalfDay && (
                       <div className={styles['time']}>
                         {moment(i.createdAt).format('MM/DD HH:mm')}

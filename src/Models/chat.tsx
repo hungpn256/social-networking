@@ -17,6 +17,7 @@ export interface IConversation {
   pinMessage: IMessage;
   messages: IMessage[];
   totalMessage: 0;
+  isLoadMore: boolean;
 }
 
 export enum TypeActiveMessage {

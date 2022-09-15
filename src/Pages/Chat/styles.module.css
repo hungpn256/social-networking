@@ -6,3 +6,10 @@
   align-items: end;
   display: flex;
 }
+.friend-wrapper{
+  max-height: 400px;
+  overflow: auto;
+}
+.person-active{
+  background-color: #FFC0CB55;
+}

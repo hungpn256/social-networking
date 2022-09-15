@@ -48,7 +48,7 @@ function App() {
     }
     if (socket.current) {
       socket.current.on('friend-status-change', () => {
-        dispatch({ type: GET_FRIEND, payload: user._id });
+        dispatch({ type: GET_FRIEND, payload: { _id: user._id } });
       });
       socket.current.on('new-message', (conversation) => {
         if (conversation) {

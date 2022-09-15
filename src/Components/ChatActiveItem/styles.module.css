@@ -9,6 +9,7 @@
 .infor{
   display: flex;
   align-items: center;
+  flex: 1;
 }
 
 .header{
@@ -32,6 +33,9 @@
 .name{
   font-weight: 600;
   margin-left: 8px;
+  /* text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden; */
 }
 .content{
   height: 380px;

@@ -6,7 +6,6 @@ import {
   CONVERSATION_CHANGE_STATE,
   GET_CONVERSATION_SUCCESS,
   GET_MESSAGE_SUCCESS,
-  GET_OR_CREATE_CONVERSATION_SUCCESS,
   ON_NEW_MESSGAGE,
   SEND_MESSAGE_STATUS_LOADING,
   SEND_MESSAGE_SUCCESS,
@@ -18,7 +17,8 @@ const initialState: IConversationState = {
   lastConversationUpdatedAt: null,
   temporaryConversation: undefined,
   isLoadMore: true,
-  total: 0
+  total: 0,
+  isOpenCreateConversationModal: false,
 };
 
 export interface IConversationActive {
@@ -34,6 +34,7 @@ export interface IConversationState {
   temporaryConversation?: IConversation;
   isLoadMore: boolean;
   total: number;
+  isOpenCreateConversationModal: boolean;
 }
 
 const reducer = (state = initialState, action: any): IConversationState => {
@@ -100,6 +101,7 @@ const reducer = (state = initialState, action: any): IConversationState => {
       if (conversation) {
         conversation.messages = [...conversation.messages, ...action.payload.messages]
         conversation.totalMessage = action.payload.total
+        conversation.isLoadMore = conversation.messages.length < conversation.totalMessage
       }
       return {
         ...state,
