@@ -5,10 +5,9 @@ import {
   faHome,
   faMapMarkerAlt,
   faPlusSquare,
-  faUsers
+  faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Affix } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -18,12 +17,12 @@ function NavBar() {
   const user = useSelector((state: RootState) => state.login.user);
   return (
     <div className={styles['container']}>
-      <div className={styles['content']} >
+      <div className={styles['content']}>
         <div className={styles['options-menu']}>
           <div className={styles['options-center']}>
             <Link
               className={styles['link-profile']}
-              to={`/profile/${user._id}`}
+              to={`/profile/${user?._id}`}
               style={{ color: '#000' }}
             >
               <div className={styles['logo']}>
@@ -33,9 +32,7 @@ function NavBar() {
                   alt=""
                   className={styles['logo-avatar']}
                 />
-                <span
-                  className={styles['name']}
-                >{`${user.name.firstName} ${user.name.lastName}`}</span>
+                <span className={styles['name']}>{`${user?.fullName}`}</span>
               </div>
             </Link>
             <div className={styles['option']}>

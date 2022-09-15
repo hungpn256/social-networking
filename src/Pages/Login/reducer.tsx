@@ -10,7 +10,7 @@ const initialState: ILogin = {
   error: null,
 };
 
-const reducer = (state = initialState, action: any) => {
+const reducer = (state = initialState, action: any): ILogin => {
   switch (action.type) {
     case loginConstants.LOGIN_CHANGE_STATE: {
       return { ...state, ...action.payload };

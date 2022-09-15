@@ -1,9 +1,7 @@
 export default interface IUser {
   email: string;
-  name: {
-    firstName: string;
-    lastName: string;
-  };
+  firstName: string;
+  lastName: string;
   phoneNumber: string;
   gender: 'MALE' | 'FEMALE' | 'OTHER';
   avatar?: string;

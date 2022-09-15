@@ -155,11 +155,11 @@ export default function ChatActiveItem({ conversation }: Props) {
           <GroupAvatar
             size={40}
             style={{ width: 40, height: 40 }}
-            src={getAvatarMessage(conversation, user)}
+            src={getAvatarMessage(conversation, user!)}
           />
           <span className={styles['name']}>
-            {getNameMessage(conversation, user).slice(0, 15) +
-              `${getNameMessage(conversation, user).length > 15 ? '...' : ''}`}
+            {getNameMessage(conversation, user!).slice(0, 15) +
+              `${getNameMessage(conversation, user!).length > 15 ? '...' : ''}`}
           </span>
         </div>
         <div className="flex">

@@ -36,11 +36,11 @@ export default function Home(props: any) {
   };
   const [textSearch, setTextSearch] = useState(qs.parse(location.search)?.q ?? '');
   const { refChildren: refNoti, refParent: refNotiIcon } = useClickOutSide(() => {
-    setShowNotificaiton(false)
-  })
+    setShowNotificaiton(false);
+  });
   const { refChildren: refMess, refParent: refMessIcon } = useClickOutSide(() => {
-    setShowMessenger(false)
-  })
+    setShowMessenger(false);
+  });
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTextSearch(e.target.value);
     onSearch(e.target.value);
@@ -132,7 +132,7 @@ export default function Home(props: any) {
                         className={`${styles['menu-item-link']}`}
                         activeClassName={styles['active']}
                       >
-                        <span>{`${user.name.firstName}`}</span>
+                        <span>{`${user.firstName}`}</span>
                         <Avatar
                           src={user?.avatar}
                           icon={<UserOutlined />}
@@ -192,7 +192,9 @@ export default function Home(props: any) {
                         />
                       </li>
                     </Badge>
-                    {showMessenger && <Messenger ref={refMess} setShowMessenger={setShowMessenger} />}
+                    {showMessenger && (
+                      <Messenger ref={refMess} setShowMessenger={setShowMessenger} />
+                    )}
                   </div>
                   <div className="relative">
                     <Badge count={25} style={{ transform: 'translate(0px,-5px)' }}>
@@ -207,7 +209,6 @@ export default function Home(props: any) {
                     {showNotificaiton && <Notification ref={refNoti} />}
                   </div>
                   <li
-
                     className={`${styles['menu-item']}`}
                     style={{
                       margin: 0,
