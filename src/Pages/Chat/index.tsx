@@ -64,11 +64,13 @@ export default function Chat() {
   };
 
   const onSubmit = async () => {
-    dispatch({ type: GET_OR_CREATE_CONVERSATION, payload: selected.map((i) => i._id) });
-    dispatch({
-      type: CONVERSATION_CHANGE_STATE,
-      payload: { isOpenCreateConversationModal: false },
-    });
+    if (selected.length > 0) {
+      dispatch({ type: GET_OR_CREATE_CONVERSATION, payload: selected.map((i) => i._id) });
+      dispatch({
+        type: CONVERSATION_CHANGE_STATE,
+        payload: { isOpenCreateConversationModal: false },
+      });
+    }
   };
 
   return (
@@ -85,6 +87,7 @@ export default function Chat() {
           });
         }}
         onOk={onSubmit}
+        okText="Create conversation"
       >
         <Input
           placeholder="search..."

@@ -85,9 +85,9 @@ export default function ChatActiveItem({ conversation }: Props) {
             type: TypeMessage.TEXT,
             conversation: conversation._id,
             createdBy: {
-              _id: user._id,
-              avatar: user.avatar,
-              fullName: user.fullName,
+              _id: user?._id,
+              avatar: user?.avatar,
+              fullName: user?.fullName,
             },
             status: 'LOADING',
             files: [...images],

@@ -1,6 +1,5 @@
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Image } from 'antd';
-import moment from 'moment';
 import { CSSProperties, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../index_Reducer';
@@ -79,7 +78,6 @@ export default function MessageText({
             })}
         </div>
       </div>
-      {/* <div>{moment(message.createdAt).format('DD HH:mm:ss')}</div> */}
     </div>
   );
 }
