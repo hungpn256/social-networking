@@ -18,10 +18,14 @@ export function getMessageByConversationId(
 }
 
 export function createMessage(conversationId: string, message: IMessage) {
-  console.log("message", message)
+  console.log('message', message);
   return axios.post(`${ip}/conversation/message`, { message, conversationId });
 }
 
 export function createConversation(targetIds: string[]) {
   return axios.post(`${ip}/conversation`, { targetIds });
+}
+
+export function updateConversation(_id: string, payload: { [key: string]: any }) {
+  return axios.put(`${ip}/conversation/${_id}`, { payload });
 }

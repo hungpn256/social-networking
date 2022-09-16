@@ -7,7 +7,7 @@ import {
 } from '@ant-design/icons';
 import { faSmileBeam } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Image, Input } from 'antd';
+import { Button, Dropdown, Image, Input, Menu, Modal } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import Picker from 'emoji-picker-react';
 import moment from 'moment';
@@ -19,6 +19,7 @@ import handleUpload from '../../Helper/UploadImage';
 import useClickOutSide from '../../Hook/useClickOutSide';
 import { RootState } from '../../index_Reducer';
 import { IConversation, TypeActiveMessage, TypeMessage } from '../../Models/chat';
+import ChangeInforConversation from '../../Pages/Chat/components/ChangeInfoConvesation';
 import { CHANGE_ACTIVE, GET_MESSAGE, SEND_MESSAGE } from '../../Pages/Chat/constants';
 import { IConversationActive } from '../../Pages/Chat/reducer';
 import GroupAvatar from '../GroupAvatar';
@@ -38,6 +39,7 @@ export default function ChatActiveItem({ conversation }: Props) {
   const dispatch = useDispatch();
   const [showPicker, setShowPicker] = useState(false);
   const [images, setImages] = useState<IImage[]>([]);
+  const [contentModal, setContentModal] = useState<any>();
   const [loadingUploadImage, setLoadingUploadImage] = useState<boolean>(false);
   const active = useSelector(
     (state: RootState) => state.conversation.activeConversationsIds
@@ -142,6 +144,24 @@ export default function ChatActiveItem({ conversation }: Props) {
     }
   };
 
+  const menu = (
+    <Menu>
+      <Menu.Item key="0">
+        <div
+          onClick={() => {
+            setContentModal(<ChangeInforConversation conversationId={conversation._id} />);
+          }}
+        >
+          Change name conversation
+        </div>
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="1">
+        <div>Change nick name</div>
+      </Menu.Item>
+    </Menu>
+  );
+
   const onEmojiClick = (_: any, emojiObject: any) => {
     setText(text + emojiObject.emoji);
   };
@@ -149,19 +169,26 @@ export default function ChatActiveItem({ conversation }: Props) {
     <div className={styles['container']}>
       <div
         className={styles['header']}
-        onClick={() => onClose(isActive ? TypeActiveMessage.MINIMIZE : TypeActiveMessage.ACTIVE)}
+        onClick={() => !isActive && onClose(TypeActiveMessage.ACTIVE)}
       >
-        <div className={styles['infor']}>
-          <GroupAvatar
-            size={40}
-            style={{ width: 40, height: 40 }}
-            src={getAvatarMessage(conversation, user!)}
-          />
-          <span className={styles['name']}>
-            {getNameMessage(conversation, user!).slice(0, 15) +
-              `${getNameMessage(conversation, user!).length > 15 ? '...' : ''}`}
-          </span>
-        </div>
+        <Dropdown
+          overlay={menu}
+          trigger={['click']}
+          overlayClassName={styles['dropdown']}
+          placement="bottomLeft"
+        >
+          <div className={styles['infor']} onClick={() => {}}>
+            <GroupAvatar
+              size={40}
+              style={{ width: 40, height: 40 }}
+              src={getAvatarMessage(conversation, user!)}
+            />
+            <span className={styles['name']}>
+              {getNameMessage(conversation, user!).slice(0, 15) +
+                `${getNameMessage(conversation, user!).length > 15 ? '...' : ''}`}
+            </span>
+          </div>
+        </Dropdown>
         <div className="flex">
           {isActive && (
             <div
@@ -302,6 +329,15 @@ export default function ChatActiveItem({ conversation }: Props) {
           </Input.Group>
         </div>
       </div>
+      <Modal
+        visible={!!contentModal}
+        onCancel={() => {
+          setContentModal(null);
+        }}
+        footer={[]}
+      >
+        {contentModal}
+      </Modal>
     </div>
   );
 }
