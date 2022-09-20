@@ -5,33 +5,43 @@ import {
   CONVERSATION_CHANGE_STATE,
   GET_CONVERSATION,
   GET_CONVERSATION_SUCCESS,
+  GET_CONVERSATION_UNSEEN,
+  GET_CONVERSATION_UNSEEN_SUCCESS,
   GET_MESSAGE,
   GET_MESSAGE_SUCCESS,
   GET_OR_CREATE_CONVERSATION,
   GET_OR_CREATE_CONVERSATION_SUCCESS,
   SEND_MESSAGE,
   SEND_MESSAGE_STATUS_LOADING,
-  SEND_MESSAGE_SUCCESS
+  SEND_MESSAGE_SUCCESS,
+  UNSEEN_CONVERSATION,
+  UNSEEN_CONVERSATION_SUCCESS,
 } from './constants';
-import { createConversation, createMessage, getConversation, getMessageByConversationId } from './service';
+import {
+  createConversation,
+  createMessage,
+  getConversation,
+  getMessageByConversationId,
+  getNumOfConversationUnseen,
+  postNumOfConversationUnseen,
+} from './service';
 
 function* getConversationSaga({ payload }: any): any {
-  yield put({ type: CONVERSATION_CHANGE_STATE, payload: { requesting: true } })
+  yield put({ type: CONVERSATION_CHANGE_STATE, payload: { requesting: true } });
   try {
     const currentConversations = yield select((state) => state.conversation.conversations);
     const res = yield call(getConversation, payload);
     yield put({
-      type: GET_CONVERSATION_SUCCESS, payload:
-      {
+      type: GET_CONVERSATION_SUCCESS,
+      payload: {
         conversations: [...currentConversations, ...res.data.conversations],
-        total: res.data.total
-      }
+        total: res.data.total,
+      },
     });
   } catch (err) {
     console.log('🚀 ~ file: saga.ts ~ line 9 ~ function*getConversationSaga ~ err', err);
-  }
-  finally {
-    yield put({ type: CONVERSATION_CHANGE_STATE, payload: { requesting: false } })
+  } finally {
+    yield put({ type: CONVERSATION_CHANGE_STATE, payload: { requesting: false } });
   }
 }
 
@@ -55,7 +65,11 @@ function* getOrCreateConversationSaga({ payload }: any): any {
 
 function* getMessageSaga({ payload }: any): any {
   try {
-    const res = yield call(getMessageByConversationId, payload.conversationId, payload.lastMessageId);
+    const res = yield call(
+      getMessageByConversationId,
+      payload.conversationId,
+      payload.lastMessageId
+    );
     const messages = res.data.messages;
     const total = res.data.total;
     yield put({
@@ -63,7 +77,7 @@ function* getMessageSaga({ payload }: any): any {
       payload: {
         messages,
         conversationId: payload.conversationId,
-        total
+        total,
       },
     });
   } catch (err) {
@@ -73,7 +87,7 @@ function* getMessageSaga({ payload }: any): any {
 
 function* sendMessageSaga({ payload }: any): any {
   try {
-    const { message } = payload
+    const { message } = payload;
     yield put({
       type: SEND_MESSAGE_STATUS_LOADING,
       payload: {
@@ -84,7 +98,7 @@ function* sendMessageSaga({ payload }: any): any {
     const res = yield call(createMessage, payload.conversationId, {
       content: message.content,
       conversation: message.conversation,
-      files: message.files
+      files: message.files,
     });
     const newMessage = res.data.message;
     yield put({
@@ -92,12 +106,41 @@ function* sendMessageSaga({ payload }: any): any {
       payload: {
         message: newMessage,
         conversationId: payload.conversationId,
-        oldMessageId: message._id
+        oldMessageId: message._id,
       },
     });
     // const messages = res.data.messages;
     // const total = res.data.total;
+  } catch (err) {
+    console.log('🚀 ~ file: saga.ts ~ line 9 ~ function*getConversationSaga ~ err', err);
+  }
+}
 
+function* getNumOfConversationUnseenSaga(): any {
+  try {
+    const res = yield call(getNumOfConversationUnseen);
+    yield put({
+      type: GET_CONVERSATION_UNSEEN_SUCCESS,
+      payload: {
+        numOfConversationUnseen: res.data.numOfConversationUnseen,
+      },
+    });
+  } catch (err) {
+    console.log('🚀 ~ file: saga.ts ~ line 9 ~ function*getConversationSaga ~ err', err);
+  }
+}
+
+function* unseenConversationSaga({ payload }: any): any {
+  try {
+    const user = yield select((state) => state.login.user);
+    yield put({
+      type: UNSEEN_CONVERSATION_SUCCESS,
+      payload: {
+        conversationId: payload.conversationId,
+        userId: user._id,
+      },
+    });
+    yield call(postNumOfConversationUnseen, { conversationId: payload.conversationId });
   } catch (err) {
     console.log('🚀 ~ file: saga.ts ~ line 9 ~ function*getConversationSaga ~ err', err);
   }
@@ -108,4 +151,6 @@ export default function* watchChatSaga() {
   yield takeEvery(GET_OR_CREATE_CONVERSATION, getOrCreateConversationSaga);
   yield takeEvery(GET_MESSAGE, getMessageSaga);
   yield takeEvery(SEND_MESSAGE, sendMessageSaga);
+  yield takeEvery(GET_CONVERSATION_UNSEEN, getNumOfConversationUnseenSaga);
+  yield takeEvery(UNSEEN_CONVERSATION, unseenConversationSaga);
 }

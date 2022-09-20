@@ -15,7 +15,7 @@ import ROUTES from './configs/router';
 import { RootState } from './index_Reducer';
 import Auth from './Layouts/Auth';
 import Chat from './Pages/Chat';
-import { ON_NEW_MESSGAGE } from './Pages/Chat/constants';
+import { GET_CONVERSATION_UNSEEN, ON_NEW_MESSGAGE } from './Pages/Chat/constants';
 import { GET_FRIEND } from './Pages/Home/constants';
 import Login from './Pages/Login';
 import { getUser } from './Pages/Login/actions';
@@ -37,6 +37,7 @@ function App() {
   const audioRef = useRef(new Audio(soundReceiveMessage));
 
   useEffect(() => {
+    axios.defaults.headers.common['Authorization'] = token ? `${token}` : '';
     if (token) {
       socket.current = io(ipSocket, {
         transports: ['websocket'],
@@ -45,6 +46,7 @@ function App() {
         },
       });
       socket.current.connect();
+      dispatch({ type: GET_CONVERSATION_UNSEEN });
     }
     if (socket.current) {
       socket.current.on('friend-status-change', () => {
@@ -52,7 +54,8 @@ function App() {
       });
       socket.current.on('new-message', (conversation) => {
         if (conversation) {
-          dispatch({ type: ON_NEW_MESSGAGE, payload: { conversation } });
+          dispatch({ type: ON_NEW_MESSGAGE, payload: { conversation, userId: user?._id } });
+          dispatch({ type: GET_CONVERSATION_UNSEEN });
           try {
             audioRef.current.play();
           } catch (err) {
@@ -62,7 +65,6 @@ function App() {
       });
     }
 
-    axios.defaults.headers.common['Authorization'] = token ? `${token}` : '';
     services
       .getUser()
       .then((res) => {

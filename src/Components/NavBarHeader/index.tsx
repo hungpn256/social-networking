@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import Logo from '../../Assets/logo.png';
 import useClickOutSide from '../../Hook/useClickOutSide';
+import { RootState } from '../../index_Reducer';
 import Messenger from '../Messenger';
 import Notification from '../Notification';
 import styles from './styles.module.css';
@@ -28,6 +29,9 @@ export default function Home(props: any) {
   const [showNotificaiton, setShowNotificaiton] = useState(false);
   const [showMessenger, setShowMessenger] = useState(false);
   const login = useSelector((state) => state.login);
+  const numOfConversationUnseen = useSelector(
+    (state: RootState) => state.conversation.numOfConversationUnseen
+  );
   const { user } = login;
   const checkBtn = document.querySelector(`#${styles['check']}`) as any;
   const dispatch = useDispatch();
@@ -180,7 +184,10 @@ export default function Home(props: any) {
               {user && (
                 <ul className={styles['chat-notification-wrapper']}>
                   <div className="relative">
-                    <Badge count={5} style={{ transform: 'translate(0px,-5px)' }}>
+                    <Badge
+                      count={numOfConversationUnseen}
+                      style={{ transform: 'translate(0px,-5px)' }}
+                    >
                       <li
                         ref={refMessIcon}
                         className={`${styles['menu-item']} ${styles['wrap-icon']}`}

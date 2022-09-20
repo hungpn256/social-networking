@@ -27,5 +27,13 @@ export function createConversation(targetIds: string[]) {
 }
 
 export function updateConversation(_id: string, payload: { [key: string]: any }) {
-  return axios.put(`${ip}/conversation/${_id}`, { payload });
+  return axios.put(`${ip}/conversation/${_id}`, payload);
+}
+
+export function getNumOfConversationUnseen() {
+  return axios.get(`${ip}/conversation/unseen`);
+}
+
+export function postNumOfConversationUnseen({ conversationId }: { conversationId: string }) {
+  return axios.post(`${ip}/conversation/unseen`, { conversationId });
 }

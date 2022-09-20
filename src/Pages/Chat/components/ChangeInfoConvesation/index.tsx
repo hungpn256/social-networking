@@ -9,9 +9,7 @@ interface Props {
 
 export default function ChangeInforConversation({ conversationId }: Props) {
   const onFinish = async (data: { name: string }) => {
-    console.log('🚀 ~ file: index.tsx ~ line 9 ~ onFinish ~ data', data);
     const res = await updateConversation(conversationId, data);
-    console.log('🚀 ~ file: index.tsx ~ line 14 ~ onFinish ~ res', res);
   };
 
   return (

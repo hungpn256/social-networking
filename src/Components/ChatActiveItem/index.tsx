@@ -20,7 +20,12 @@ import useClickOutSide from '../../Hook/useClickOutSide';
 import { RootState } from '../../index_Reducer';
 import { IConversation, TypeActiveMessage, TypeMessage } from '../../Models/chat';
 import ChangeInforConversation from '../../Pages/Chat/components/ChangeInfoConvesation';
-import { CHANGE_ACTIVE, GET_MESSAGE, SEND_MESSAGE } from '../../Pages/Chat/constants';
+import {
+  CHANGE_ACTIVE,
+  GET_MESSAGE,
+  SEND_MESSAGE,
+  UNSEEN_CONVERSATION,
+} from '../../Pages/Chat/constants';
 import { IConversationActive } from '../../Pages/Chat/reducer';
 import GroupAvatar from '../GroupAvatar';
 import MessageText from '../MessageText';
@@ -164,6 +169,12 @@ export default function ChatActiveItem({ conversation }: Props) {
 
   const onEmojiClick = (_: any, emojiObject: any) => {
     setText(text + emojiObject.emoji);
+  };
+  const onFocus = () => {
+    dispatch({
+      type: UNSEEN_CONVERSATION,
+      payload: { conversationId: conversation._id },
+    });
   };
   return (
     <div className={styles['container']}>
@@ -322,6 +333,7 @@ export default function ChatActiveItem({ conversation }: Props) {
                   event.stopPropagation();
                 }
               }}
+              onFocus={onFocus}
             />
             <Button type="ghost" onClick={sendMessage}>
               <SendOutlined />

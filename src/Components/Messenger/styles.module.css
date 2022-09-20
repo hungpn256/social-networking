@@ -53,11 +53,8 @@
   overflow: hidden;
   margin-left: 8px;
 }
-.conversation-item-name{
-  font-weight: bold;
-}
 .conversation-item-time{
-  font-size: 12px;
+  font-size: 11px;
   font-weight: normal;
   color: #999;
 }
