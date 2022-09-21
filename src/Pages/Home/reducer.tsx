@@ -39,7 +39,7 @@ const reducer = (state = initialState, action: any) => {
       return {
         ...state,
         articles,
-        record: { text: '', images: [] },
+        record: { text: '', files: [] },
       };
     }
     case 'CLEAR_STATE': {

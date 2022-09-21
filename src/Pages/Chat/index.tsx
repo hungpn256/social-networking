@@ -44,9 +44,9 @@ export default function Chat() {
   }, [isOpenCreateConversationModal]);
 
   const getFriend = useCallback(async () => {
-    const res = await services.getFriend({ _id: user._id, searchText: text });
+    const res = await services.getFriend({ _id: user?._id ?? '', searchText: text });
     setFriends(res.data.friends);
-  }, [text, user._id]);
+  }, [text, user?._id]);
 
   useEffect(() => {
     if (isOpenCreateConversationModal) {

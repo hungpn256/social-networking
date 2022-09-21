@@ -22,7 +22,7 @@ export interface IConversation {
 
 export enum TypeActiveMessage {
   ACTIVE,
-  MINIMIZE
+  MINIMIZE,
 }
 
 export interface IMessage {
@@ -39,11 +39,12 @@ export interface IMessage {
 }
 
 export enum TypeMessage {
-  TEXT,
-  IMAGE,
-  VIDEO
+  MESSAGE = 'MESSAGE',
+  // IMAGE = 'IMAGE',
+  // VIDEO = 'VIDEO',
+  NOTIFICATION = 'NOTIFICATION',
 }
 
 export enum IStatusMessage {
-  LOADING
+  LOADING,
 }

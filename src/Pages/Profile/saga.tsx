@@ -12,7 +12,7 @@ function* changeCoverSaga({ payload }: AnyAction) {
   try {
     const urlImage = yield call(handleUpload, payload);
     const res = yield call(services.updateProfile, { cover: urlImage.url });
-    yield put(profileActions.postArticle({ images: [urlImage], action: 'Changed cover' }));
+    yield put(profileActions.postArticle({ files: [urlImage], action: 'Changed cover' }));
     yield put(profileActions.changeCoverSuccess(res.data));
     toast.success('change cover success');
   } catch (err) {
@@ -28,7 +28,7 @@ function* changeAvatarSaga({ payload }: AnyAction) {
   try {
     const urlImage = yield call(handleUpload, payload);
     const res = yield call(services.updateProfile, { avatar: urlImage.url });
-    yield put(profileActions.postArticle({ images: [urlImage], action: 'Changed avatar' }));
+    yield put(profileActions.postArticle({ files: [urlImage], action: 'Changed avatar' }));
     yield put(profileActions.changeAvatarSuccess(res.data));
     toast.success('change avatar success');
   } catch (err) {
@@ -61,10 +61,10 @@ function* changeUserSaga({ payload }: AnyAction) {
 function* postArticleSaga({ payload }: AnyAction) {
   yield put(profileActions.changeState({ postArticleRequesting: true }));
   try {
-    if (payload.images.length > 0) {
-      if (!payload.images[0].url) {
-        const urlImage: any = yield all(payload.images.map((i) => call(handleUpload, i)));
-        payload.images = urlImage;
+    if (payload.files.length > 0) {
+      if (!payload.files[0].url) {
+        const urlImage: any = yield all(payload.files.map((i) => call(handleUpload, i)));
+        payload.files = urlImage;
       }
     }
     const res = yield call(services.postArticle, payload);

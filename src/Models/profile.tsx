@@ -11,7 +11,7 @@ export default interface Iprofile {
   articles: [] | Array<IArticle>;
   record: {
     text: string;
-    images: [] | Array<{ url: string }>;
+    files: [] | Array<{ url: string }>;
   };
   paging: {
     page: number;

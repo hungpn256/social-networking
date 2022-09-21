@@ -24,6 +24,7 @@ import { GET_OR_CREATE_CONVERSATION } from '../../Chat/constants';
 import * as profileActions from '../actions';
 import Detail from '../Components/Detail/Detail';
 import Friend from '../Components/Friend';
+import Photos from '../Components/Photos';
 import services from '../service';
 import styles from './styles.module.css';
 
@@ -295,6 +296,11 @@ export default function Profile() {
               )}
             ></Route>
             <Route exact path={'/profile/:id/friend'} render={() => <Friend />}></Route>
+            <Route
+              exact
+              path={'/profile/:id/photos'}
+              render={() => <Photos userProfile={userProfile} />}
+            ></Route>
           </div>
         </div>
       </div>

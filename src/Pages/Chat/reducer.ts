@@ -11,6 +11,7 @@ import {
   SEND_MESSAGE_STATUS_LOADING,
   SEND_MESSAGE_SUCCESS,
   UNSEEN_CONVERSATION_SUCCESS,
+  UPDATE_CONVERSATION,
 } from './constants';
 const initialState: IConversationState = {
   requesting: false,
@@ -206,6 +207,17 @@ const reducer = (state = initialState, action: any): IConversationState => {
         conversations: [...state.conversations],
         numOfConversationUnseen,
       };
+    }
+
+    case UPDATE_CONVERSATION: {
+      const conversation = state.conversations.find((i) => i._id === action.payload.conversationId);
+      if (conversation) {
+        const newConversation = action.payload.conversation;
+        Object.keys(newConversation).forEach((key) => {
+          conversation[key] = newConversation[key];
+        });
+      }
+      return { ...state };
     }
     case 'CLEAR_STATE_PROFILE': {
       return { ...initialState };

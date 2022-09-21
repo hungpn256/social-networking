@@ -37,3 +37,7 @@ export function getNumOfConversationUnseen() {
 export function postNumOfConversationUnseen({ conversationId }: { conversationId: string }) {
   return axios.post(`${ip}/conversation/unseen`, { conversationId });
 }
+
+export function getAllPhoto(payload: { userId: string }) {
+  return axios.get(`${ip}/post/photos`, { params: payload });
+}

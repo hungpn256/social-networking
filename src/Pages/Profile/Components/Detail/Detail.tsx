@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Article from '../../../../Components/Article';
 import PostArticle from '../../../../Components/PostArticle';
+import usePhotos from '../../../../Hook/usePhotos';
 import { RootState } from '../../../../index_Reducer';
 import IArticle from '../../../../Models/article';
 import Iprofile from '../../../../Models/profile';
@@ -25,9 +26,11 @@ interface Props {
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 
 export default function Detail({ friendStatus, userProfile, articles, profileState }: Props) {
+  const user = useSelector((state: RootState) => state.login.user);
   const [offsetTop, setOffset] = useState<undefined | number>(60);
-  const listImg =
-    articles && articles.filter((article: IArticle) => article.images[0]).splice(0, 9);
+  const listImg = articles && articles.filter((article: IArticle) => article.files[0]).splice(0, 9);
+
+  const { files } = usePhotos(userProfile?._id);
 
   useEffect(() => {
     const setOffsetTop = () => {
@@ -40,7 +43,6 @@ export default function Detail({ friendStatus, userProfile, articles, profileSta
     };
   }, []);
 
-  const user = useSelector((state: RootState) => state.login.user);
   const [editData, setDataEdit] = useState({
     firstName: user?.firstName,
     lastName: user?.lastName,
@@ -133,18 +135,21 @@ export default function Detail({ friendStatus, userProfile, articles, profileSta
             <h3>Photos</h3>
             <div className={styles['photo-list']}>
               <Image.PreviewGroup>
-                {listImg?.map((article: IArticle, index: number) => {
-                  return (
-                    <Image
-                      key={article._id + 'image'}
-                      width={'98%'}
-                      height={120}
-                      src={article.images[0].url}
-                      alt=""
-                      className={styles['photo-item-img']}
-                    />
-                  );
-                })}
+                {files
+                  .filter((i) => i.typeMedia === 'IMAGE')
+                  .slice(0, 9)
+                  ?.map((file, index) => {
+                    return (
+                      <Image
+                        key={file.url}
+                        width={'98%'}
+                        height={120}
+                        src={file.url}
+                        alt=""
+                        className={styles['photo-item-img']}
+                      />
+                    );
+                  })}
               </Image.PreviewGroup>
             </div>
           </div>

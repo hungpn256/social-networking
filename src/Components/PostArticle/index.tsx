@@ -10,6 +10,7 @@ import { Image, Input, Spin } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { v1 as uuidv1 } from 'uuid';
+import { convertTypeMedia } from '../../Helper/Article';
 import { RootState } from '../../index_Reducer';
 import * as profileActions from '../../Pages/Profile/actions';
 import styles from './styles.module.css';
@@ -28,21 +29,21 @@ export default function PostArticle({ loading }: Props) {
     e.preventDefault();
     dispatch(profileActions.postArticle(record));
   };
-  const [urlImage, setUrlImage] = useState<string[]>([]);
+  const [urlImage, setUrlImage] = useState<{ url: string; typeMedia: string }[]>([]);
   useEffect(() => {
     setUrlImage(
-      Array.from(profileState.record.images).map((image) => {
-        return URL.createObjectURL(image as MediaSource);
+      Array.from(profileState.record.files).map((image: any) => {
+        return { url: URL.createObjectURL(image), typeMedia: convertTypeMedia(image.type) };
       })
     );
-  }, [profileState.record.images]);
+  }, [profileState.record.files]);
 
   const handleDeleteImgPreview = (index: number) => {
     dispatch(
       profileActions.changeState({
         record: {
           ...record,
-          images: record.images.filter((i: MediaSource, idx: number) => {
+          files: record.files.filter((i: MediaSource, idx: number) => {
             return idx !== index;
           }),
         },
@@ -74,13 +75,20 @@ export default function PostArticle({ loading }: Props) {
                     urlImage.map((urlImage, index) => {
                       return (
                         <div key={uuidv1()} style={{ position: 'relative' }} className="mr-[16px]">
-                          <Image
-                            src={urlImage}
-                            height={100}
-                            width={100}
-                            key={index}
-                            className="rounded-xl"
-                          ></Image>
+                          {urlImage.typeMedia === 'IMAGE' ? (
+                            <Image
+                              src={urlImage.url}
+                              height={100}
+                              width={100}
+                              key={index}
+                              className="rounded-xl"
+                            ></Image>
+                          ) : (
+                            <video height={100} width={100} controls>
+                              <source src={urlImage.url} type="video/mp4" />
+                              Your browser does not support the video tag.
+                            </video>
+                          )}
                           <FontAwesomeIcon
                             className={styles['icon-close']}
                             icon={faTimesCircle}
@@ -115,7 +123,7 @@ export default function PostArticle({ loading }: Props) {
                       if (e.target.files) {
                         dispatch(
                           profileActions.changeState({
-                            record: { ...record, images: Array.from(e.target.files) },
+                            record: { ...record, files: Array.from(e.target.files) },
                           })
                         );
                       }

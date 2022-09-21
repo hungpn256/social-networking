@@ -11,7 +11,7 @@ const initialState: Iprofile = {
   articles: [],
   record: {
     text: '',
-    images: [],
+    files: [],
   },
   paging: {
     page: 1,
@@ -51,7 +51,7 @@ const reducer = (state = initialState, action: any): Iprofile => {
       return {
         ...state,
         articles,
-        record: { text: '', images: [] },
+        record: { text: '', files: [] },
       };
     }
     case profileConstant.PROFILE_DELETE_ARTICLE_SUCCESS: {

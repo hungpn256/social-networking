@@ -89,7 +89,7 @@ export default function ChatActiveItem({ conversation }: Props) {
           message: {
             content: text.trim(),
             _id: Date.now().toString(),
-            type: TypeMessage.TEXT,
+            type: TypeMessage.MESSAGE,
             conversation: conversation._id,
             createdBy: {
               _id: user?._id,
@@ -154,7 +154,15 @@ export default function ChatActiveItem({ conversation }: Props) {
       <Menu.Item key="0">
         <div
           onClick={() => {
-            setContentModal(<ChangeInforConversation conversationId={conversation._id} />);
+            setContentModal({
+              component: (
+                <ChangeInforConversation
+                  conversation={conversation}
+                  setContentModal={setContentModal}
+                />
+              ),
+              title: 'Change name conversation',
+            });
           }}
         >
           Change name conversation
@@ -262,14 +270,17 @@ export default function ChatActiveItem({ conversation }: Props) {
                     moment(i.createdAt).diff(moment(messages[index + 1].createdAt), 'hour') > 12;
                 }
                 return (
-                  <div key={i._id}>
+                  <>
                     {isDifHalfDay && (
                       <div className={styles['time']}>
                         {moment(i.createdAt).format('MM/DD HH:mm')}
                       </div>
                     )}
-                    <MessageText message={i} endBlock={endBlock} startBlock={startBlock} />
-                  </div>
+                    {i.type === 'NOTIFICATION' && <div className={styles['time']}>{i.content}</div>}
+                    {i.type === 'MESSAGE' && (
+                      <MessageText message={i} endBlock={endBlock} startBlock={startBlock} />
+                    )}
+                  </>
                 );
               })}
           </InfiniteScroll>
@@ -347,8 +358,9 @@ export default function ChatActiveItem({ conversation }: Props) {
           setContentModal(null);
         }}
         footer={[]}
+        title={contentModal?.title}
       >
-        {contentModal}
+        {contentModal?.component}
       </Modal>
     </div>
   );

@@ -99,6 +99,7 @@ function* sendMessageSaga({ payload }: any): any {
       content: message.content,
       conversation: message.conversation,
       files: message.files,
+      type: message.type,
     });
     const newMessage = res.data.message;
     yield put({

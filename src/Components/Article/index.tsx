@@ -116,7 +116,7 @@ export const Editor = forwardRef(
 );
 
 export default function Para({ article }: { article: IArticle }) {
-  const { createBy: user, comment, liked } = article;
+  const { createdBy: user, comment, liked } = article;
   const { user: userLogin } = useSelector((state: { login: ILogin }) => state.login);
   const [isLiked, setLiked] = useState(article.liked.some((i) => i.likedBy === userLogin?._id));
   const [numOfComment, setNumOfComment] = useState(article.numOfCmt);
@@ -127,6 +127,13 @@ export default function Para({ article }: { article: IArticle }) {
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
   const inputRef = useRef();
+  const isMe = article.createdBy._id === userLogin?._id;
+  console.log('🚀 ~ file: index.tsx ~ line 131 ~ Para ~ user._id', user._id);
+  console.log(
+    '🚀 ~ file: index.tsx ~ line 131 ~ Para ~ article.createdBy._id',
+    article.createdBy._id
+  );
+  console.log('🚀 ~ file: index.tsx ~ line 131 ~ Para ~ isMe', isMe);
   const menu = (
     <Menu
       style={{
@@ -134,24 +141,41 @@ export default function Para({ article }: { article: IArticle }) {
         boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
       }}
     >
-      <Menu.Item
-        key="1"
-        onClick={() => {
-          Modal.confirm({
-            onOk: () => {
-              dispatch(profileActions.deleteArticle(article._id));
-            },
-            content: 'Bạn chắc chắn xóa bài viết này?',
-          });
-        }}
-      >
-        Delete post
-      </Menu.Item>
+      {isMe && (
+        <Menu.Item
+          key="1"
+          onClick={() => {
+            Modal.confirm({
+              onOk: () => {
+                dispatch(profileActions.deleteArticle(article._id));
+              },
+              content: 'Bạn chắc chắn xóa bài viết này?',
+            });
+          }}
+        >
+          Delete post
+        </Menu.Item>
+      )}
+      {isMe && (
+        <Menu.Item
+          key="1"
+          onClick={() => {
+            Modal.confirm({
+              onOk: () => {
+                dispatch(profileActions.deleteArticle(article._id));
+              },
+              content: 'Bạn chắc chắn xóa bài viết này?',
+            });
+          }}
+        >
+          Edit post
+        </Menu.Item>
+      )}
     </Menu>
   );
   useEffect(() => {
-    article?.images[0]?.url && setLoading(true);
-  }, [article._id, article?.images]);
+    article?.files[0]?.url && setLoading(true);
+  }, [article._id, article?.files]);
   useEffect(() => {
     const setvisiableTrue = setTimeout(() => {
       setLoading(false);
@@ -255,28 +279,33 @@ export default function Para({ article }: { article: IArticle }) {
             {article?.text}
           </Paragraph>
           <div className="flex flex-wrap">
-            {article.images.length > 0 &&
-              article.images.map((i) => {
+            {article.files.length > 0 &&
+              article.files.map((i) => {
                 return (
                   <div
                     style={{
                       minWidth: '50%',
-                      width: `${100 / article.images.length}%`,
+                      width: `${100 / article.files.length}%`,
                       maxWidth: '100%',
                       flex: 1,
                     }}
                   >
-                    <Image.PreviewGroup>
-                      <Image
-                        width="100%"
-                        style={{
-                          aspectRatio: '4 / 3',
-
-                          objectFit: 'cover',
-                        }}
-                        src={i.url}
-                      ></Image>
-                    </Image.PreviewGroup>
+                    {i.typeMedia === 'VIDEO' ? (
+                      <video controls style={{ width: '100%' }}>
+                        <source src={i.url} />
+                      </video>
+                    ) : (
+                      <Image.PreviewGroup>
+                        <Image
+                          width="100%"
+                          style={{
+                            aspectRatio: '4 / 3',
+                            objectFit: 'cover',
+                          }}
+                          src={i.url}
+                        ></Image>
+                      </Image.PreviewGroup>
+                    )}
                   </div>
                 );
               })}
@@ -321,7 +350,7 @@ export default function Para({ article }: { article: IArticle }) {
       </Card>
       <Image
         style={{ display: 'none' }}
-        src={article?.images[0]?.url}
+        src={article?.files[0]?.url}
         onLoad={() => setLoading(false)}
       ></Image>
     </LazyLoad>

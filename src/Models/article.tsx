@@ -1,10 +1,10 @@
 import IUser from './user';
 export default interface IArticle {
   text: string;
-  images: IFile[];
+  files: IFile[];
   _id: string;
   createdAt: Date;
-  createBy: IUser;
+  createdBy: IUser;
   liked: ILike[];
   action?: string;
   comment: IComment[];
@@ -28,5 +28,5 @@ export interface ILike {
 }
 export interface IFile {
   url: string;
-  typeMedia: "IMAGE" | "VIDEO"
+  typeMedia: 'IMAGE' | 'VIDEO';
 }

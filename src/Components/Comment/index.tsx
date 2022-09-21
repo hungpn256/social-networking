@@ -68,7 +68,7 @@ export default function CommentCustom({
     <>
       <div className="relative">
         <div className="flex">
-          <Avatar icon={<UserOutlined />} src={userLogin?.avatar} alt="Han Solo" />
+          <Avatar icon={<UserOutlined />} src={comment?.createdBy.avatar} alt="Han Solo" />
           <div className={`${styles['comment']} relative`}>
             <div className="font-bold text-[12px]">
               {data.createdBy.fullName}{' '}
