@@ -104,5 +104,5 @@ img {
   background: rgb(138, 138, 138);
 }
 img{
-  display: unset
+  display: unset !important;
 }
