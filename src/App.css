@@ -103,3 +103,6 @@ img {
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(138, 138, 138);
 }
+img{
+  display: unset
+}

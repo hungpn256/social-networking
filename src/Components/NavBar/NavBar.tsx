@@ -37,16 +37,16 @@ function NavBar() {
             </Link>
             <div className={styles['option']}>
               <div>
-                <a href="/">
+                <Link to="/">
                   <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faHome} />
                   <span>Home</span>
-                </a>
+                </Link>
               </div>
               <div>
-                <a href=" # ">
+                <Link to={`profile/${user?._id}/friend`}>
                   <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faUsers} />
                   <span>Friends</span>
-                </a>
+                </Link>
               </div>
               <div>
                 <a href=" # ">
