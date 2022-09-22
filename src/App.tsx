@@ -22,6 +22,8 @@ import { getUser } from './Pages/Login/actions';
 import services from './Pages/Login/service';
 import Signup from './Pages/Signup';
 import soundReceiveMessage from './Assets/audio/receiveMessage.mp3';
+import ForgotPassword from './Pages/Forgot-password';
+import ConfirmPassword from './Pages/ConfirmPassword';
 
 export const SocketContext = createContext<{ socket: Socket | undefined }>({ socket: undefined });
 
@@ -122,6 +124,18 @@ function App() {
                       exact: true,
                       name: 'Sign up',
                     },
+                    {
+                      path: '/auth/forgot-password',
+                      component: ForgotPassword,
+                      exact: true,
+                      name: 'Forgot Password',
+                    },
+                    {
+                      path: '/auth/confirm-password',
+                      component: ConfirmPassword,
+                      exact: true,
+                      name: 'Confirm Password',
+                    },
                   ]}
                 ></Auth>
               );
@@ -130,15 +144,6 @@ function App() {
           {renderRoute()}
         </Switch>
         {user && <Chat />}
-        {/* <audio
-          ref={audioRef}
-          src={'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'}
-          autoPlay
-          onLoadedData={(e) => {
-            console.log(e.target.play());
-          }}
-          muted={true}
-        /> */}
       </SocketContext.Provider>
     </div>
   );

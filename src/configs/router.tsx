@@ -6,6 +6,7 @@ import NotFound from '../Components/NotFound';
 import NavBarHeader from '../Components/NavBarHeader';
 import Profile from '../Pages/Profile';
 import SearchComponent from '../Pages/SearchNav';
+import ConfirmPassword from '../Pages/ConfirmPassword';
 
 const ROUTES = [
   {
@@ -19,10 +20,22 @@ const ROUTES = [
         name: 'Log in',
       },
       {
+        path: '/auth/forgot-password',
+        component: Login,
+        exact: true,
+        name: 'Log in',
+      },
+      {
         path: '/auth/signup',
         component: Signup,
         exact: true,
         name: 'Sign up',
+      },
+      {
+        path: '/auth/confirm-password',
+        component: ConfirmPassword,
+        exact: true,
+        name: 'Confirm Password',
       },
     ],
   },

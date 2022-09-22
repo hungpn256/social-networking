@@ -57,7 +57,8 @@ function Login() {
           <div className={styles['inputBx']}>
             <p>
               Don't have an account?
-              <Link to="/auth/signup">Sign up</Link>
+              <Link to="/auth/signup">Sign up</Link> or{' '}
+              <Link to="/auth/forgot-password">Forgot password</Link>
             </p>
           </div>
         </form>

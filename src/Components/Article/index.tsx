@@ -128,12 +128,6 @@ export default function Para({ article }: { article: IArticle }) {
   const dispatch = useDispatch();
   const inputRef = useRef();
   const isMe = article.createdBy._id === userLogin?._id;
-  console.log('🚀 ~ file: index.tsx ~ line 131 ~ Para ~ user._id', user._id);
-  console.log(
-    '🚀 ~ file: index.tsx ~ line 131 ~ Para ~ article.createdBy._id',
-    article.createdBy._id
-  );
-  console.log('🚀 ~ file: index.tsx ~ line 131 ~ Para ~ isMe', isMe);
   const menu = (
     <Menu
       style={{
@@ -231,6 +225,7 @@ export default function Para({ article }: { article: IArticle }) {
           filter:
             'drop-shadow(0px 4px 6px rgba(38, 50, 56, 0.16)), drop-shadow(0px 4px 16px rgba(38, 50, 56, 0.08))',
           borderRadius: 10,
+          margin: '8px 0',
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -348,11 +343,9 @@ export default function Para({ article }: { article: IArticle }) {
           }
         />
       </Card>
-      <Image
-        style={{ display: 'none' }}
-        src={article?.files[0]?.url}
-        onLoad={() => setLoading(false)}
-      ></Image>
+      <div style={{ display: 'none' }}>
+        <Image src={article?.files[0]?.url} onLoad={() => setLoading(false)}></Image>
+      </div>
     </LazyLoad>
   );
 }
