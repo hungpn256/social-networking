@@ -5,6 +5,7 @@ import watchRegisterSaga from './Pages/Signup/saga';
 import watchHomeSaga from './Pages/Home/saga';
 import watchsearchSaga from './Pages/SearchNav/saga';
 import watchChatSaga from './Pages/Chat/saga';
+import watchNotificationSaga from './Pages/Notification/saga';
 function* rootSaga() {
   yield all([
     watchLoginSaga(),
@@ -13,6 +14,7 @@ function* rootSaga() {
     watchHomeSaga(),
     watchsearchSaga(),
     watchChatSaga(),
+    watchNotificationSaga(),
   ]);
 }
 export default rootSaga;

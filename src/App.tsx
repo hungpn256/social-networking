@@ -24,6 +24,7 @@ import Signup from './Pages/Signup';
 import soundReceiveMessage from './Assets/audio/receiveMessage.mp3';
 import ForgotPassword from './Pages/Forgot-password';
 import ConfirmPassword from './Pages/ConfirmPassword';
+import { GET_NOTIFICATION_UNSEEN } from './Pages/Notification/constants';
 
 export const SocketContext = createContext<{ socket: Socket | undefined }>({ socket: undefined });
 
@@ -49,10 +50,11 @@ function App() {
       });
       socket.current.connect();
       dispatch({ type: GET_CONVERSATION_UNSEEN });
+      dispatch({ type: GET_NOTIFICATION_UNSEEN });
     }
     if (socket.current) {
       socket.current.on('friend-status-change', () => {
-        dispatch({ type: GET_FRIEND, payload: { _id: user._id } });
+        dispatch({ type: GET_FRIEND, payload: { _id: user!._id } });
       });
       socket.current.on('new-message', (conversation) => {
         if (conversation) {
@@ -64,6 +66,14 @@ function App() {
             console.log(err);
           }
         }
+      });
+
+      socket.current.on('new-notification', (notification) => {
+        console.log(
+          '🚀 ~ file: App.tsx ~ line 72 ~ socket.current.on ~ notification',
+          notification
+        );
+        dispatch({ type: GET_NOTIFICATION_UNSEEN });
       });
     }
 
