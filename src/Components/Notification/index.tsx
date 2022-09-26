@@ -5,10 +5,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ip } from '../../configs/ip';
 import { getImage, getTitleNotification } from '../../Helper/Notification';
 import { RootState } from '../../index_Reducer';
-import { GET_NOTIFICATION_SUCCESS } from '../../Pages/Notification/constants';
+import { INotification } from '../../Models/notification';
+import {
+  GET_NOTIFICATION_SUCCESS,
+  NOTIFICATION_UNSEEN_SUCCESS,
+} from '../../Pages/Notification/constants';
 import styles from './styles.module.css';
 
-export default forwardRef(function Notification(_, ref: any) {
+interface Props {
+  setShowNotificaiton: (value: boolean) => void;
+}
+
+export default forwardRef(function Notification({ setShowNotificaiton }: Props, ref: any) {
   const dispatch = useDispatch();
   const notifications = useSelector((state: RootState) => state.notification.notifications);
   useEffect(() => {
@@ -19,15 +27,29 @@ export default forwardRef(function Notification(_, ref: any) {
     const res = await axios.get(`${ip}/notification`);
     dispatch({ type: GET_NOTIFICATION_SUCCESS, payload: res.data.notifications });
   };
+
+  const unSeen = async (i: INotification) => {
+    setShowNotificaiton(false);
+    if (!i.isSeen) {
+      dispatch({ type: NOTIFICATION_UNSEEN_SUCCESS, payload: { notificationId: i._id } });
+      await axios.post(`${ip}/notification/unSeen`, { notificationId: i._id });
+    }
+  };
   return (
     <div ref={ref} className={styles['notification-container']}>
       <div className="font-bold text-[25px] mb-[8px] ml-[12px]">Notifications</div>
       {notifications.map((i) => {
         return (
-          <div className={`${styles['notification-item']} hover`}>
+          <div
+            className={`${styles['notification-item']} hover ${
+              i.isSeen ? '' : styles['notification-unseen']
+            }`}
+            key={i._id}
+            onClick={() => unSeen(i)}
+          >
             <div className="flex p-[4px]">
               <img alt="notification" src={getImage(i)} className={styles['image']} />
-              <div className={styles['content']}>
+              <div className={`${styles['content']}`}>
                 <div
                   className={styles['title']}
                   dangerouslySetInnerHTML={{ __html: getTitleNotification(i) }}

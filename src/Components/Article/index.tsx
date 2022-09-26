@@ -118,7 +118,7 @@ export const Editor = forwardRef(
 export default function Para({ article }: { article: IArticle }) {
   const { createdBy: user, comment, liked } = article;
   const { user: userLogin } = useSelector((state: { login: ILogin }) => state.login);
-  const [isLiked, setLiked] = useState(article.liked.some((i) => i.likedBy === userLogin?._id));
+  const [isLiked, setLiked] = useState(article.liked.some((i) => i.likedBy._id === userLogin?._id));
   const [numOfComment, setNumOfComment] = useState(article.numOfCmt);
   const [comments, setComments] = useState<IComment[]>(comment);
   const [numberOfLike, setNumberOfLike] = useState(liked.length);

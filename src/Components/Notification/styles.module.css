@@ -39,3 +39,6 @@
   word-break: break-word;
   flex: 1
 }
+.notification-unseen{
+  background-color: #FFC0CB55;
+}

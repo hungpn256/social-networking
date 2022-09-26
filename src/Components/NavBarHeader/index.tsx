@@ -214,7 +214,9 @@ export default function Home(props: any) {
                         <FontAwesomeIcon className={styles['menu-item-icon']} icon={faBell} />
                       </li>
                     </Badge>
-                    {showNotificaiton && <Notification ref={refNoti} />}
+                    {showNotificaiton && (
+                      <Notification ref={refNoti} setShowNotificaiton={setShowNotificaiton} />
+                    )}
                   </div>
                   <li
                     className={`${styles['menu-item']}`}

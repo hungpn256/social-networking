@@ -15,4 +15,5 @@ export interface INotification {
   friend?: IFriend;
   updatedAt: string;
   createdAt: string;
+  isSeen: boolean;
 }
