@@ -5,13 +5,15 @@ import signUp from './Pages/Signup/reducer';
 import home from './Pages/Home/reducer';
 import search from './Pages/SearchNav/reducer';
 import conversation from './Pages/Chat/reducer';
+import notification from './Pages/Notification/reducer';
 const rootReducer = combineReducers({
   login,
   signUp,
   profile,
   home,
   search,
-  conversation
+  conversation,
+  notification,
 });
 export default rootReducer;
 export type RootState = ReturnType<typeof rootReducer>;

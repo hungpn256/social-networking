@@ -24,7 +24,7 @@ export interface IComment {
 export interface ILike {
   type: string;
   _id: string;
-  likedBy: string | IUser;
+  likedBy: string & IUser;
 }
 export interface IFile {
   url: string;

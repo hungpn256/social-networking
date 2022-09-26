@@ -32,6 +32,7 @@ export default function Home(props: any) {
   const numOfConversationUnseen = useSelector(
     (state: RootState) => state.conversation.numOfConversationUnseen
   );
+  const notiUnseen = useSelector((state: RootState) => state.notification.totalUnseen);
   const { user } = login;
   const checkBtn = document.querySelector(`#${styles['check']}`) as any;
   const dispatch = useDispatch();
@@ -204,7 +205,7 @@ export default function Home(props: any) {
                     )}
                   </div>
                   <div className="relative">
-                    <Badge count={25} style={{ transform: 'translate(0px,-5px)' }}>
+                    <Badge count={notiUnseen} style={{ transform: 'translate(0px,-5px)' }}>
                       <li
                         ref={refNotiIcon}
                         className={`${styles['menu-item']} ${styles['wrap-icon']}`}
