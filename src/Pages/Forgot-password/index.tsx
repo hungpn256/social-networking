@@ -23,10 +23,10 @@ function ForgotPassword() {
     try {
       setLoading(true);
       const { email } = data;
-      await axios.post(`${ip}/auth/send-email-forgot-password`, { email });
+      await axios.post(`${ip}/auth/send-email-password`, { email });
       toast.success('Please check your email for confirmation');
     } catch (err: any) {
-      toast.error(err.message);
+      toast.error(err.response.data.error);
     } finally {
       setLoading(false);
     }

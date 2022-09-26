@@ -2,10 +2,13 @@ import { faEdit, faMars, faPhone, faVenus, faVenusMars } from '@fortawesome/free
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Affix, Button, Form, Image, Input, Radio, Spin } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import Article from '../../../../Components/Article';
 import PostArticle from '../../../../Components/PostArticle';
+import { ip } from '../../../../configs/ip';
 import usePhotos from '../../../../Hook/usePhotos';
 import { RootState } from '../../../../index_Reducer';
 import IArticle from '../../../../Models/article';
@@ -67,13 +70,6 @@ export default function Detail({ friendStatus, userProfile, articles, profileSta
         }
       : null;
 
-  const buttonItemLayout =
-    formLayout === 'horizontal'
-      ? {
-          wrapperCol: { span: 20, offset: 4 },
-        }
-      : null;
-
   const onSubmit = async () => {
     try {
       setLoading(true);
@@ -83,6 +79,18 @@ export default function Detail({ friendStatus, userProfile, articles, profileSta
       setEditProfile(false);
     } catch (e) {
       console.log(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const requestChangepassword = async () => {
+    try {
+      setLoading(true);
+      await axios.post(`${ip}/auth/send-email-password`, { email: user?.email });
+      toast.success('Please check your email for confirmation');
+    } catch (e: any) {
+      toast.error(e.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -230,11 +238,19 @@ export default function Detail({ friendStatus, userProfile, articles, profileSta
                 <Radio value="OTHER"> Other </Radio>
               </Radio.Group>
             </Form.Item>
-            <Form.Item {...buttonItemLayout}>
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
+            <div className="flex justify-between px-[10%]">
+              <Form.Item>
+                <Button type="primary" htmlType="submit">
+                  Submit
+                </Button>
+              </Form.Item>
+              <span>OR</span>
+              <Form.Item>
+                <Button type="primary" onClick={requestChangepassword}>
+                  Request change password
+                </Button>
+              </Form.Item>
+            </div>
           </Form>
         </Spin>
       </Modal>

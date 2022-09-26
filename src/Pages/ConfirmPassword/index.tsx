@@ -36,7 +36,7 @@ function ConfirmPassword() {
         toast.error('password not match');
       }
     } catch (err: any) {
-      toast.error(err.message);
+      toast.error(err.response.data.message);
     } finally {
       setLoading(false);
     }
