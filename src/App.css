@@ -106,3 +106,12 @@ img {
 img{
   display: unset !important;
 }
+.ant-btn-primary{
+  background: rgb(252, 167, 181);
+  border-color: pink;
+}
+
+.ant-btn-primary:hover,.ant-btn-primary:active,.ant-btn-primary:focus{
+  background: pink;;
+  border-color: pink;;
+}

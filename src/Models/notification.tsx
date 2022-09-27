@@ -11,7 +11,10 @@ export interface INotification {
   _id: string;
   type: 'LIKE_POST' | 'LIKE_COMMENT' | 'REPLY_COMMENT' | 'COMMENT_POST' | 'ACCREP_FRIEND';
   post?: IArticle;
-  comment?: IComment;
+  comment?: {
+    replyTo: IComment;
+    newComment: IComment;
+  };
   friend?: IFriend;
   updatedAt: string;
   createdAt: string;

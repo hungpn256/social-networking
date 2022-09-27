@@ -22,6 +22,12 @@ export const getTitleNotification = (notification: INotification): string => {
       }"`;
       break;
     }
+    case 'REPLY_COMMENT': {
+      const replyTo = notification.comment?.replyTo;
+      const newComment = notification.comment?.newComment;
+      title = `<strong>${newComment?.createdBy.fullName}</strong> replied to comment: "${replyTo?.content}"`;
+      break;
+    }
   }
   return title;
 };
@@ -41,6 +47,23 @@ export const getImage = (notification: INotification): string => {
       image = imagePost || comment?.[0]?.createdBy?.avatar || post?.createdBy.avatar || '';
       break;
     }
+    case 'REPLY_COMMENT': {
+      image =
+        notification.comment?.newComment?.createdBy?.avatar ??
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFA0PzwLOOR4smmmfHG6N1jNwOVsrh2V4oSQ&usqp=CAU';
+      break;
+    }
   }
   return image;
+};
+
+export const getLinkNotification = (notification: INotification): string => {
+  switch (notification.type) {
+    case 'LIKE_POST':
+    case 'COMMENT_POST':
+    case 'REPLY_COMMENT': {
+      return `/article/${notification.post?._id}`;
+    }
+  }
+  return '';
 };

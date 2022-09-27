@@ -2,8 +2,9 @@ import axios from 'axios';
 import moment from 'moment';
 import { forwardRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { ip } from '../../configs/ip';
-import { getImage, getTitleNotification } from '../../Helper/Notification';
+import { getImage, getLinkNotification, getTitleNotification } from '../../Helper/Notification';
 import { RootState } from '../../index_Reducer';
 import { INotification } from '../../Models/notification';
 import {
@@ -18,6 +19,7 @@ interface Props {
 
 export default forwardRef(function Notification({ setShowNotificaiton }: Props, ref: any) {
   const dispatch = useDispatch();
+  const history = useHistory();
   const notifications = useSelector((state: RootState) => state.notification.notifications);
   useEffect(() => {
     getNotification();
@@ -34,6 +36,7 @@ export default forwardRef(function Notification({ setShowNotificaiton }: Props, 
       dispatch({ type: NOTIFICATION_UNSEEN_SUCCESS, payload: { notificationId: i._id } });
       await axios.post(`${ip}/notification/unSeen`, { notificationId: i._id });
     }
+    history.push(getLinkNotification(i));
   };
   return (
     <div ref={ref} className={styles['notification-container']}>

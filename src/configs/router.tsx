@@ -7,6 +7,7 @@ import NavBarHeader from '../Components/NavBarHeader';
 import Profile from '../Pages/Profile';
 import SearchComponent from '../Pages/SearchNav';
 import ConfirmPassword from '../Pages/ConfirmPassword';
+import ArticleDetail from '../Pages/ArticleDetail';
 
 const ROUTES = [
   {
@@ -69,6 +70,12 @@ const ROUTES = [
         component: Profile,
         authority: true,
         name: 'Profile',
+      },
+      {
+        path: '/article/:_id',
+        component: ArticleDetail,
+        authority: true,
+        name: 'Article',
       },
       {
         path: '*',

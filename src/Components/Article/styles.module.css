@@ -78,3 +78,8 @@
   font-weight: bold;
   cursor: pointer;
 }
+.wrap-btn{
+  display: flex;
+  justify-content: end;
+  margin-bottom: 4px;
+}

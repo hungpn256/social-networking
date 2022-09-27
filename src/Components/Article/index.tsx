@@ -115,19 +115,40 @@ export const Editor = forwardRef(
   }
 );
 
-export default function Para({ article }: { article: IArticle }) {
+export default function Article({ article }: { article: IArticle }) {
   const { createdBy: user, comment, liked } = article;
   const { user: userLogin } = useSelector((state: { login: ILogin }) => state.login);
   const [isLiked, setLiked] = useState(article.liked.some((i) => i.likedBy._id === userLogin?._id));
   const [numOfComment, setNumOfComment] = useState(article.numOfCmt);
   const [comments, setComments] = useState<IComment[]>(comment);
   const [numberOfLike, setNumberOfLike] = useState(liked.length);
-  const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
   const inputRef = useRef();
+  const [editable, setEditable] = useState(false);
+  const [valueEdit, setValueEdit] = useState(article.text);
+  const [loadingEdit, setLoadingEdit] = useState(false);
+  const [text, setText] = useState(article.text);
   const isMe = article.createdBy._id === userLogin?._id;
+
+  const onEdit = () => {
+    setEditable(true);
+  };
+
+  const onEditSubmit = async () => {
+    try {
+      setLoadingEdit(true);
+      await axios.put(`${ip}/post/${article._id}/text`, { text: valueEdit });
+      setText(valueEdit);
+      setEditable(false);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoadingEdit(false);
+    }
+  };
+
   const menu = (
     <Menu
       style={{
@@ -151,33 +172,12 @@ export default function Para({ article }: { article: IArticle }) {
         </Menu.Item>
       )}
       {isMe && (
-        <Menu.Item
-          key="1"
-          onClick={() => {
-            Modal.confirm({
-              onOk: () => {
-                dispatch(profileActions.deleteArticle(article._id));
-              },
-              content: 'Bạn chắc chắn xóa bài viết này?',
-            });
-          }}
-        >
+        <Menu.Item key="1" onClick={onEdit}>
           Edit post
         </Menu.Item>
       )}
     </Menu>
   );
-  useEffect(() => {
-    article?.files[0]?.url && setLoading(true);
-  }, [article._id, article?.files]);
-  useEffect(() => {
-    const setvisiableTrue = setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-    return () => {
-      clearTimeout(setvisiableTrue);
-    };
-  }, []);
 
   const handleLike = (id: string) => {
     try {
@@ -220,7 +220,6 @@ export default function Para({ article }: { article: IArticle }) {
   return (
     <LazyLoad offset={100} height={100}>
       <Card
-        loading={loading}
         style={{
           filter:
             'drop-shadow(0px 4px 6px rgba(38, 50, 56, 0.16)), drop-shadow(0px 4px 16px rgba(38, 50, 56, 0.08))',
@@ -267,12 +266,28 @@ export default function Para({ article }: { article: IArticle }) {
           </Dropdown>
         </div>
         <div>
-          <Paragraph
-            ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}
-            style={{ fontSize: 14, margin: '5px 15px', whiteSpace: 'pre-line' }}
-          >
-            {article?.text}
-          </Paragraph>
+          {editable ? (
+            <Spin spinning={loadingEdit}>
+              <TextArea
+                value={valueEdit}
+                onChange={(e) => setValueEdit(e.target.value)}
+                style={{ fontSize: 14, margin: '5px 0', whiteSpace: 'pre-line' }}
+              />
+              <div className={styles['wrap-btn']}>
+                <Button onClick={() => setEditable(false)}>Cancle</Button>
+                <Button onClick={onEditSubmit} type="primary">
+                  Submit
+                </Button>
+              </div>
+            </Spin>
+          ) : (
+            <Paragraph
+              ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}
+              style={{ fontSize: 14, margin: '5px 15px', whiteSpace: 'pre-line' }}
+            >
+              {text}
+            </Paragraph>
+          )}
           <div className="flex flex-wrap">
             {article.files.length > 0 &&
               article.files.map((i) => {
@@ -343,9 +358,6 @@ export default function Para({ article }: { article: IArticle }) {
           }
         />
       </Card>
-      <div style={{ display: 'none' }}>
-        <Image src={article?.files[0]?.url} onLoad={() => setLoading(false)}></Image>
-      </div>
     </LazyLoad>
   );
 }
