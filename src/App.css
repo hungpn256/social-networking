@@ -107,11 +107,11 @@ img{
   display: unset !important;
 }
 .ant-btn-primary{
-  background: rgb(252, 167, 181);
-  border-color: pink;
+  background: rgb(252, 167, 181) !important;
+  border-color: pink !important;
 }
 
 .ant-btn-primary:hover,.ant-btn-primary:active,.ant-btn-primary:focus{
-  background: pink;;
-  border-color: pink;;
+  background: pink !important;
+  border-color: pink !important;
 }

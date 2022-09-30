@@ -2,6 +2,7 @@ import { INotificationReducer } from '../../Models/notification';
 import {
   GET_NOTIFICATION_SUCCESS,
   GET_NOTIFICATION_UNSEEN_SUCCESS,
+  NOTIFICATION_UNSEEN_ALL,
   NOTIFICATION_UNSEEN_SUCCESS,
 } from './constants';
 const initialState: INotificationReducer = {
@@ -36,6 +37,17 @@ const reducer = (state = initialState, action: any): INotificationReducer => {
         ...state,
         notifications: [...state.notifications],
         totalUnseen: Math.max(state.totalUnseen - 1, 0),
+      };
+    }
+
+    case NOTIFICATION_UNSEEN_ALL: {
+      state.notifications.forEach((notification) => {
+        notification.isSeen = true;
+      });
+      return {
+        ...state,
+        notifications: [...state.notifications],
+        totalUnseen: 0,
       };
     }
 

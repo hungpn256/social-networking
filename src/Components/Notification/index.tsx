@@ -1,3 +1,4 @@
+import { Button } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
 import { forwardRef, useEffect } from 'react';
@@ -9,6 +10,7 @@ import { RootState } from '../../index_Reducer';
 import { INotification } from '../../Models/notification';
 import {
   GET_NOTIFICATION_SUCCESS,
+  NOTIFICATION_UNSEEN_ALL,
   NOTIFICATION_UNSEEN_SUCCESS,
 } from '../../Pages/Notification/constants';
 import styles from './styles.module.css';
@@ -38,9 +40,17 @@ export default forwardRef(function Notification({ setShowNotificaiton }: Props, 
     }
     history.push(getLinkNotification(i));
   };
+
+  const seeAll = async () => {
+    dispatch({ type: NOTIFICATION_UNSEEN_ALL });
+    await axios.post(`${ip}/notification/unSeen-all`);
+  };
   return (
     <div ref={ref} className={styles['notification-container']}>
-      <div className="font-bold text-[25px] mb-[8px] ml-[12px]">Notifications</div>
+      <div className="flex justify-between">
+        <div className="font-bold text-[25px] mb-[8px] ml-[12px]">Notifications</div>
+        <Button onClick={seeAll}>See all</Button>
+      </div>
       {notifications.map((i) => {
         return (
           <div
