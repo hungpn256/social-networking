@@ -27,6 +27,7 @@ import { ChangeEvent, forwardRef, useEffect, useImperativeHandle, useRef, useSta
 import LazyLoad from 'react-lazyload';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { ip } from '../../configs/ip';
 import IArticle, { IComment } from '../../Models/article';
 import ILogin from '../../Models/login';
@@ -149,6 +150,22 @@ export default function Article({ article }: { article: IArticle }) {
     }
   };
 
+  const onNotifcation = () => {
+    try {
+      axios.post(`${ip}/post/on-notification`, { postId: article._id });
+    } catch (err: any) {
+      toast.error(err?.message);
+    }
+  };
+
+  const offNotifcation = () => {
+    try {
+      axios.post(`${ip}/post/off-notification`, { postId: article._id });
+    } catch (err: any) {
+      toast.error(err?.message);
+    }
+  };
+
   const menu = (
     <Menu
       style={{
@@ -176,6 +193,12 @@ export default function Article({ article }: { article: IArticle }) {
           Edit post
         </Menu.Item>
       )}
+      <Menu.Item key="1" onClick={onNotifcation}>
+        Turn on notifications
+      </Menu.Item>
+      <Menu.Item key="1" onClick={offNotifcation}>
+        Turn off notifications
+      </Menu.Item>
     </Menu>
   );
 

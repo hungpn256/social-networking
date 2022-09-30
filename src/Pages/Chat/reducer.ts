@@ -197,7 +197,8 @@ const reducer = (state = initialState, action: any): IConversationState => {
         );
         if (participant) {
           if (moment(participant.lastSeen).isBefore(moment(conversation.messages[0].createdAt))) {
-            numOfConversationUnseen = state.numOfConversationUnseen - 1;
+            numOfConversationUnseen =
+              state.numOfConversationUnseen - 1 >= 0 ? state.numOfConversationUnseen - 1 : 0;
           }
           participant.lastSeen = Date.now().toString();
         }
