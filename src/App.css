@@ -103,9 +103,6 @@ img {
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(138, 138, 138);
 }
-img{
-  display: unset !important;
-}
 .ant-btn-primary{
   background: rgb(252, 167, 181) !important;
   border-color: pink !important;
