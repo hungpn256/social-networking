@@ -70,9 +70,9 @@ export default function CommentCustom({
         <div className="flex">
           <Avatar icon={<UserOutlined />} src={comment?.createdBy.avatar} alt="Han Solo" />
           <div className={`${styles['comment']} relative`}>
-            <div className="font-bold text-[12px]">
+            <div className="font-bold" style={{ fontSize: 12 }}>
               {data.createdBy.fullName}{' '}
-              <span className="ml-[8px] text-[#00000073] text-[11px]">
+              <span className="text-gray" style={{ fontSize: 11, marginLeft: 8 }}>
                 {moment(data.createdAt).fromNow()}
               </span>
             </div>
@@ -85,21 +85,21 @@ export default function CommentCustom({
           </div>
         </div>
       </div>
-      <div className="flex ml-[46px]">
+      <div className="flex" style={{ marginLeft: 46 }}>
         <div
-          className={`${
-            isLiked ? 'text-[#1da1f2]' : 'text-[#00000073]'
-          } mr-[8px] cursor-pointer text-[13px] font-bold `}
+          className={`${isLiked ? 'text-blue' : 'text-gray'}  cursor-pointer font-bold `}
+          style={{ marginRight: 8, fontSize: 13 }}
           onClick={() => handleLike(data._id)}
         >
           like
         </div>
         {!noReply && (
           <div
-            className="text-[#00000073] mr-[8px] cursor-pointer text-[13px] font-bold"
+            className="text-gray cursor-pointer font-bold"
             onClick={() => {
               setShowEditor(true);
             }}
+            style={{ marginRight: 8, fontSize: 13 }}
           >
             reply
           </div>
