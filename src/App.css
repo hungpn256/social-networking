@@ -112,3 +112,35 @@ img {
   background: pink !important;
   border-color: pink !important;
 }
+.flex{
+  display: flex;
+}
+.justify-between{
+  justify-content: space-between;
+}
+.font-bold{
+  font-weight: bold;
+}
+.text-gray{
+  color: #555
+}
+.relative{
+  position: relative;
+}
+.text-blue{
+  color: #1da1f2
+}
+.cursor-pointer{
+  cursor: pointer;
+}
+.text-title{
+  font-size: 25px;
+}
+.flex-wrap{
+  flex-wrap: wrap;
+}
+.ant-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

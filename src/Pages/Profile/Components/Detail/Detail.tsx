@@ -180,7 +180,7 @@ export default function Detail({ friendStatus, userProfile, articles, profileSta
         footer={[]}
         confirmLoading={loading}
       >
-        <div className="text-[25px] font-bold my-[15px]">Edit profile</div>
+        <div className="text-title font-bold my-[15px]">Edit profile</div>
         <Spin spinning={loading}>
           <Form
             {...formItemLayout}

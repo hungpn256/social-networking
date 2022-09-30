@@ -48,7 +48,7 @@ export default forwardRef(function Notification({ setShowNotificaiton }: Props, 
   return (
     <div ref={ref} className={styles['notification-container']}>
       <div className="flex justify-between">
-        <div className="font-bold text-[25px] mb-[8px] ml-[12px]">Notifications</div>
+        <div className="font-bold text-title mb-[8px] ml-[12px]">Notifications</div>
         <Button onClick={seeAll}>See all</Button>
       </div>
       {notifications.map((i) => {

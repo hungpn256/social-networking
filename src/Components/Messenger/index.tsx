@@ -46,7 +46,7 @@ export default forwardRef(function Messenger({ setShowMessenger }: Props, ref: a
     <div ref={ref}>
       <div className={styles['notification-container']} id="conversation">
         <div className="flex justify-between my-[8px]">
-          <div className="font-bold text-[25px] mb-[8px] ml-[12px]">Messenger</div>
+          <div className="font-bold text-title mb-[8px] ml-[12px]">Messenger</div>
           <div className="mr-[8px] my-[8px]">
             <Button
               onClick={openModalCreateConversation}

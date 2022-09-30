@@ -31,7 +31,7 @@ function Person({
         </div>
         <div className={styles['name']}>
           <div className={`${styles['main-name']}`}>
-            <h3 className="font-bold text-[#555]">{person.fullName}</h3>
+            <h3 className="font-bold text-gray">{person.fullName}</h3>
           </div>
         </div>
       </div>
