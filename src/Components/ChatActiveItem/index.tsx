@@ -271,14 +271,14 @@ export default function ChatActiveItem({ conversation }: Props) {
                 }
                 return (
                   <>
+                    {i.type === 'NOTIFICATION' && <div className={styles['time']}>{i.content}</div>}
+                    {i.type === 'MESSAGE' && (
+                      <MessageText message={i} endBlock={endBlock} startBlock={startBlock} />
+                    )}
                     {isDifHalfDay && (
                       <div className={styles['time']}>
                         {moment(i.createdAt).format('MM/DD HH:mm')}
                       </div>
-                    )}
-                    {i.type === 'NOTIFICATION' && <div className={styles['time']}>{i.content}</div>}
-                    {i.type === 'MESSAGE' && (
-                      <MessageText message={i} endBlock={endBlock} startBlock={startBlock} />
                     )}
                   </>
                 );

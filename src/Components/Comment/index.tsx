@@ -1,4 +1,6 @@
 import { LikeFilled, UserOutlined } from '@ant-design/icons';
+import { faReply } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar, Comment, List } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
@@ -119,19 +121,36 @@ export default function CommentCustom({
           }
         />
       )}
-      {data.reply.length > 0 && (
-        <List
-          dataSource={data.reply}
-          itemLayout="horizontal"
-          renderItem={(replyItem) => {
-            return (
-              <div style={{ marginLeft: 40 }}>
-                <CommentCustom comment={replyItem} noReply={true} />
-              </div>
-            );
-          }}
-        />
-      )}
+      {data.reply.length > 0 &&
+        (showEditor ? (
+          <List
+            dataSource={data.reply}
+            itemLayout="horizontal"
+            renderItem={(replyItem) => {
+              return (
+                <div style={{ marginLeft: 44 }}>
+                  <CommentCustom comment={replyItem} noReply={true} />
+                </div>
+              );
+            }}
+          />
+        ) : (
+          <div>
+            <div
+              className={`${isLiked ? 'text-blue' : 'text-gray'}  cursor-pointer font-bold ${
+                styles['show-reply-comment']
+              }`}
+              style={{ marginRight: 8, fontSize: 13, marginLeft: 44 }}
+              onClick={() => setShowEditor(true)}
+            >
+              <FontAwesomeIcon
+                icon={faReply}
+                style={{ transform: 'rotateY(180deg) rotateX(180deg)' }}
+              />{' '}
+              show reply...
+            </div>
+          </div>
+        ))}
     </>
   );
 }

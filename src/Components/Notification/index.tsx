@@ -9,7 +9,7 @@ import { getImage, getLinkNotification, getTitleNotification } from '../../Helpe
 import { RootState } from '../../index_Reducer';
 import { INotification } from '../../Models/notification';
 import {
-  GET_NOTIFICATION_SUCCESS,
+  GET_NOTIFICATION,
   NOTIFICATION_UNSEEN_ALL,
   NOTIFICATION_UNSEEN_SUCCESS,
 } from '../../Pages/Notification/constants';
@@ -28,8 +28,7 @@ export default forwardRef(function Notification({ setShowNotificaiton }: Props, 
   }, []);
 
   const getNotification = async () => {
-    const res = await axios.get(`${ip}/notification`);
-    dispatch({ type: GET_NOTIFICATION_SUCCESS, payload: res.data.notifications });
+    dispatch({ type: GET_NOTIFICATION });
   };
 
   const unSeen = async (i: INotification) => {
@@ -48,7 +47,9 @@ export default forwardRef(function Notification({ setShowNotificaiton }: Props, 
   return (
     <div ref={ref} className={styles['notification-container']}>
       <div className="flex justify-between">
-        <div className="font-bold text-title mb-[8px] ml-[12px]">Notifications</div>
+        <div className="font-bold text-title" style={{ marginBottom: 8, marginLeft: 12 }}>
+          Notifications
+        </div>
         <Button onClick={seeAll}>See all</Button>
       </div>
       {notifications.map((i) => {
@@ -60,7 +61,7 @@ export default forwardRef(function Notification({ setShowNotificaiton }: Props, 
             key={i._id}
             onClick={() => unSeen(i)}
           >
-            <div className="flex p-[4px]">
+            <div className="flex" style={{ padding: 4 }}>
               <img alt="notification" src={getImage(i)} className={styles['image']} />
               <div className={`${styles['content']}`}>
                 <div

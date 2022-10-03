@@ -4,6 +4,7 @@ import {
   GET_NOTIFICATION_UNSEEN_SUCCESS,
   NOTIFICATION_UNSEEN_ALL,
   NOTIFICATION_UNSEEN_SUCCESS,
+  ON_NEW_NOTIFICATION,
 } from './constants';
 const initialState: INotificationReducer = {
   notifications: [],

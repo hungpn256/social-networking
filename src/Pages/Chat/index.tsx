@@ -97,7 +97,7 @@ export default function Chat() {
             setText(e.target.value);
           }}
         />
-        <div className="my-[20px]">
+        <div className="my-[20px]" style={{ margin: '20px 0' }}>
           <Avatar.Group>
             {selected.map((i) => {
               return (

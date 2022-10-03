@@ -24,7 +24,11 @@ import Signup from './Pages/Signup';
 import soundReceiveMessage from './Assets/audio/receiveMessage.mp3';
 import ForgotPassword from './Pages/Forgot-password';
 import ConfirmPassword from './Pages/ConfirmPassword';
-import { GET_NOTIFICATION_UNSEEN } from './Pages/Notification/constants';
+import {
+  GET_NOTIFICATION,
+  GET_NOTIFICATION_UNSEEN,
+  ON_NEW_NOTIFICATION,
+} from './Pages/Notification/constants';
 
 export const SocketContext = createContext<{ socket: Socket | undefined }>({ socket: undefined });
 
@@ -69,11 +73,8 @@ function App() {
       });
 
       socket.current.on('new-notification', (notification) => {
-        console.log(
-          '🚀 ~ file: App.tsx ~ line 72 ~ socket.current.on ~ notification',
-          notification
-        );
         dispatch({ type: GET_NOTIFICATION_UNSEEN });
+        dispatch({ type: GET_NOTIFICATION });
       });
     }
 

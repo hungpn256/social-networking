@@ -12,16 +12,6 @@ function Contact({ friend }: Props) {
   return (
     <div className={styles['trending-menu']}>
       <div className={styles['trending-center']}>
-        <div className={styles['trending']}>
-          <div className={styles['header']}>
-            <p>What 's happening'</p>
-          </div>
-          <div className={styles['trends']}>
-            {[1, 2].map((item, index) => (
-              <Trend key={index} />
-            ))}
-          </div>
-        </div>
         <div className={styles['follow']}>
           <div className={styles['header']}>
             <p>Contact</p>
