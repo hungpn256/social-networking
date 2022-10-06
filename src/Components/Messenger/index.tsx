@@ -84,7 +84,6 @@ export default forwardRef(function Messenger({ setShowMessenger }: Props, ref: a
                 const unseen =
                   item.messages[0].createdBy._id !== user?._id &&
                   moment(me?.lastSeen).isBefore(moment(item.messages[0].createdAt));
-                console.log('🚀 ~ file: index.tsx ~ line 84 ~ Messenger ~ unseen', unseen);
                 return (
                   <li
                     className="hover"
@@ -113,7 +112,7 @@ export default forwardRef(function Messenger({ setShowMessenger }: Props, ref: a
                         >
                           {getNameMessage(item, user)}{' '}
                           <span className={styles['conversation-item-time']}>
-                            {moment(item.updatedAt).format('hh:mm')}
+                            {moment(item.updatedAt).fromNow()}
                           </span>
                         </div>
                         <div

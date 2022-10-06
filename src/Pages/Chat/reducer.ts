@@ -3,6 +3,7 @@ import moment from 'moment';
 import { IConversation, TypeActiveMessage } from '../../Models/chat';
 import {
   CHANGE_ACTIVE,
+  CHANGE_NICKNAME,
   CONVERSATION_CHANGE_STATE,
   GET_CONVERSATION_SUCCESS,
   GET_CONVERSATION_UNSEEN_SUCCESS,
@@ -216,6 +217,18 @@ const reducer = (state = initialState, action: any): IConversationState => {
         const newConversation = action.payload.conversation;
         Object.keys(newConversation).forEach((key) => {
           conversation[key] = newConversation[key];
+        });
+      }
+      return { ...state };
+    }
+
+    case CHANGE_NICKNAME: {
+      const conversation = state.conversations.find((i) => i._id === action.payload.conversationId);
+      if (conversation) {
+        conversation.participants.forEach((i) => {
+          if (i.user._id === action.payload.userId) {
+            i.nickName = action.payload.nickName;
+          }
         });
       }
       return { ...state };

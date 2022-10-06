@@ -38,6 +38,7 @@
   max-width: 70%;
   flex-wrap: wrap;
   display: flex;
+  /* align-items: flex-end; */
 }
 .image{
   min-width: 50%;
@@ -49,6 +50,12 @@
 .content-message{
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   max-width: 100%;
+}
+.name-author{
+  font-size: 12px;
+}
+.content-end{
+  align-items: flex-end;
 }

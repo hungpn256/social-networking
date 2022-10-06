@@ -11,13 +11,21 @@ export const getNameMessage = (conversation: IConversation, user: IUser): string
     .join(', ');
 };
 
-export const getAvatarMessage = (conversation: IConversation, user: IUser): (string | undefined)[] => {
+export const getAvatarMessage = (
+  conversation: IConversation,
+  user: IUser
+): (string | undefined)[] => {
   return conversation.participants
     .filter((item) => item.user._id !== user._id)
     .slice(0, 2)
-    .map((i) => i.user.avatar)
+    .map((i) => i.user.avatar);
 };
 
 export const getLastMessage = (conversation: IConversation): string => {
-  return conversation.messages[0].content
+  return conversation.messages[0].content;
+};
+
+export const getNickNameOrName = (conversation: IConversation, user: IUser): string => {
+  const participant = conversation.participants.find((i) => i.user._id === user._id);
+  return participant?.nickName ?? user.fullName;
 };

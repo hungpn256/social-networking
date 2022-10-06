@@ -2,7 +2,6 @@ import {
   DownCircleTwoTone,
   HomeFilled,
   LoginOutlined,
-  SettingOutlined,
   UnorderedListOutlined,
   UserOutlined,
 } from '@ant-design/icons';
@@ -52,13 +51,6 @@ export default function Home(props: any) {
   };
   const menu = (
     <Menu style={{ borderRadius: 10, minWidth: 150, marginTop: 7 }}>
-      <Menu.Item key="0">
-        <a href="/">
-          <SettingOutlined />
-          Setting
-        </a>
-      </Menu.Item>
-      <Menu.Divider />
       <Menu.Item
         key="3"
         onClick={async () => {

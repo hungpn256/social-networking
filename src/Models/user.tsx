@@ -7,7 +7,7 @@ export default interface IUser {
   avatar?: string;
   cover?: string;
   _id: string;
-  fullName?: string;
+  fullName: string;
   online?: boolean;
   status: 'ONLINE' | 'OFFLINE';
 }

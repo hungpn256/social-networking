@@ -20,6 +20,7 @@ import useClickOutSide from '../../Hook/useClickOutSide';
 import { RootState } from '../../index_Reducer';
 import { IConversation, TypeActiveMessage, TypeMessage } from '../../Models/chat';
 import ChangeInforConversation from '../../Pages/Chat/components/ChangeInfoConvesation';
+import ChangeNicknameConversation from '../../Pages/Chat/components/ChangeNicknameConversation';
 import {
   CHANGE_ACTIVE,
   GET_MESSAGE,
@@ -72,7 +73,6 @@ export default function ChatActiveItem({ conversation }: Props) {
     if (messages && messages.length > 0) {
       lastMessageId = messages[messages.length - 1]._id;
     }
-    console.log(123);
 
     dispatch({ type: GET_MESSAGE, payload: { conversationId: conversation._id, lastMessageId } });
   };
@@ -170,7 +170,21 @@ export default function ChatActiveItem({ conversation }: Props) {
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="1">
-        <div>Change nick name</div>
+        <div
+          onClick={() => {
+            setContentModal({
+              component: (
+                <ChangeNicknameConversation
+                  conversation={conversation}
+                  setContentModal={setContentModal}
+                />
+              ),
+              title: 'Change nickname',
+            });
+          }}
+        >
+          Change nickname
+        </div>
       </Menu.Item>
     </Menu>
   );
@@ -246,7 +260,9 @@ export default function ChatActiveItem({ conversation }: Props) {
               messages.map((i, index) => {
                 let endBlock = true;
                 if (index > 0) {
-                  if (messages[index - 1].createdBy._id !== i.createdBy._id) {
+                  if (messages[index - 1].type !== i.type) {
+                    endBlock = true;
+                  } else if (messages[index - 1].createdBy._id !== i.createdBy._id) {
                     endBlock = true;
                   } else {
                     endBlock =
@@ -273,7 +289,12 @@ export default function ChatActiveItem({ conversation }: Props) {
                   <>
                     {i.type === 'NOTIFICATION' && <div className={styles['time']}>{i.content}</div>}
                     {i.type === 'MESSAGE' && (
-                      <MessageText message={i} endBlock={endBlock} startBlock={startBlock} />
+                      <MessageText
+                        message={i}
+                        endBlock={endBlock}
+                        startBlock={startBlock}
+                        conversation={conversation}
+                      />
                     )}
                     {isDifHalfDay && (
                       <div className={styles['time']}>

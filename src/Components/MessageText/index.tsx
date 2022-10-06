@@ -2,8 +2,9 @@ import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Image } from 'antd';
 import { CSSProperties, useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { getNickNameOrName } from '../../Helper/Chat';
 import { RootState } from '../../index_Reducer';
-import { IMessage } from '../../Models/chat';
+import { IConversation, IMessage } from '../../Models/chat';
 import IUser from '../../Models/user';
 import styles from './styles.module.css';
 
@@ -11,10 +12,12 @@ export default function MessageText({
   message,
   endBlock,
   startBlock,
+  conversation,
 }: {
   message: IMessage;
   endBlock: boolean;
   startBlock: boolean;
+  conversation: IConversation;
 }) {
   const user = useSelector((state: RootState) => state.login.user) as IUser;
   const isMine = user._id === message.createdBy._id;
@@ -41,7 +44,12 @@ export default function MessageText({
           {endBlock && <Avatar src={message.createdBy.avatar} icon={<UserOutlined />} />}
         </div>
       )}
-      <div className={styles['content-message']}>
+      <div className={`${styles['content-message']} ${isMine && styles['content-end']}`}>
+        {!isMine && startBlock && (
+          <div className={`${styles['name-author']} text-gray`}>
+            {getNickNameOrName(conversation, message.createdBy)}
+          </div>
+        )}
         {message.content && (
           <div
             style={styleBorder}
