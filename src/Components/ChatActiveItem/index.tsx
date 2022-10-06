@@ -212,8 +212,8 @@ export default function ChatActiveItem({ conversation }: Props) {
         >
           <div className={styles['infor']} onClick={() => {}}>
             <GroupAvatar
-              size={40}
-              style={{ width: 40, height: 40 }}
+              size={36}
+              style={{ width: 36, height: 36 }}
               src={getAvatarMessage(conversation, user!)}
             />
             <span className={styles['name']}>
