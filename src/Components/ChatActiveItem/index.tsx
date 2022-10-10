@@ -4,10 +4,11 @@ import {
   LineOutlined,
   LoadingOutlined,
   SendOutlined,
+  FieldTimeOutlined,
 } from '@ant-design/icons';
 import { faSmileBeam } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Dropdown, Image, Input, Menu, Modal } from 'antd';
+import { Button, DatePicker, Dropdown, Image, Input, Menu, Modal } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import Picker from 'emoji-picker-react';
 import moment from 'moment';
@@ -45,6 +46,11 @@ export interface IImage {
 export default function ChatActiveItem({ conversation }: Props) {
   const dispatch = useDispatch();
   const [showPicker, setShowPicker] = useState(false);
+  const [time, setTime] = useState<moment.Moment | null>(null);
+  console.log('🚀 ~ file: index.tsx ~ line 50 ~ ChatActiveItem ~ time', time);
+  const { refParent: refParentTime, refChildren: refChildrenTime } = useClickOutSide(() => {
+    setTime(null);
+  });
   const [images, setImages] = useState<IImage[]>([]);
   const [contentModal, setContentModal] = useState<any>();
   const [loadingUploadImage, setLoadingUploadImage] = useState<boolean>(false);
@@ -382,6 +388,23 @@ export default function ChatActiveItem({ conversation }: Props) {
               }}
               onFocus={onFocus}
             />
+            <FieldTimeOutlined
+              className={styles['icon-time']}
+              ref={refParentTime}
+              onClick={() => setTime(moment())}
+            />
+            {time && (
+              <div className={styles['time-picker-wrap']} ref={refChildrenTime}>
+                <DatePicker
+                  showTime
+                  onChange={(e) => {
+                    setTime(e);
+                  }}
+                  value={time}
+                  placement="topLeft"
+                />
+              </div>
+            )}
             <Button type="ghost" onClick={sendMessage}>
               <SendOutlined />
             </Button>
