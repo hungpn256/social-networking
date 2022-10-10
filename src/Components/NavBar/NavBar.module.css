@@ -43,13 +43,14 @@
   flex-wrap: wrap;
   flex-direction: column;
 }
-.option div a {
+.option div .item {
   text-decoration: none;
   font-size: 20px;
   font-weight: 600;
   padding: 12px 15px;
   border-radius: 30px;
   color: #000;
+  cursor: pointer;
 }
 .option div {
   padding: 16px 0;
@@ -75,10 +76,10 @@
   .option div:nth-child(even) {
     display: none;
   }
-  .option div a span {
+  .option div .item span {
     display: none;
   }
-  .option div a {
+  .option div .item {
     font-size: calc(20px + 1vw);
   }
   .option div {
@@ -98,11 +99,11 @@
     display: none;
   }
 }
-.option div a i {
+.option div .item i {
   padding: 0 20px 0 0;
   font-weight: 100;
 }
-.option div a:hover {
+.option div .item:hover {
   background: #fff;
 }
 .option button {

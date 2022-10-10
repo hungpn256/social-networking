@@ -49,7 +49,7 @@
   border-bottom-left-radius: 20px !important;
 }
 
-.ant-input{
+.ant-input-search .ant-input{
   padding-left: 4px !important;
 }
 .mr-20 {
