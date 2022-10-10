@@ -28,6 +28,7 @@ import {
   UNSEEN_CONVERSATION,
 } from '../../Pages/Chat/constants';
 import { IConversationActive } from '../../Pages/Chat/reducer';
+import { createMessageCron } from '../../Pages/Chat/service';
 import GroupAvatar from '../GroupAvatar';
 import MessageText from '../MessageText';
 import styles from './styles.module.css';
@@ -81,7 +82,7 @@ export default function ChatActiveItem({ conversation }: Props) {
     onLoadMore();
   }, []);
   const user = useSelector((state: RootState) => state.login.user);
-  const sendMessage = () => {
+  const sendMessage = async () => {
     if ((text.trim() || images.length > 0) && !loadingUploadImage) {
       dispatch({
         type: SEND_MESSAGE,
@@ -102,6 +103,20 @@ export default function ChatActiveItem({ conversation }: Props) {
           conversationId: conversation._id,
         },
       });
+
+      // const time = new Date();
+      // time.setSeconds(time.getSeconds() + 5);
+
+      // const res = await createMessageCron(
+      //   conversation._id,
+      //   {
+      //     content: text.trim(),
+      //     conversation: conversation._id,
+      //     files: [],
+      //     type: TypeMessage.MESSAGE,
+      //   },
+      //   time
+      // );
     }
 
     setText('');

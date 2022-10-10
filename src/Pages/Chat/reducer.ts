@@ -109,6 +109,14 @@ const reducer = (state = initialState, action: any): IConversationState => {
         conversation.messages = [...conversation.messages, ...action.payload.messages];
         conversation.totalMessage = action.payload.total;
         conversation.isLoadMore = conversation.messages.length < conversation.totalMessage;
+      } else if (
+        state.temporaryConversation &&
+        state.temporaryConversation?._id === action.payload.conversationId
+      ) {
+        state.temporaryConversation.messages = [
+          ...state.temporaryConversation?.messages,
+          ...action.payload.messages,
+        ];
       }
       return {
         ...state,
@@ -144,7 +152,7 @@ const reducer = (state = initialState, action: any): IConversationState => {
     case SEND_MESSAGE_STATUS_LOADING: {
       let { temporaryConversation, conversations } = state;
       if (temporaryConversation && temporaryConversation._id === action.payload.conversationId) {
-        temporaryConversation.messages.push(action.payload.message);
+        temporaryConversation.messages.unshift(action.payload.message);
         temporaryConversation.updatedAt = new Date().toString();
         conversations.unshift({ ...temporaryConversation });
         temporaryConversation = undefined;

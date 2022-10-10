@@ -57,6 +57,10 @@ function App() {
         dispatch({ type: GET_FRIEND, payload: { _id: user!._id } });
       });
       socket.current.on('new-message', (conversation) => {
+        console.log(
+          '🚀 ~ file: App.tsx ~ line 60 ~ socket.current.on ~ conversation',
+          conversation
+        );
         if (conversation) {
           dispatch({ type: ON_NEW_MESSGAGE, payload: { conversation, userId: user?._id } });
           dispatch({ type: GET_CONVERSATION_UNSEEN });

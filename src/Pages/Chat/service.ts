@@ -18,8 +18,11 @@ export function getMessageByConversationId(
 }
 
 export function createMessage(conversationId: string, message: IMessage) {
-  console.log('message', message);
   return axios.post(`${ip}/conversation/message`, { message, conversationId });
+}
+
+export function createMessageCron(conversationId: string, message: IMessage, time: string) {
+  return axios.post(`${ip}/conversation/cron`, { message, conversationId, time });
 }
 
 export function createConversation(targetIds: string[]) {
