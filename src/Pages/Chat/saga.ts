@@ -20,6 +20,7 @@ import {
 import {
   createConversation,
   createMessage,
+  createMessageCron,
   getConversation,
   getMessageByConversationId,
   getNumOfConversationUnseen,
@@ -87,29 +88,46 @@ function* getMessageSaga({ payload }: any): any {
 
 function* sendMessageSaga({ payload }: any): any {
   try {
-    const { message } = payload;
-    yield put({
-      type: SEND_MESSAGE_STATUS_LOADING,
-      payload: {
-        message,
-        conversationId: payload.conversationId,
-      },
-    });
-    const res = yield call(createMessage, payload.conversationId, {
-      content: message.content,
-      conversation: message.conversation,
-      files: message.files,
-      type: message.type,
-    });
-    const newMessage = res.data.message;
-    yield put({
-      type: SEND_MESSAGE_SUCCESS,
-      payload: {
-        message: newMessage,
-        conversationId: payload.conversationId,
-        oldMessageId: message._id,
-      },
-    });
+    const { message, time } = payload;
+    console.log('🚀 ~ file: saga.ts ~ line 92 ~ function*sendMessageSaga ~ time', time);
+    console.log('🚀 ~ file: saga.ts ~ line 92 ~ function*sendMessageSaga ~ message', message);
+    if (!time) {
+      yield put({
+        type: SEND_MESSAGE_STATUS_LOADING,
+        payload: {
+          message,
+          conversationId: payload.conversationId,
+        },
+      });
+      const res = yield call(createMessage, payload.conversationId, {
+        content: message.content,
+        conversation: message.conversation,
+        files: message.files,
+        type: message.type,
+      });
+
+      const newMessage = res.data.message;
+      yield put({
+        type: SEND_MESSAGE_SUCCESS,
+        payload: {
+          message: newMessage,
+          conversationId: payload.conversationId,
+          oldMessageId: message._id,
+        },
+      });
+    } else {
+      yield call(
+        createMessageCron,
+        payload.conversationId,
+        {
+          content: message.content,
+          conversation: message.conversation,
+          files: message.files,
+          type: message.type,
+        },
+        time
+      );
+    }
     // const messages = res.data.messages;
     // const total = res.data.total;
   } catch (err) {

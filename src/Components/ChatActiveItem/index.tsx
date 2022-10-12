@@ -1,10 +1,10 @@
 import {
   CloseOutlined,
+  FieldTimeOutlined,
   FileImageOutlined,
   LineOutlined,
   LoadingOutlined,
   SendOutlined,
-  FieldTimeOutlined,
 } from '@ant-design/icons';
 import { faSmileBeam } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,6 +15,7 @@ import moment from 'moment';
 import { ChangeEvent, useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { getAvatarMessage, getNameMessage } from '../../Helper/Chat';
 import handleUpload from '../../Helper/UploadImage';
 import useClickOutSide from '../../Hook/useClickOutSide';
@@ -29,7 +30,6 @@ import {
   UNSEEN_CONVERSATION,
 } from '../../Pages/Chat/constants';
 import { IConversationActive } from '../../Pages/Chat/reducer';
-import { createMessageCron } from '../../Pages/Chat/service';
 import GroupAvatar from '../GroupAvatar';
 import MessageText from '../MessageText';
 import styles from './styles.module.css';
@@ -47,10 +47,6 @@ export default function ChatActiveItem({ conversation }: Props) {
   const dispatch = useDispatch();
   const [showPicker, setShowPicker] = useState(false);
   const [time, setTime] = useState<moment.Moment | null>(null);
-  console.log('🚀 ~ file: index.tsx ~ line 50 ~ ChatActiveItem ~ time', time);
-  const { refParent: refParentTime, refChildren: refChildrenTime } = useClickOutSide(() => {
-    setTime(null);
-  });
   const [images, setImages] = useState<IImage[]>([]);
   const [contentModal, setContentModal] = useState<any>();
   const [loadingUploadImage, setLoadingUploadImage] = useState<boolean>(false);
@@ -72,6 +68,8 @@ export default function ChatActiveItem({ conversation }: Props) {
     });
   };
 
+  const [openDatePicker, setOpenDatePicker] = useState(false);
+
   const [text, setText] = useState('');
 
   const { messages, isLoadMore } = conversation;
@@ -84,11 +82,25 @@ export default function ChatActiveItem({ conversation }: Props) {
     dispatch({ type: GET_MESSAGE, payload: { conversationId: conversation._id, lastMessageId } });
   };
 
+  const onOkPicker = async (time: moment.Moment) => {
+    if (time.isBefore(moment())) {
+      toast.error('time invalid');
+      return;
+    }
+    try {
+      sendMessage(time);
+    } catch (e) {
+      toast.error(e.message);
+    } finally {
+      setOpenDatePicker(false);
+    }
+  };
+
   useEffect(() => {
     onLoadMore();
   }, []);
   const user = useSelector((state: RootState) => state.login.user);
-  const sendMessage = async () => {
+  const sendMessage = async (time?: moment.Moment) => {
     if ((text.trim() || images.length > 0) && !loadingUploadImage) {
       dispatch({
         type: SEND_MESSAGE,
@@ -106,23 +118,10 @@ export default function ChatActiveItem({ conversation }: Props) {
             status: 'LOADING',
             files: [...images],
           },
+          time,
           conversationId: conversation._id,
         },
       });
-
-      // const time = new Date();
-      // time.setSeconds(time.getSeconds() + 5);
-
-      // const res = await createMessageCron(
-      //   conversation._id,
-      //   {
-      //     content: text.trim(),
-      //     conversation: conversation._id,
-      //     files: [],
-      //     type: TypeMessage.MESSAGE,
-      //   },
-      //   time
-      // );
     }
 
     setText('');
@@ -292,7 +291,9 @@ export default function ChatActiveItem({ conversation }: Props) {
                 }
                 let startBlock = true;
                 if (index < messages.length - 1) {
-                  if (messages[index + 1].createdBy._id !== i.createdBy._id) {
+                  if (messages[index + 1].type !== i.type) {
+                    startBlock = true;
+                  } else if (messages[index + 1].createdBy._id !== i.createdBy._id) {
                     startBlock = true;
                   } else {
                     startBlock =
@@ -388,24 +389,26 @@ export default function ChatActiveItem({ conversation }: Props) {
               }}
               onFocus={onFocus}
             />
+
             <FieldTimeOutlined
               className={styles['icon-time']}
-              ref={refParentTime}
-              onClick={() => setTime(moment())}
+              onClick={() => {
+                setOpenDatePicker(!openDatePicker);
+              }}
             />
-            {time && (
-              <div className={styles['time-picker-wrap']} ref={refChildrenTime}>
-                <DatePicker
-                  showTime
-                  onChange={(e) => {
-                    setTime(e);
-                  }}
-                  value={time}
-                  placement="topLeft"
-                />
-              </div>
-            )}
-            <Button type="ghost" onClick={sendMessage}>
+
+            <DatePicker
+              id="date-picker"
+              showTime
+              onChange={(e) => {
+                setTime(e);
+              }}
+              open={openDatePicker}
+              value={time}
+              style={{ position: 'absolute', visibility: 'hidden', bottom: 400 }}
+              onOk={onOkPicker}
+            />
+            <Button type="ghost" onClick={() => sendMessage()}>
               <SendOutlined />
             </Button>
           </Input.Group>

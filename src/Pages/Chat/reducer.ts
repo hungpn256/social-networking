@@ -128,6 +128,11 @@ const reducer = (state = initialState, action: any): IConversationState => {
       const conversation = state.conversations.find((i) => {
         return i._id === newConversation._id;
       });
+      let temporaryConversation = state.temporaryConversation;
+      if (newConversation._id === temporaryConversation?._id) {
+        newConversation.messages = newConversation.messages.concat(temporaryConversation?.messages);
+        temporaryConversation = undefined;
+      }
       const { activeConversationsIds } = state;
       const conversationExist = activeConversationsIds.find((i) => i._id === newConversation._id);
       let newActiveConversationIds = activeConversationsIds;
@@ -147,6 +152,7 @@ const reducer = (state = initialState, action: any): IConversationState => {
         ...state,
         conversations: [...state.conversations],
         activeConversationsIds: newActiveConversationIds,
+        temporaryConversation,
       };
     }
     case SEND_MESSAGE_STATUS_LOADING: {
