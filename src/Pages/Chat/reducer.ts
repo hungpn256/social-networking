@@ -9,6 +9,7 @@ import {
   GET_CONVERSATION_UNSEEN_SUCCESS,
   GET_MESSAGE_SUCCESS,
   ON_NEW_MESSGAGE,
+  PIN_MESSAGE,
   SEND_MESSAGE_STATUS_LOADING,
   SEND_MESSAGE_SUCCESS,
   UNSEEN_CONVERSATION_SUCCESS,
@@ -244,6 +245,13 @@ const reducer = (state = initialState, action: any): IConversationState => {
             i.nickName = action.payload.nickName;
           }
         });
+      }
+      return { ...state };
+    }
+    case PIN_MESSAGE: {
+      const conversation = state.conversations.find((i) => i._id === action.payload.conversationId);
+      if (conversation) {
+        conversation.pinMessage = action.payload.message;
       }
       return { ...state };
     }

@@ -5,6 +5,7 @@ import {
   LineOutlined,
   LoadingOutlined,
   SendOutlined,
+  CloseCircleOutlined,
 } from '@ant-design/icons';
 import { faSmileBeam } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -26,10 +27,12 @@ import ChangeNicknameConversation from '../../Pages/Chat/components/ChangeNickna
 import {
   CHANGE_ACTIVE,
   GET_MESSAGE,
+  PIN_MESSAGE,
   SEND_MESSAGE,
   UNSEEN_CONVERSATION,
 } from '../../Pages/Chat/constants';
 import { IConversationActive } from '../../Pages/Chat/reducer';
+import { updateConversation } from '../../Pages/Chat/service';
 import GroupAvatar from '../GroupAvatar';
 import MessageText from '../MessageText';
 import styles from './styles.module.css';
@@ -218,6 +221,33 @@ export default function ChatActiveItem({ conversation }: Props) {
       payload: { conversationId: conversation._id },
     });
   };
+
+  const unPin = async () => {
+    try {
+      await updateConversation(conversation._id, { pinMessage: null });
+      dispatch({ type: PIN_MESSAGE, payload: { conversationId: conversation._id, message: null } });
+      dispatch({
+        type: SEND_MESSAGE,
+        payload: {
+          message: {
+            content: `${user?.fullName} unpinned a message`,
+            _id: Date.now().toString(),
+            type: TypeMessage.NOTIFICATION,
+            conversation: conversation._id,
+            createdBy: {
+              _id: user?._id,
+              avatar: user?.avatar,
+              fullName: user?.fullName,
+            },
+            status: 'LOADING',
+          },
+          conversationId: conversation._id,
+        },
+      });
+    } catch (e) {
+      toast.error('unpin message fail');
+    }
+  };
   return (
     <div className={styles['container']}>
       <div
@@ -266,6 +296,23 @@ export default function ChatActiveItem({ conversation }: Props) {
         </div>
       </div>
       <div style={{ display: isActive ? 'flex' : 'none' }} className={styles['content']}>
+        {conversation.pinMessage && (
+          <div className={styles['pin-message']}>
+            <div>
+              <div className={styles['pin-message-name']}>
+                {conversation.pinMessage.createdBy.fullName}:
+              </div>
+              <div>{conversation.pinMessage.content}</div>
+            </div>
+            <div className={styles['pin-message-icon']}>
+              <CloseCircleOutlined
+                style={{ color: '#555' }}
+                className="cursor-pointer"
+                onClick={unPin}
+              />
+            </div>
+          </div>
+        )}
         <div className={styles['message']} id={conversation._id}>
           <InfiniteScroll
             dataLength={messages?.length ?? 0}
@@ -328,6 +375,7 @@ export default function ChatActiveItem({ conversation }: Props) {
               })}
           </InfiniteScroll>
         </div>
+
         {images.length > 0 && (
           <div className="flex">
             {images.map((i) => {

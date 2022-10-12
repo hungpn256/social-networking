@@ -56,6 +56,7 @@
   display: flex;
   flex-direction: column;
   justify-content: end;
+  position: relative;
 }
 .message{
   display: flex;
@@ -141,4 +142,24 @@
   font-size: 12px;
   text-align: center;
   margin: 4px 32px;
+}
+
+.pin-message{
+  background-color: #FFC0CB55;
+  padding: 4px 8px;
+  margin-top: -2px;
+  display: flex;
+  justify-content: space-between;
+}
+.pin-message-name{
+  font-weight: bold;
+}
+
+.pin-message-icon{
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.pin-message:hover .pin-message-icon{
+  opacity: 1;
 }

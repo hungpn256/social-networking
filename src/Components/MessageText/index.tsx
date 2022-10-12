@@ -1,11 +1,13 @@
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined, PushpinOutlined } from '@ant-design/icons';
 import { Avatar, Image } from 'antd';
 import { CSSProperties, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getNickNameOrName } from '../../Helper/Chat';
 import { RootState } from '../../index_Reducer';
-import { IConversation, IMessage } from '../../Models/chat';
+import { IConversation, IMessage, TypeMessage } from '../../Models/chat';
 import IUser from '../../Models/user';
+import { PIN_MESSAGE, SEND_MESSAGE } from '../../Pages/Chat/constants';
+import { updateConversation } from '../../Pages/Chat/service';
 import styles from './styles.module.css';
 
 export default function MessageText({
@@ -37,6 +39,36 @@ export default function MessageText({
     return res;
   }, [startBlock, endBlock, isMine]);
 
+  const dispatch = useDispatch();
+
+  const pinMessage = async () => {
+    await updateConversation(conversation._id, {
+      pinMessage: message._id,
+    });
+    dispatch({
+      type: PIN_MESSAGE,
+      payload: { conversationId: conversation._id, message: message },
+    });
+    dispatch({
+      type: SEND_MESSAGE,
+      payload: {
+        message: {
+          content: `${user.fullName} pinned a message`,
+          _id: Date.now().toString(),
+          type: TypeMessage.NOTIFICATION,
+          conversation: conversation._id,
+          createdBy: {
+            _id: user?._id,
+            avatar: user?.avatar,
+            fullName: user?.fullName,
+          },
+          status: 'LOADING',
+        },
+        conversationId: conversation._id,
+      },
+    });
+  };
+
   return (
     <div className={styles[isMine ? 'isMine' : 'isNotMine']}>
       {!isMine && (
@@ -51,11 +83,22 @@ export default function MessageText({
           </div>
         )}
         {message.content && (
-          <div
-            style={styleBorder}
-            className={!isMine ? styles['text-isNotMine'] : styles['text-isMine']}
-          >
-            {message.content}
+          <div className={!isMine ? styles['text-wrap-isNotMine'] : styles['text-wrap-isMine']}>
+            <div
+              style={styleBorder}
+              className={!isMine ? styles['text-isNotMine'] : styles['text-isMine']}
+            >
+              {message.content}
+            </div>
+            {message.content && (
+              <div className={styles['options']}>
+                <PushpinOutlined
+                  title="pin message"
+                  className={styles['icon']}
+                  onClick={pinMessage}
+                />
+              </div>
+            )}
           </div>
         )}
         <div className={styles['wrap-images']}>
