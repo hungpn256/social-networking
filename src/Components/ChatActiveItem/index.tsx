@@ -6,6 +6,7 @@ import {
   LoadingOutlined,
   SendOutlined,
   CloseCircleOutlined,
+  PhoneFilled,
 } from '@ant-design/icons';
 import { faSmileBeam } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -273,6 +274,15 @@ export default function ChatActiveItem({ conversation }: Props) {
           </div>
         </Dropdown>
         <div className="flex">
+          <div
+            className={`${styles['icon-close']} hover-icon`}
+            onClick={(e) => {
+              e.stopPropagation();
+              window.open(`/call/${conversation._id}`, '', 'width=1200,height=900');
+            }}
+          >
+            <PhoneFilled />
+          </div>
           {isActive && (
             <div
               className={`${styles['icon-close']} hover-icon`}

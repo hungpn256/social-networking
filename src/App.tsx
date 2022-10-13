@@ -56,6 +56,9 @@ function App() {
       socket.current.on('friend-status-change', () => {
         dispatch({ type: GET_FRIEND, payload: { _id: user!._id } });
       });
+      socket.current.on('call-conversation', (data) => {
+        console.log(data);
+      });
       socket.current.on('new-message', (conversation) => {
         if (conversation) {
           dispatch({ type: ON_NEW_MESSGAGE, payload: { conversation, userId: user?._id } });

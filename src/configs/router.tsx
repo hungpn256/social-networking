@@ -8,6 +8,7 @@ import Profile from '../Pages/Profile';
 import SearchComponent from '../Pages/SearchNav';
 import ConfirmPassword from '../Pages/ConfirmPassword';
 import ArticleDetail from '../Pages/ArticleDetail';
+import Call from '../Pages/Call';
 
 const ROUTES = [
   {
@@ -46,6 +47,12 @@ const ROUTES = [
   //   authority: true,
   //   name: 'messenger',
   // },
+  {
+    path: '/call/:id',
+    component: Call,
+    exact: true,
+    authority: true,
+  },
   {
     path: '/',
     component: NavBarHeader,
