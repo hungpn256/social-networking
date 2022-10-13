@@ -247,7 +247,7 @@ const reducer = (state = initialState, action: any): IConversationState => {
       }
       return { ...state };
     }
-    case 'CLEAR_STATE_PROFILE': {
+    case 'CLEAR_STATE': {
       return { ...initialState };
     }
     default:
