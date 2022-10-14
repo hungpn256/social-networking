@@ -5,6 +5,7 @@ import styles from './styles.module.css';
 import Peer from 'simple-peer';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../index_Reducer';
+import { PhoneFilled } from '@ant-design/icons';
 
 interface Params {
   id: string;
@@ -61,7 +62,15 @@ export default function Call() {
   }, []);
   return (
     <div className={styles['container']}>
-      {stream && <video playsInline muted ref={myVideo} autoPlay className={styles['my-video']} />}
+      {stream && <video playsInline muted ref={myVideo} autoPlay className={styles['video']} />}
+      <div className={styles['controller']}>
+        <div className={styles['icon']}>
+          <PhoneFilled style={{ color: '#ffffff', fontSize: 20 }} />
+        </div>
+      </div>
+      <div className={styles['my-video']}>
+        <video playsInline muted ref={myVideo} autoPlay className={styles['video']} />
+      </div>
     </div>
   );
 }

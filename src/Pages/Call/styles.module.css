@@ -1,8 +1,35 @@
-.my-video{
-  width: 100vw;
-  height: 100vh;
+.video{
+  width: 100%;
+  height: 100%;
   object-fit: contain;
 }
 .container{
   overflow: hidden;
+}
+.controller{
+  position: fixed;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.icon{
+  width: 50px;
+  height: 50px;
+  background-color: red;
+  border-radius: 50%;
+
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.my-video{
+  width: 220px;
+  height: 150px;
+
+  background-color: #000;
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
 }
