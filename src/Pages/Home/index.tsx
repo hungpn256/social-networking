@@ -42,7 +42,7 @@ function App() {
       dataLength={articles.length}
       next={fetchData}
       hasMore={hasMore}
-      loader={hasMore ? <LoadingMore /> : <div />}
+      loader={<div />}
       style={{ overflow: 'hidden' }}
     >
       <div className={styles['container']}>

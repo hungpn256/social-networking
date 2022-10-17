@@ -29,11 +29,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { ip } from '../../configs/ip';
-import IArticle, { IComment } from '../../Models/article';
+import IArticle, { IComment, ILike } from '../../Models/article';
 import ILogin from '../../Models/login';
 import * as profileActions from '../../Pages/Profile/actions';
 import CommentCustom from '../Comment';
 import styles from './styles.module.css';
+import haha from '../../Assets/haha.svg';
+import wow from '../../Assets/wow.svg';
+import sad from '../../Assets/sad.svg';
+
 const { TextArea } = Input;
 const { Paragraph } = Typography;
 
@@ -119,7 +123,9 @@ export const Editor = forwardRef(
 export default function Article({ article }: { article: IArticle }) {
   const { createdBy: user, comment, liked } = article;
   const { user: userLogin } = useSelector((state: { login: ILogin }) => state.login);
-  const [isLiked, setLiked] = useState(article.liked.some((i) => i.likedBy._id === userLogin?._id));
+  const [isLiked, setLiked] = useState<ILike | undefined>(
+    article.liked.find((i) => i.likedBy._id === userLogin?._id)
+  );
   const [numOfComment, setNumOfComment] = useState(article.numOfCmt);
   const [comments, setComments] = useState<IComment[]>(comment);
   const [numberOfLike, setNumberOfLike] = useState(liked.length);
@@ -202,13 +208,29 @@ export default function Article({ article }: { article: IArticle }) {
     </Menu>
   );
 
-  const handleLike = (id: string) => {
+  const handleLike = (id: string, type: string = 'LIKE') => {
     try {
-      setNumberOfLike(isLiked ? numberOfLike - 1 : numberOfLike + 1);
-      setLiked(!isLiked);
+      let typeAction = 'DISLIKE';
+      if (!isLiked) {
+        typeAction = 'NEW_LIKE';
+      } else if (type === isLiked?.type) {
+        typeAction = 'DISLIKE';
+      } else {
+        typeAction = 'CHANGE_TYPE';
+      }
+      setNumberOfLike(
+        typeAction === 'DISLIKE'
+          ? numberOfLike - 1
+          : typeAction === 'CHANGE_TYPE'
+          ? numberOfLike
+          : numberOfLike + 1
+      );
+      setLiked(
+        typeAction === 'DISLIKE' ? undefined : { type, likedBy: userLogin, _id: isLiked?._id ?? '' }
+      );
       axios.post(`${ip}/post/like/${id}`, {
         like: {
-          type: 'LIKE',
+          type,
         },
       });
     } catch (err) {
@@ -239,6 +261,54 @@ export default function Article({ article }: { article: IArticle }) {
   };
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
+  };
+
+  const renderLike = () => {
+    if (!isLiked)
+      return (
+        <FontAwesomeIcon
+          className={`${styles['action-article-icon']} ${styles['action-like']}`}
+          icon={faHeart}
+          onClick={() => handleLike(article._id)}
+        />
+      );
+    switch (isLiked.type) {
+      case 'LIKE':
+        return (
+          <FontAwesomeIcon
+            className={`${styles['action-article-icon']} ${styles['action-like']}`}
+            icon={faHeartSolid}
+            onClick={() => handleLike(article._id)}
+          />
+        );
+      case 'HAHA':
+        return (
+          <img
+            onClick={() => handleLike(article._id, 'HAHA')}
+            className={styles['icon-item-like']}
+            src={haha}
+            alt="haha"
+          />
+        );
+      case 'WOW':
+        return (
+          <img
+            onClick={() => handleLike(article._id, 'WOW')}
+            className={styles['icon-item-like']}
+            src={wow}
+            alt="wow"
+          />
+        );
+      case 'SAD':
+        return (
+          <img
+            onClick={() => handleLike(article._id, 'SAD')}
+            className={styles['icon-item-like']}
+            src={sad}
+            alt="sad"
+          />
+        );
+    }
   };
   return (
     <LazyLoad offset={100} height={100}>
@@ -345,11 +415,29 @@ export default function Article({ article }: { article: IArticle }) {
           </div>
         </div>
         <div className={styles['action-article']}>
-          <FontAwesomeIcon
-            className={`${styles['action-article-icon']} ${styles['action-like']}`}
-            icon={isLiked ? faHeartSolid : faHeart}
-            onClick={() => handleLike(article._id)}
-          />
+          <span className={styles['wraper-icon']}>
+            {renderLike()}
+            <div className={styles['icons-like']}>
+              <img
+                onClick={() => handleLike(article._id, 'HAHA')}
+                className={styles['icon-item']}
+                src={haha}
+                alt="haha"
+              />
+              <img
+                onClick={() => handleLike(article._id, 'WOW')}
+                className={styles['icon-item']}
+                src={wow}
+                alt="wow"
+              />
+              <img
+                onClick={() => handleLike(article._id, 'SAD')}
+                className={styles['icon-item']}
+                src={sad}
+                alt="sad"
+              />
+            </div>
+          </span>
           <FontAwesomeIcon
             className={styles['action-article-icon']}
             icon={faComment}
