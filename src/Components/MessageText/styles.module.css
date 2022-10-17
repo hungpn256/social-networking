@@ -29,7 +29,7 @@
 }
 .text-isMine{
   white-space: pre-wrap;
-  background-color: pink;
+  background-color: rgb(255, 169, 184);
   padding: 8px 10px;
   align-self: flex-end;
   border-radius: 16px;

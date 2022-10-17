@@ -30,7 +30,7 @@
   cursor: pointer;
   box-shadow: 0 2px 2px -2px rgb(180, 173, 173);
   margin-bottom: 2px;
-  background-color: pink;
+  background-color: rgb(255, 169, 184);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
