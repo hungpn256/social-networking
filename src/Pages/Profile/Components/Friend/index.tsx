@@ -11,7 +11,6 @@ import { IFriend } from '../../../../Models/friend';
 import ILogin from '../../../../Models/login';
 import IUser from '../../../../Models/user';
 import { GET_OR_CREATE_CONVERSATION } from '../../../Chat/constants';
-import { createConversation } from '../../../Chat/service';
 import styles from './styles.module.css';
 
 const { TabPane } = Tabs;
@@ -42,7 +41,7 @@ export default function Friend() {
 
   const getOrCreateConversationById = async (targetIds: string[]) => {
     dispatch({ type: GET_OR_CREATE_CONVERSATION, payload: targetIds });
-  }
+  };
 
   const changeStatusFriend = async (userId: string, status: 'ACCEPTED' | 'REJECTED') => {
     setLoading(true);
