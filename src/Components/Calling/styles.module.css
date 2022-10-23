@@ -1,0 +1,37 @@
+.icon{
+  width: 50px;
+  height: 50px;
+  background-color: red;
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.icon-answer{
+  transform: rotateY(180deg);
+  background-color: green;
+  margin-right: 30px;
+}
+.container{
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #00000020;
+  z-index: 1000000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wrap-icon{
+  display: flex;
+}
+.name{
+  font-weight: bold;
+}
+.title{
+  margin: 10px 0;
+}

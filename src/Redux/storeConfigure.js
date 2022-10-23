@@ -18,6 +18,7 @@ const logger = createLogger({
 });
 const configureStore = () => {
   const middleware = [sagaMiddleware, logger];
+  // const middleware = [sagaMiddleware];
   const enhancers = [applyMiddleware(...middleware)];
   const store = createStore(rootReducer, composeEnhandcers(...enhancers));
   sagaMiddleware.run(rootSaga);

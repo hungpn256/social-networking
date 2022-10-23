@@ -12,12 +12,14 @@ import { faSmileBeam } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, DatePicker, Dropdown, Image, Input, Menu, Modal } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
+import axios from 'axios';
 import Picker from 'emoji-picker-react';
 import moment from 'moment';
 import { ChangeEvent, useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { ip } from '../../configs/ip';
 import { getAvatarMessage, getNameMessage } from '../../Helper/Chat';
 import handleUpload from '../../Helper/UploadImage';
 import useClickOutSide from '../../Hook/useClickOutSide';
@@ -276,9 +278,13 @@ export default function ChatActiveItem({ conversation }: Props) {
         <div className="flex">
           <div
             className={`${styles['icon-close']} hover-icon`}
-            onClick={(e) => {
+            onClick={async (e) => {
               e.stopPropagation();
-              window.open(`/call/${conversation._id}`, '', 'width=1200,height=900');
+              const res = await axios.post(`${ip}/call`, { conversationId: conversation._id });
+              const call = res.data.call;
+
+              window.open(`/call/${call._id}`, '', 'width=1200,height=900');
+              // window.open(`/call/${call._id}`, '_self');
             }}
           >
             <PhoneFilled />

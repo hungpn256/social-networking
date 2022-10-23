@@ -9,12 +9,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import { io, Socket } from 'socket.io-client';
 import './App.css';
 import soundReceiveMessage from './Assets/audio/receiveMessage.mp3';
+import Calling from './Components/Calling';
 import LoadingGlobal from './Components/LoadingGlobal';
 import RoutePrivate from './Components/RoutePrivate';
 import { ipSocket } from './configs/ip';
 import ROUTES from './configs/router';
 import { RootState } from './index_Reducer';
 import Auth from './Layouts/Auth';
+import { ICall } from './Models/chat';
 import Chat from './Pages/Chat';
 import { CHANGE_NICKNAME, GET_CONVERSATION_UNSEEN, ON_NEW_MESSGAGE } from './Pages/Chat/constants';
 import ConfirmPassword from './Pages/ConfirmPassword';
@@ -32,6 +34,7 @@ function App() {
   const login = useSelector((state: RootState) => state.login);
   const { token, user } = login;
   const [ready, setReady] = useState(false);
+  const [calling, setCalling] = useState<ICall | null>();
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
@@ -53,32 +56,34 @@ function App() {
       dispatch({ type: GET_NOTIFICATION_UNSEEN });
     }
     if (socket.current) {
-      socket.current.on('friend-status-change', () => {
-        dispatch({ type: GET_FRIEND, payload: { _id: user!._id } });
-      });
-      socket.current.on('call-conversation', (data) => {
-        console.log(data);
-      });
-      socket.current.on('new-message', (conversation) => {
-        if (conversation) {
-          dispatch({ type: ON_NEW_MESSGAGE, payload: { conversation, userId: user?._id } });
-          dispatch({ type: GET_CONVERSATION_UNSEEN });
-          try {
-            audioRef.current.play();
-          } catch (err) {
-            console.log(err);
+      if (!pathname.includes('/call/')) {
+        socket.current.on('friend-status-change', () => {
+          dispatch({ type: GET_FRIEND, payload: { _id: user!._id } });
+        });
+        socket.current.on('call-conversation', (data) => {
+          setCalling(data);
+        });
+        socket.current.on('new-message', (conversation) => {
+          if (conversation) {
+            dispatch({ type: ON_NEW_MESSGAGE, payload: { conversation, userId: user?._id } });
+            dispatch({ type: GET_CONVERSATION_UNSEEN });
+            try {
+              audioRef.current.play();
+            } catch (err) {
+              console.log(err);
+            }
           }
-        }
-      });
+        });
 
-      socket.current.on('new-notification', (notification) => {
-        dispatch({ type: GET_NOTIFICATION_UNSEEN });
-        dispatch({ type: GET_NOTIFICATION });
-      });
+        socket.current.on('new-notification', (notification) => {
+          dispatch({ type: GET_NOTIFICATION_UNSEEN });
+          dispatch({ type: GET_NOTIFICATION });
+        });
 
-      socket.current.on('change-nickname', (data) => {
-        dispatch({ type: CHANGE_NICKNAME, payload: data });
-      });
+        socket.current.on('change-nickname', (data) => {
+          dispatch({ type: CHANGE_NICKNAME, payload: data });
+        });
+      }
     }
 
     services
@@ -158,6 +163,7 @@ function App() {
           {renderRoute()}
         </Switch>
         {user && <Chat />}
+        {calling && <Calling calling={calling} onClose={() => setCalling(null)} />}
       </SocketContext.Provider>
     </div>
   );

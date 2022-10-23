@@ -48,3 +48,17 @@ export enum TypeMessage {
 export enum IStatusMessage {
   LOADING,
 }
+
+export interface ICall {
+  _id: string;
+  createdAt: string;
+  endAt: string;
+  conversation: IConversation;
+  createdBy: IUser;
+  participants: [
+    {
+      user: IUser;
+      signal: any;
+    }
+  ];
+}
