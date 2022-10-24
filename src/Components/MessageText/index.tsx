@@ -1,4 +1,6 @@
-import { UserOutlined, PushpinOutlined } from '@ant-design/icons';
+import { PushpinOutlined, UserOutlined } from '@ant-design/icons';
+import { faReply } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar, Image } from 'antd';
 import { CSSProperties, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,11 +17,13 @@ export default function MessageText({
   endBlock,
   startBlock,
   conversation,
+  setReply,
 }: {
   message: IMessage;
   endBlock: boolean;
   startBlock: boolean;
   conversation: IConversation;
+  setReply: (message: IMessage) => void;
 }) {
   const user = useSelector((state: RootState) => state.login.user) as IUser;
   const isMine = user._id === message.createdBy._id;
@@ -83,22 +87,44 @@ export default function MessageText({
           </div>
         )}
         {message.content && (
-          <div className={!isMine ? styles['text-wrap-isNotMine'] : styles['text-wrap-isMine']}>
-            <div
-              style={styleBorder}
-              className={!isMine ? styles['text-isNotMine'] : styles['text-isMine']}
-            >
-              {message.content}
-            </div>
-            {message.content && (
-              <div className={styles['options']}>
-                <PushpinOutlined
-                  title="pin message"
-                  className={styles['icon']}
-                  onClick={pinMessage}
-                />
+          <div
+            className={styles['wrap-content']}
+            style={{ alignItems: isMine ? 'flex-end' : 'flex-start' }}
+          >
+            {message.reply && (
+              <div
+                className={!isMine ? styles['text-reply-isNotMine'] : styles['text-reply-isMine']}
+              >
+                {message.reply.content}
               </div>
             )}
+            <div className={!isMine ? styles['text-wrap-isNotMine'] : styles['text-wrap-isMine']}>
+              <div
+                style={styleBorder}
+                className={!isMine ? styles['text-isNotMine'] : styles['text-isMine']}
+              >
+                <div>{message.content}</div>
+              </div>
+              {message.content && (
+                <div
+                  className={styles['options']}
+                  style={isMine ? { right: '100%' } : { left: '100%' }}
+                >
+                  <PushpinOutlined
+                    title="pin message"
+                    className={styles['icon']}
+                    onClick={pinMessage}
+                  />
+                  <FontAwesomeIcon
+                    icon={faReply}
+                    className={styles['icon']}
+                    style={{ fontSize: 14, padding: 0 }}
+                    title="reply"
+                    onClick={() => setReply(message)}
+                  />
+                </div>
+              )}
+            </div>
           </div>
         )}
         <div className={styles['wrap-images']}>

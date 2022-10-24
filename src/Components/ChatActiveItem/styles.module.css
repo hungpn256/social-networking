@@ -163,3 +163,11 @@
 .pin-message:hover .pin-message-icon{
   opacity: 1;
 }
+
+.reply{
+  padding: 5px 10px;
+  box-shadow: 0 -2px 4px rgba(0,0,0,0.2),0 -8px 15px rgba(0,0,0,0.15);
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+}

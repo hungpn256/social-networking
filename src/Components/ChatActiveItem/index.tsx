@@ -24,7 +24,7 @@ import { getAvatarMessage, getNameMessage } from '../../Helper/Chat';
 import handleUpload from '../../Helper/UploadImage';
 import useClickOutSide from '../../Hook/useClickOutSide';
 import { RootState } from '../../index_Reducer';
-import { IConversation, TypeActiveMessage, TypeMessage } from '../../Models/chat';
+import { IConversation, IMessage, TypeActiveMessage, TypeMessage } from '../../Models/chat';
 import ChangeInforConversation from '../../Pages/Chat/components/ChangeInfoConvesation';
 import ChangeNicknameConversation from '../../Pages/Chat/components/ChangeNicknameConversation';
 import {
@@ -56,6 +56,8 @@ export default function ChatActiveItem({ conversation }: Props) {
   const [images, setImages] = useState<IImage[]>([]);
   const [contentModal, setContentModal] = useState<any>();
   const [loadingUploadImage, setLoadingUploadImage] = useState<boolean>(false);
+  const [reply, setReply] = useState<null | IMessage>();
+
   const active = useSelector(
     (state: RootState) => state.conversation.activeConversationsIds
   ) as IConversationActive[];
@@ -123,6 +125,7 @@ export default function ChatActiveItem({ conversation }: Props) {
             },
             status: 'LOADING',
             files: [...images],
+            reply: reply,
           },
           time,
           conversationId: conversation._id,
@@ -132,6 +135,7 @@ export default function ChatActiveItem({ conversation }: Props) {
 
     setText('');
     setImages([]);
+    setReply(null);
   };
 
   useEffect(() => {
@@ -322,7 +326,7 @@ export default function ChatActiveItem({ conversation }: Props) {
             </div>
             <div className={styles['pin-message-icon']}>
               <CloseCircleOutlined
-                style={{ color: '#555' }}
+                style={{ color: '#777' }}
                 className="cursor-pointer"
                 onClick={unPin}
               />
@@ -379,6 +383,7 @@ export default function ChatActiveItem({ conversation }: Props) {
                         endBlock={endBlock}
                         startBlock={startBlock}
                         conversation={conversation}
+                        setReply={setReply}
                       />
                     )}
                     {isDifHalfDay && (
@@ -391,6 +396,21 @@ export default function ChatActiveItem({ conversation }: Props) {
               })}
           </InfiniteScroll>
         </div>
+        {reply && (
+          <div className={styles['reply']}>
+            <div>
+              <div style={{ fontSize: 12 }}>
+                Replying to <b>{reply.createdBy.fullName}</b>
+              </div>
+              <div>{reply.content}</div>
+            </div>
+            <CloseCircleOutlined
+              style={{ color: '#777' }}
+              className="cursor-pointer"
+              onClick={() => setReply(null)}
+            />
+          </div>
+        )}
 
         {images.length > 0 && (
           <div className="flex">

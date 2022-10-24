@@ -89,8 +89,6 @@ function* getMessageSaga({ payload }: any): any {
 function* sendMessageSaga({ payload }: any): any {
   try {
     const { message, time } = payload;
-    console.log('🚀 ~ file: saga.ts ~ line 92 ~ function*sendMessageSaga ~ time', time);
-    console.log('🚀 ~ file: saga.ts ~ line 92 ~ function*sendMessageSaga ~ message', message);
     if (!time) {
       yield put({
         type: SEND_MESSAGE_STATUS_LOADING,
@@ -104,6 +102,7 @@ function* sendMessageSaga({ payload }: any): any {
         conversation: message.conversation,
         files: message.files,
         type: message.type,
+        reply: message.reply?._id ?? null,
       });
 
       const newMessage = res.data.message;
@@ -124,6 +123,7 @@ function* sendMessageSaga({ payload }: any): any {
           conversation: message.conversation,
           files: message.files,
           type: message.type,
+          reply: message.reply?._id ?? null,
         },
         time
       );

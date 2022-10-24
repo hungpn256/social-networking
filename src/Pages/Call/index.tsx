@@ -26,6 +26,7 @@ export default function Call() {
   const [call, setCall] = useState<ICall | null>();
   const [callAccepted, setCallAccepted] = useState(false);
   const [peers, setPeers] = useState<any[]>([]);
+  const [hasPermission, setHasPermission] = useState(true);
 
   const callUser = (id: string) => {
     if (socket) {
@@ -42,20 +43,13 @@ export default function Call() {
         }
       });
       if (!isHost && call) {
-        console.log(
-          '🚀 ~ file: index.tsx ~ line 49 ~ callUser ~ call.participants',
-          call.participants
-        );
         const length = call.participants.length;
         const signal = call.participants[0].signal;
-        console.log('🚀 ~ file: index.tsx ~ line 54 ~ callUser ~ signal', signal);
         peer.signal(signal);
       } else {
         socket.on('user-join-call', ({ call }: { call: ICall }) => {
-          console.log('🚀 ~ file: index.tsx ~ line 54 ~ socket.on ~ call', call);
           const length = call.participants.length;
           const signal = call.participants[length - 1].signal;
-          console.log('🚀 ~ file: index.tsx ~ line 50 ~ socket.on ~ signal', signal);
           peer.signal(signal);
           setPeers([peer]);
         });
@@ -68,7 +62,6 @@ export default function Call() {
     if (id && socket && stream) {
       initData();
       socket.on('call-end', () => {
-        console.log("🚀 ~ file: index.tsx ~ line 71 ~ socket.on ~ 'call-end'", 'call-end');
         window.close();
       });
     }
@@ -81,29 +74,52 @@ export default function Call() {
   }, [call]);
 
   const initData = async () => {
+    const permissionMic = await navigator.permissions.query({ name: 'microphone' });
+    console.log('🚀 ~ file: index.tsx ~ line 85 ~ initData ~ permissionMic', permissionMic);
+    if (permissionMic.state !== 'granted') {
+      setHasPermission(false);
+      return;
+    }
     const res = await axios.get(`${ip}/call/${id}`);
     const call = res.data.call as ICall;
     setCall(call);
   };
 
   useEffect(() => {
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((currentStream) => {
-      setStream(currentStream);
+    (async () => {
+      const permissionCamera = await navigator.permissions.query({ name: 'camera' });
+      console.log('🚀 ~ file: index.tsx ~ line 98 ~ permissionCamera', permissionCamera);
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((currentStream) => {
+          setStream(currentStream);
 
-      myVideo.current.srcObject = currentStream;
-    });
+          myVideo.current.srcObject = currentStream;
+        })
+        .catch((er) => {
+          setHasPermission(false);
+        });
+    })();
   }, []);
   return (
     <div className={styles['container']}>
-      <video playsInline ref={userVideo} autoPlay className={styles['video']} />
-      <div className={styles['controller']}>
-        <div className={styles['icon']}>
-          <PhoneFilled style={{ color: '#ffffff', fontSize: 20 }} />
-        </div>
-      </div>
-      <div className={styles['my-video']}>
-        {stream && <video playsInline muted ref={myVideo} autoPlay className={styles['video']} />}
-      </div>
+      {hasPermission ? (
+        <>
+          <video playsInline ref={userVideo} autoPlay className={styles['video']} />
+          <div className={styles['controller']}>
+            <div className={styles['icon']}>
+              <PhoneFilled style={{ color: '#ffffff', fontSize: 20 }} />
+            </div>
+          </div>
+          <div className={styles['my-video']}>
+            {stream && (
+              <video playsInline muted ref={myVideo} autoPlay className={styles['video']} />
+            )}
+          </div>
+        </>
+      ) : (
+        <div>no permission</div>
+      )}
     </div>
   );
 }
