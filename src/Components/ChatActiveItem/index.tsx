@@ -280,19 +280,21 @@ export default function ChatActiveItem({ conversation }: Props) {
           </div>
         </Dropdown>
         <div className="flex">
-          <div
-            className={`${styles['icon-close']} hover-icon`}
-            onClick={async (e) => {
-              e.stopPropagation();
-              const res = await axios.post(`${ip}/call`, { conversationId: conversation._id });
-              const call = res.data.call;
+          {conversation.type === 'PRIVATE' && (
+            <div
+              className={`${styles['icon-close']} hover-icon`}
+              onClick={async (e) => {
+                e.stopPropagation();
+                const res = await axios.post(`${ip}/call`, { conversationId: conversation._id });
+                const call = res.data.call;
 
-              window.open(`/call/${call._id}`, '', 'width=1200,height=900');
-              // window.open(`/call/${call._id}`, '_self');
-            }}
-          >
-            <PhoneFilled />
-          </div>
+                window.open(`/call/${call._id}`, '', 'width=1200,height=900');
+                // window.open(`/call/${call._id}`, '_self');
+              }}
+            >
+              <PhoneFilled />
+            </div>
+          )}
           {isActive && (
             <div
               className={`${styles['icon-close']} hover-icon`}
