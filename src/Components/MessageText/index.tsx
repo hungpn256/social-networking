@@ -1,9 +1,12 @@
 import { PushpinOutlined, UserOutlined } from '@ant-design/icons';
-import { faReply } from '@fortawesome/free-solid-svg-icons';
+import { faReply, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar, Image } from 'antd';
+import axios from 'axios';
 import { CSSProperties, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { ip } from '../../configs/ip';
 import { getNickNameOrName } from '../../Helper/Chat';
 import { RootState } from '../../index_Reducer';
 import { IConversation, IMessage, TypeMessage } from '../../Models/chat';
@@ -28,6 +31,7 @@ export default function MessageText({
   const user = useSelector((state: RootState) => state.login.user) as IUser;
   const isMine = user._id === message.createdBy._id;
 
+  const isDeleted = !!message.deletedAt;
   const styleBorder = useMemo(() => {
     const res: CSSProperties = {};
     const borderTop = `borderTop${isMine ? 'Right' : 'Left'}Radius`;
@@ -44,6 +48,14 @@ export default function MessageText({
   }, [startBlock, endBlock, isMine]);
 
   const dispatch = useDispatch();
+
+  const removeMessage = async () => {
+    try {
+      await axios.delete(`${ip}/conversation/message/${message._id}`);
+    } catch (err) {
+      toast.error('cannot remove message');
+    }
+  };
 
   const pinMessage = async () => {
     await updateConversation(conversation._id, {
@@ -86,74 +98,107 @@ export default function MessageText({
             {getNickNameOrName(conversation, message.createdBy)}
           </div>
         )}
-        {message.content && (
+        {isDeleted ? (
           <div
             className={styles['wrap-content']}
             style={{ alignItems: isMine ? 'flex-end' : 'flex-start' }}
           >
-            {message.reply && (
-              <div
-                className={!isMine ? styles['text-reply-isNotMine'] : styles['text-reply-isMine']}
-              >
-                {message.reply.content}
-              </div>
-            )}
             <div className={!isMine ? styles['text-wrap-isNotMine'] : styles['text-wrap-isMine']}>
               <div
-                style={styleBorder}
+                style={{ ...styleBorder, padding: '4px' }}
                 className={!isMine ? styles['text-isNotMine'] : styles['text-isMine']}
               >
-                <div>{message.content}</div>
+                <i>
+                  <u>Message 's been deleted</u>
+                </i>
               </div>
-              {message.content && (
-                <div
-                  className={styles['options']}
-                  style={isMine ? { right: '100%' } : { left: '100%' }}
-                >
-                  <PushpinOutlined
-                    title="pin message"
-                    className={styles['icon']}
-                    onClick={pinMessage}
-                  />
-                  <FontAwesomeIcon
-                    icon={faReply}
-                    className={styles['icon']}
-                    style={{ fontSize: 14, padding: 0 }}
-                    title="reply"
-                    onClick={() => setReply(message)}
-                  />
-                </div>
-              )}
             </div>
           </div>
-        )}
-        <div className={styles['wrap-images']}>
-          {message.files &&
-            message.files.map((i) => {
-              return (
+        ) : (
+          <>
+            {message.content && (
+              <div
+                className={styles['wrap-content']}
+                style={{ alignItems: isMine ? 'flex-end' : 'flex-start' }}
+              >
+                {message.reply && (
+                  <div
+                    className={
+                      !isMine ? styles['text-reply-isNotMine'] : styles['text-reply-isMine']
+                    }
+                  >
+                    {message.reply.content}
+                  </div>
+                )}
                 <div
-                  style={{
-                    minWidth: '50%',
-                    width: `${100 / message.files.length}%`,
-                    maxWidth: '100%',
-                    flex: 1,
-                  }}
+                  className={!isMine ? styles['text-wrap-isNotMine'] : styles['text-wrap-isMine']}
                 >
-                  <Image.PreviewGroup>
-                    <Image
-                      width="100%"
-                      style={{
-                        aspectRatio: '4 / 3',
-
-                        objectFit: 'cover',
-                      }}
-                      src={i.url}
-                    ></Image>
-                  </Image.PreviewGroup>
+                  <div
+                    style={styleBorder}
+                    className={!isMine ? styles['text-isNotMine'] : styles['text-isMine']}
+                  >
+                    <div>{message.content}</div>
+                  </div>
+                  {message.content && (
+                    <div
+                      className={styles['options']}
+                      style={isMine ? { right: '100%' } : { left: '100%' }}
+                    >
+                      <PushpinOutlined
+                        title="pin message"
+                        className={`${styles['icon']} hover`}
+                        onClick={pinMessage}
+                      />
+                      <div className={`${styles['icon']} hover`} onClick={() => setReply(message)}>
+                        <FontAwesomeIcon
+                          icon={faReply}
+                          style={{ fontSize: 14, padding: 0 }}
+                          title="reply"
+                        />
+                      </div>
+                      {isMine && (
+                        <div className={`${styles['icon']} hover`} onClick={removeMessage}>
+                          <FontAwesomeIcon
+                            icon={faTrash}
+                            style={{ fontSize: 14, padding: 0 }}
+                            title="reply"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
-              );
-            })}
-        </div>
+              </div>
+            )}
+            <div className={styles['wrap-images']}>
+              {message.files &&
+                message.files.map((i) => {
+                  return (
+                    <div
+                      style={{
+                        minWidth: '50%',
+                        width: `${100 / message.files.length}%`,
+                        maxWidth: '100%',
+                        flex: 1,
+                      }}
+                    >
+                      <Image.PreviewGroup>
+                        <Image
+                          width="100%"
+                          style={{
+                            aspectRatio: '4 / 3',
+
+                            objectFit: 'cover',
+                          }}
+                          src={i.url}
+                        ></Image>
+                      </Image.PreviewGroup>
+                    </div>
+                  );
+                })}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

@@ -36,6 +36,7 @@ export interface IMessage {
   createdBy: IUser;
   type: TypeMessage;
   status?: IStatusMessage;
+  deletedAt: string | null;
 }
 
 export enum TypeMessage {

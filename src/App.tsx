@@ -18,7 +18,12 @@ import { RootState } from './index_Reducer';
 import Auth from './Layouts/Auth';
 import { ICall } from './Models/chat';
 import Chat from './Pages/Chat';
-import { CHANGE_NICKNAME, GET_CONVERSATION_UNSEEN, ON_NEW_MESSGAGE } from './Pages/Chat/constants';
+import {
+  CHANGE_NICKNAME,
+  GET_CONVERSATION_UNSEEN,
+  ON_DELETE_MESSAGE,
+  ON_NEW_MESSGAGE,
+} from './Pages/Chat/constants';
 import ConfirmPassword from './Pages/ConfirmPassword';
 import ForgotPassword from './Pages/Forgot-password';
 import { GET_FRIEND } from './Pages/Home/constants';
@@ -72,6 +77,12 @@ function App() {
             } catch (err) {
               console.log(err);
             }
+          }
+        });
+
+        socket.current.on('delete-message', (message) => {
+          if (message) {
+            dispatch({ type: ON_DELETE_MESSAGE, payload: message });
           }
         });
 

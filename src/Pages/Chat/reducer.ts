@@ -8,6 +8,7 @@ import {
   GET_CONVERSATION_SUCCESS,
   GET_CONVERSATION_UNSEEN_SUCCESS,
   GET_MESSAGE_SUCCESS,
+  ON_DELETE_MESSAGE,
   ON_NEW_MESSGAGE,
   PIN_MESSAGE,
   SEND_MESSAGE_STATUS_LOADING,
@@ -252,6 +253,17 @@ const reducer = (state = initialState, action: any): IConversationState => {
       const conversation = state.conversations.find((i) => i._id === action.payload.conversationId);
       if (conversation) {
         conversation.pinMessage = action.payload.message;
+      }
+      return { ...state };
+    }
+    case ON_DELETE_MESSAGE: {
+      const message = action.payload;
+      const conversation = state.conversations.find((i) => i._id === message.conversation);
+      if (conversation) {
+        const messageDelete = conversation.messages.find((i) => i._id === message._id);
+        if (messageDelete) {
+          messageDelete.deletedAt = message.deletedAt;
+        }
       }
       return { ...state };
     }
