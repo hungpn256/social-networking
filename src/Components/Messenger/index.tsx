@@ -44,7 +44,7 @@ export default forwardRef(function Messenger({ setShowMessenger }: Props, ref: a
 
   return (
     <div ref={ref}>
-      <div className={styles['notification-container']} id="conversation">
+      <div className={styles['notification-container']}>
         <div className="flex justify-between my-[8px]">
           <div className="font-bold text-title mb-[8px] ml-[12px]">Messenger</div>
           <div className="mr-[8px] my-[8px]">
@@ -57,20 +57,20 @@ export default forwardRef(function Messenger({ setShowMessenger }: Props, ref: a
           </div>
         </div>
         <Input placeholder="Search conversation...." className="mt-[12px]" />
-        <div className={styles['notification-item']}>
+        <div className={styles['notification-item']} id="conversation-scroll">
           <InfiniteScroll
             dataLength={conversations.length}
             next={onLoadMore}
             hasMore={isLoadMore}
             loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
             endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
-            scrollableTarget="conversation"
+            scrollableTarget="conversation-scroll"
           >
             <List
               className={styles['conversation-list']}
               itemLayout="horizontal"
               loading={requesting}
-              loadMore={true}
+              loadMore={isLoadMore}
               dataSource={
                 conversations
                 // .filter(
