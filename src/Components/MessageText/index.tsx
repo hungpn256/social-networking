@@ -156,12 +156,12 @@ export default function MessageText({
                           title="reply"
                         />
                       </div>
-                      {isMine && (
+                      {isMine && !message.deletedAt && (
                         <div className={`${styles['icon']} hover`} onClick={removeMessage}>
                           <FontAwesomeIcon
                             icon={faTrash}
                             style={{ fontSize: 14, padding: 0 }}
-                            title="reply"
+                            title="delete message"
                           />
                         </div>
                       )}
