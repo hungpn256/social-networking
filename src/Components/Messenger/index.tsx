@@ -27,12 +27,17 @@ export default forwardRef(function Messenger({ setShowMessenger }: Props, ref: a
     conversationsState;
   const user = useSelector((state: RootState) => state.login.user);
   useEffect(() => {
-    if (!(conversations.length > 0)) {
-      dispatch({ type: GET_CONVERSATION, payload: lastConversationUpdatedAt });
+    let lastConversationUpdatedAtReq = lastConversationUpdatedAt;
+    if (conversations.length > 0) {
+      lastConversationUpdatedAtReq = conversations[conversations.length - 1].updatedAt;
+    }
+    if (!(conversations.length > 0) || lastConversationUpdatedAt === null) {
+      dispatch({ type: GET_CONVERSATION, payload: lastConversationUpdatedAtReq });
     }
   }, []);
 
   const onLoadMore = () => {
+    console.log('🚀 ~ file: index.tsx ~ line 37 ~ onLoadMore ~ requesting', requesting);
     if (requesting || !isLoadMore) return;
     dispatch({ type: GET_CONVERSATION, payload: lastConversationUpdatedAt });
   };
