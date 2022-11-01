@@ -47,30 +47,46 @@ const CommentList = ({
   numberOfLike,
   postId,
   setComments,
+  inputRef,
 }: {
   comments: IComment[];
   numOfCmt: number;
   numberOfLike: number;
   postId: string;
   setComments: (comments: IComment[]) => void;
+  inputRef: any;
 }) => {
+  useEffect(() => {
+    setNumCmt(numOfCmt);
+  }, [numOfCmt]);
+  const [numCmt, setNumCmt] = useState(numOfCmt);
   const loadMore = async () => {
     if (postId) {
       const res = await axios.get(`${ip}/post/comment/` + postId);
-      console.log('🚀 ~ file: index.tsx ~ line 55 ~ loadMore ~ res', res);
       setComments(res.data.comment);
     }
   };
+
+  const onDeleteComment = async (id: string) => {
+    try {
+      await axios.delete(`${ip}/post/comment/${id}`);
+      setComments(comments.filter((i) => i._id !== id));
+      setNumCmt(numCmt - 1);
+    } catch (err) {
+      toast.error('delete comment failed');
+    }
+  };
+
   return (
     <div>
       <div className={styles['header-comment']}>
         {numberOfLike > 0 ? `${numberOfLike} ${numberOfLike > 1 ? 'likes  ' : 'like  '}` : ''}
-        {numOfCmt > 0 ? `${numOfCmt} ${numOfCmt > 1 ? 'replies' : 'reply'}` : ''}
+        {numCmt > 0 ? `${numCmt} ${numCmt > 1 ? 'replies' : 'reply'}` : ''}
       </div>
       {comments.map((item) => (
-        <CommentCustom key={item._id} comment={item} />
+        <CommentCustom key={item._id} comment={item} onDeleteComment={onDeleteComment} />
       ))}
-      {numOfCmt > comments.length && (
+      {numCmt > comments.length && (
         <div className={styles['more']} onClick={loadMore}>
           More....
         </div>
@@ -453,6 +469,7 @@ export default function Article({ article }: { article: IArticle }) {
             numberOfLike={numberOfLike}
             postId={article._id}
             setComments={setComments}
+            inputRef={inputRef}
           />
         )}
         <Comment

@@ -1,16 +1,15 @@
-import { createContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
+import Contact from '../../Components/Contact/Contact';
 import Content from '../../Components/Contents/Content';
 import NavBar from '../../Components/NavBar/NavBar';
-import Contact from '../../Components/Contact/Contact';
-import styles from './styles.module.css';
-import * as homeActions from './actions';
 import { RootState } from '../../index_Reducer';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import LoadingMore from '../../Components/LoadingMore';
-import services from './service';
-import * as constantsType from './constants';
 import IUser from '../../Models/user';
+import * as homeActions from './actions';
+import * as constantsType from './constants';
+import services from './service';
+import styles from './styles.module.css';
 
 function App() {
   const dispatch = useDispatch();

@@ -107,10 +107,10 @@ img {
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(138, 138, 138);
 }
-.ant-btn-primary{
+/* .ant-btn-primary{
   background: rgb(252, 167, 181) !important;
   border-color: pink !important;
-}
+} */
 
 .ant-btn-primary:hover,.ant-btn-primary:active,.ant-btn-primary:focus{
   background: pink !important;

@@ -1,7 +1,7 @@
-import { LikeFilled, UserOutlined } from '@ant-design/icons';
+import { LikeFilled, UserOutlined, EditFilled, DeleteFilled } from '@ant-design/icons';
 import { faReply } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Avatar, Comment, List } from 'antd';
+import { Avatar, Button, Comment, List } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
 import { useState } from 'react';
@@ -15,11 +15,14 @@ import styles from './styles.module.css';
 export default function CommentCustom({
   comment,
   noReply,
+  onDeleteComment,
 }: {
   comment: IComment;
   noReply?: boolean;
+  onDeleteComment: (id: string) => void;
 }) {
   const [value, setValue] = useState('');
+  const [editValue, setEditValue] = useState('');
   const [submiting, setSubmitting] = useState(false);
   const [data, setData] = useState(comment);
   const { user: userLogin } = useSelector((state: { login: ILogin }) => state.login);
@@ -70,7 +73,7 @@ export default function CommentCustom({
     <>
       <div className="relative">
         <div className="flex">
-          <Avatar icon={<UserOutlined />} src={comment?.createdBy.avatar} alt="Han Solo" />
+          <Avatar icon={<UserOutlined />} src={comment?.createdBy.avatar} alt="" />
           <div className={`${styles['comment']} relative`}>
             <div className="font-bold" style={{ fontSize: 12 }}>
               {data.createdBy.fullName}{' '}
@@ -84,6 +87,20 @@ export default function CommentCustom({
                 <LikeFilled className={styles['icon-like']} />
               </div>
             )}
+            <div className={styles['options']}>
+              <Button type="primary" shape="circle" size="small">
+                <EditFilled />
+              </Button>
+              <Button
+                shape="circle"
+                size="small"
+                danger
+                type="primary"
+                onClick={() => onDeleteComment(data._id)}
+              >
+                <DeleteFilled />
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -109,7 +126,7 @@ export default function CommentCustom({
       </div>
       {showEditor && (
         <Comment
-          avatar={<Avatar icon={<UserOutlined />} src={userLogin?.avatar} alt="Han Solo" />}
+          avatar={<Avatar icon={<UserOutlined />} src={userLogin?.avatar} alt="" />}
           className={styles['comment-form']}
           content={
             <Editor

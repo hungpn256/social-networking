@@ -45,7 +45,7 @@ function NavBar() {
                 </Link>
               </div>
               <div>
-                <div
+                <span
                   className={styles['item']}
                   onClick={() => {
                     dispatch({
@@ -56,20 +56,14 @@ function NavBar() {
                 >
                   <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faPlusSquare} />
                   <span>Create a conversation</span>
-                </div>
+                </span>
               </div>
               <div>
-                <a href=" # " className={styles['item']}>
+                <span className={styles['item']}>
                   <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faBookmark} />
                   <span>Bookmarks</span>
-                </a>
+                </span>
               </div>
-              {/* <div>
-                <a href=" # ">
-                  <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faEllipsisH} />
-                  <span>More</span>
-                </a>
-              </div> */}
             </div>
           </div>
         </div>
