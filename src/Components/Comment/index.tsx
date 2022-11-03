@@ -1,4 +1,10 @@
-import { LikeFilled, UserOutlined, EditFilled, DeleteFilled } from '@ant-design/icons';
+import {
+  LikeFilled,
+  UserOutlined,
+  EditFilled,
+  DeleteFilled,
+  CloseCircleFilled,
+} from '@ant-design/icons';
 import { faReply } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar, Button, Comment, List } from 'antd';
@@ -6,6 +12,7 @@ import axios from 'axios';
 import moment from 'moment';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { ip } from '../../configs/ip';
 import { IComment } from '../../Models/article';
 import ILogin from '../../Models/login';
@@ -16,15 +23,18 @@ export default function CommentCustom({
   comment,
   noReply,
   onDeleteComment,
+  onEditComment,
 }: {
   comment: IComment;
   noReply?: boolean;
   onDeleteComment: (id: string) => void;
+  onEditComment: (id: string, content: string, callback: () => void) => void;
 }) {
   const [value, setValue] = useState('');
-  const [editValue, setEditValue] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
   const [submiting, setSubmitting] = useState(false);
   const [data, setData] = useState(comment);
+  const [editValue, setEditValue] = useState(data.content);
   const { user: userLogin } = useSelector((state: { login: ILogin }) => state.login);
   const [isLiked, setLiked] = useState(comment.liked.some((i) => i.likedBy === userLogin?._id));
   const [showEditor, setShowEditor] = useState(false);
@@ -69,6 +79,37 @@ export default function CommentCustom({
     }
   };
 
+  const onDeleteSubComment = async (id: string) => {
+    try {
+      await axios.delete(`${ip}/post/comment/${id}`);
+      setData({
+        ...data,
+        reply: data.reply.filter((i) => {
+          return i._id !== id;
+        }),
+      });
+    } catch (err) {
+      toast.error('delete comment failed');
+    }
+  };
+
+  const onEdit = () => {
+    if (isEditing) {
+      setIsEditing(false);
+      setEditValue(data.content);
+    } else {
+      setIsEditing(true);
+    }
+  };
+
+  const submit = () => {
+    setData({
+      ...data,
+      content: editValue,
+    });
+    setIsEditing(false);
+  };
+
   return (
     <>
       <div className="relative">
@@ -81,26 +122,40 @@ export default function CommentCustom({
                 {moment(data.createdAt).fromNow()}
               </span>
             </div>
-            <div style={{ whiteSpace: 'pre-line' }}>{data.content}</div>
+            {isEditing ? (
+              <div className="relative">
+                <Editor
+                  onChange={(e) => setEditValue(e.target.value)}
+                  onSubmit={() => onEditComment(data._id, editValue, submit)}
+                  submitting={submiting}
+                  value={editValue}
+                />
+              </div>
+            ) : (
+              <div style={{ whiteSpace: 'pre-line' }}>{data.content}</div>
+            )}
             {(data.liked.length > 0 || isLiked) && (
               <div className={styles['wrap-icon-like']}>
                 <LikeFilled className={styles['icon-like']} />
               </div>
             )}
-            <div className={styles['options']}>
-              <Button type="primary" shape="circle" size="small">
-                <EditFilled />
-              </Button>
-              <Button
-                shape="circle"
-                size="small"
-                danger
-                type="primary"
-                onClick={() => onDeleteComment(data._id)}
-              >
-                <DeleteFilled />
-              </Button>
-            </div>
+            {data.createdBy._id === userLogin?._id && (
+              <div className={styles['options']}>
+                <Button className="btn" type="primary" shape="circle" size="small" onClick={onEdit}>
+                  {isEditing ? <CloseCircleFilled /> : <EditFilled />}
+                </Button>
+                <Button
+                  className="btn"
+                  shape="circle"
+                  size="small"
+                  danger
+                  type="primary"
+                  onClick={() => onDeleteComment(data._id)}
+                >
+                  <DeleteFilled />
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -146,7 +201,11 @@ export default function CommentCustom({
             renderItem={(replyItem) => {
               return (
                 <div style={{ marginLeft: 44 }}>
-                  <CommentCustom comment={replyItem} noReply={true} />
+                  <CommentCustom
+                    comment={replyItem}
+                    noReply={true}
+                    onDeleteComment={() => onDeleteSubComment(replyItem._id)}
+                  />
                 </div>
               );
             }}

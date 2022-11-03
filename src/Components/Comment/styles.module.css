@@ -24,12 +24,15 @@
 
 .options{
   display: none;
-  float: right;
+  position: absolute;
+  right: 0;
+  top: 5px;
+  transform: translateX(100%)
 }
 .comment:hover .options{
   display: block;
 }
 
 .options button:nth-child(2){
-  margin-left: 8px;
+  margin-top: 4px;
 }

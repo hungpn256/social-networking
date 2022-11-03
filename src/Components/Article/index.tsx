@@ -70,10 +70,23 @@ const CommentList = ({
   const onDeleteComment = async (id: string) => {
     try {
       await axios.delete(`${ip}/post/comment/${id}`);
-      setComments(comments.filter((i) => i._id !== id));
+      setComments(
+        comments.filter((i) => {
+          return i._id !== id;
+        })
+      );
       setNumCmt(numCmt - 1);
     } catch (err) {
       toast.error('delete comment failed');
+    }
+  };
+
+  const onEditComment = async (id: string, content: string, callback: () => void) => {
+    try {
+      await axios.put(`${ip}/post/comment/${id}`, { content });
+      callback();
+    } catch (err) {
+      toast.error('edit comment failed');
     }
   };
 
@@ -84,7 +97,12 @@ const CommentList = ({
         {numCmt > 0 ? `${numCmt} ${numCmt > 1 ? 'replies' : 'reply'}` : ''}
       </div>
       {comments.map((item) => (
-        <CommentCustom key={item._id} comment={item} onDeleteComment={onDeleteComment} />
+        <CommentCustom
+          key={item._id}
+          comment={item}
+          onDeleteComment={onDeleteComment}
+          onEditComment={onEditComment}
+        />
       ))}
       {numCmt > comments.length && (
         <div className={styles['more']} onClick={loadMore}>
@@ -242,7 +260,9 @@ export default function Article({ article }: { article: IArticle }) {
           : numberOfLike + 1
       );
       setLiked(
-        typeAction === 'DISLIKE' ? undefined : { type, likedBy: userLogin, _id: isLiked?._id ?? '' }
+        typeAction === 'DISLIKE'
+          ? undefined
+          : { type, likedBy: userLogin!, _id: isLiked?._id ?? '' }
       );
       axios.post(`${ip}/post/like/${id}`, {
         like: {
