@@ -28,7 +28,7 @@ function NavBar() {
                   alt=""
                   className={styles['logo-avatar']}
                 />
-                <span className={styles['name']}>{`${user?.fullName}`}</span>
+                <span className={styles['name']}>{`${user?.firstName} ${user?.lastName}`}</span>
               </div>
             </Link>
             <div className={styles['option']}>
