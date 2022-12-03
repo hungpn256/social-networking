@@ -10,6 +10,7 @@ import { RootState } from '../../index_Reducer';
 import { INotification } from '../../Models/notification';
 import {
   GET_NOTIFICATION,
+  GET_NOTIFICATION_UNSEEN,
   NOTIFICATION_UNSEEN_ALL,
   NOTIFICATION_UNSEEN_SUCCESS,
 } from '../../Pages/Notification/constants';
@@ -29,6 +30,7 @@ export default forwardRef(function Notification({ setShowNotificaiton }: Props, 
 
   const getNotification = async () => {
     dispatch({ type: GET_NOTIFICATION });
+    dispatch({ type: GET_NOTIFICATION_UNSEEN });
   };
 
   const unSeen = async (i: INotification) => {

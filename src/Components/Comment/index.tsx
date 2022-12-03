@@ -205,6 +205,7 @@ export default function CommentCustom({
                     comment={replyItem}
                     noReply={true}
                     onDeleteComment={() => onDeleteSubComment(replyItem._id)}
+                    onEditComment={onEditComment}
                   />
                 </div>
               );
