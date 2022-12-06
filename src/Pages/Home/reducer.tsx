@@ -7,13 +7,7 @@ const initialState: IHome = {
   success: false,
   friend: [],
   error: null,
-  loadingPage: false,
   articles: [],
-  record: {},
-  paging: {
-    page: 1,
-    limit: 10,
-  },
 };
 
 const reducer = (state = initialState, action: any) => {

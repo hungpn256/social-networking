@@ -3,9 +3,7 @@ import * as searchConstants from './constants';
 const initialState: ISearch = {
   requesting: false,
   success: false,
-  usersRecomment: null,
   error: null,
-  loadingPage: false,
   articles: [],
   users: [],
   paging: {
