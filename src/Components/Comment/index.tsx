@@ -7,7 +7,7 @@ import {
 } from '@ant-design/icons';
 import { faReply } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Avatar, Button, Comment, List } from 'antd';
+import { Avatar, Button, Comment, List, Popconfirm } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
 import { useState } from 'react';
@@ -144,16 +144,16 @@ export default function CommentCustom({
                 <Button className="btn" type="primary" shape="circle" size="small" onClick={onEdit}>
                   {isEditing ? <CloseCircleFilled /> : <EditFilled />}
                 </Button>
-                <Button
-                  className="btn"
-                  shape="circle"
-                  size="small"
-                  danger
-                  type="primary"
-                  onClick={() => onDeleteComment(data._id)}
+                <Popconfirm
+                  title="Are you sure to delete this comment?"
+                  onConfirm={() => onDeleteComment(data._id)}
+                  okText="Yes"
+                  cancelText="No"
                 >
-                  <DeleteFilled />
-                </Button>
+                  <Button className="btn" shape="circle" size="small" danger type="primary">
+                    <DeleteFilled />
+                  </Button>
+                </Popconfirm>
               </div>
             )}
           </div>

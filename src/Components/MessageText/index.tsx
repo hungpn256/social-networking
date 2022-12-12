@@ -1,7 +1,7 @@
 import { PushpinOutlined, UserOutlined } from '@ant-design/icons';
 import { faReply, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Avatar, Image } from 'antd';
+import { Avatar, Image, Popconfirm } from 'antd';
 import axios from 'axios';
 import { CSSProperties, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -157,13 +157,20 @@ export default function MessageText({
                         />
                       </div>
                       {isMine && !message.deletedAt && (
-                        <div className={`${styles['icon']} hover`} onClick={removeMessage}>
-                          <FontAwesomeIcon
-                            icon={faTrash}
-                            style={{ fontSize: 14, padding: 0 }}
-                            title="delete message"
-                          />
-                        </div>
+                        <Popconfirm
+                          title="Are you sure to delete this message?"
+                          onConfirm={removeMessage}
+                          okText="Yes"
+                          cancelText="No"
+                        >
+                          <div className={`${styles['icon']} hover`}>
+                            <FontAwesomeIcon
+                              icon={faTrash}
+                              style={{ fontSize: 14, padding: 0 }}
+                              title="delete message"
+                            />
+                          </div>
+                        </Popconfirm>
                       )}
                     </div>
                   )}
