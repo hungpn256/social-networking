@@ -384,7 +384,6 @@ export default function Article({ article }: { article: IArticle }) {
                 <h5 style={{ margin: 0, marginRight: 4, fontSize: 12 }}>
                   {moment().from(article.createdAt)}
                 </h5>
-                <FontAwesomeIcon icon={faGlobeAmericas} />
               </div>
             </div>
           </div>

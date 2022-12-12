@@ -104,9 +104,6 @@ export default function PostArticle({ loading }: Props) {
             </div>
             <div className={styles['bottom']}>
               <ul className={styles['icons']}>
-                <li>
-                  <FontAwesomeIcon icon={faCamera} />
-                </li>
                 <li
                   onClick={() => {
                     posterText && posterText?.current.click();
@@ -129,12 +126,6 @@ export default function PostArticle({ loading }: Props) {
                       }
                     }}
                   />
-                </li>
-                <li>
-                  <FontAwesomeIcon icon={faMapMarkedAlt} />
-                </li>
-                <li>
-                  <FontAwesomeIcon icon={faGrin} />
                 </li>
               </ul>
               <div className={styles['content']}>

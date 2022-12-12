@@ -48,7 +48,6 @@ function* changeUserSaga({ payload }: AnyAction) {
       arrayService.map((service) => call(service.service, service.payload))
     );
     yield put(profileActions.getUserSuccess({ ...resUser.data }));
-    toast.success('get profile success');
   } catch (err) {
     yield put(profileActions.getUserFail(err));
     toast.error('get profile fail');

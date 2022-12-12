@@ -62,7 +62,7 @@ export default function Friend() {
   return (
     <div className={styles['grid']}>
       <Tabs type="card" centered animated>
-        <TabPane tab="Bạn bè" key="1">
+        <TabPane tab="Friend" key="1">
           <List
             grid={{ gutter: 16, column: 4 }}
             dataSource={friend}
@@ -101,7 +101,7 @@ export default function Friend() {
           />
         </TabPane>
         {user?._id === id && (
-          <TabPane tab="Yêu cầu kết bạn" key="2">
+          <TabPane tab="Friend request" key="2">
             <List
               grid={{ gutter: 16, column: 4 }}
               dataSource={friendPending}
