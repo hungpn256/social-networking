@@ -6,11 +6,5 @@ export default interface IHome {
   success: boolean;
   friend: [] | IUser[];
   error: null | string;
-  loadingPage: boolean;
   articles: Array<IArticle> | [];
-  record: {};
-  paging: {
-    page: number;
-    limit: number;
-  };
 }

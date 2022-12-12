@@ -7,12 +7,7 @@ export interface IConversation {
   updatedAt: string;
   type: 'PRIVATE' | 'GROUP';
   host: IUser;
-  participants: {
-    user: IUser;
-    nickName: string;
-    lastSeen?: string;
-    lastDelete?: string;
-  }[];
+  participants: IParticipant[];
   name: string;
   pinMessage: IMessage;
   messages: IMessage[];
@@ -23,6 +18,13 @@ export interface IConversation {
 export enum TypeActiveMessage {
   ACTIVE,
   MINIMIZE,
+}
+
+interface IParticipant {
+  user: IUser;
+  nickName: string;
+  lastSeen?: string;
+  lastDelete?: string;
 }
 
 export interface IMessage {
@@ -56,10 +58,10 @@ export interface ICall {
   endAt: string;
   conversation: IConversation;
   createdBy: IUser;
-  participants: [
-    {
-      user: IUser;
-      signal: any;
-    }
-  ];
+  participants: [IParticipantCall];
+}
+
+interface IParticipantCall {
+  user: IUser;
+  signal: any;
 }
