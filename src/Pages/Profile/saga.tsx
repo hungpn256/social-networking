@@ -14,7 +14,7 @@ function* changeCoverSaga({ payload }: AnyAction) {
     const res = yield call(services.updateProfile, { cover: urlImage.url });
     yield put(profileActions.postArticle({ files: [urlImage], action: 'Changed cover' }));
     yield put(profileActions.changeCoverSuccess(res.data));
-    toast.success('change cover success');
+    // toast.success('change cover success');
   } catch (err) {
     yield put(profileActions.changeCoverFail(err));
     toast.error('change cover fail');
@@ -30,7 +30,7 @@ function* changeAvatarSaga({ payload }: AnyAction) {
     const res = yield call(services.updateProfile, { avatar: urlImage.url });
     yield put(profileActions.postArticle({ files: [urlImage], action: 'Changed avatar' }));
     yield put(profileActions.changeAvatarSuccess(res.data));
-    toast.success('change avatar success');
+    // toast.success('change avatar success');
   } catch (err) {
     yield put(profileActions.changeAvatarFail(err));
     toast.error('change avatar fail');
@@ -68,7 +68,7 @@ function* postArticleSaga({ payload }: AnyAction) {
     }
     const res = yield call(services.postArticle, payload);
     yield put(profileActions.postArticleSuccess(res.data.post));
-    toast.success('post article success');
+    // toast.success('post article success');
   } catch (err) {
     yield put(profileActions.postArticleFail(err));
     toast.error('post article fail');
@@ -82,7 +82,7 @@ function* deleteArticleSaga({ payload }: AnyAction) {
   try {
     const res = yield call(services.deleteArticle, payload);
     yield put(profileActions.deleteArticleSuccess(res.data.post));
-    toast.success('delete article success');
+    // toast.success('delete article success');
   } catch (err) {
     yield put(profileActions.deleteArticleFail(err));
     toast.error('delete article fail');
@@ -96,7 +96,7 @@ function* getArticlesSaga({ payload }: AnyAction) {
   try {
     const res = yield call(services.getArticles, { ...payload });
     yield put(profileActions.getArticlesSuccess(res.data.posts));
-    toast.success('get article success');
+    // toast.success('get article success');
   } catch (err) {
     yield put(profileActions.getArticlesFail(err));
     toast.error('get article fail');

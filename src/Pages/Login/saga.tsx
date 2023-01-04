@@ -9,7 +9,7 @@ function* loginSaga({ payload }: AnyAction) {
   try {
     const res = yield call(services.login, payload);
     yield put(loginActions.loginSuccess(res.data));
-    toast.success('Login success');
+    // toast.success('Login success');
     localStorage.setItem('token', res.data.token);
   } catch (err) {
     yield put(loginActions.loginFail(err));
@@ -21,7 +21,7 @@ function* loginSaga({ payload }: AnyAction) {
 function* followUserSaga({ payload }: AnyAction) {
   try {
     yield call(services.followUser, payload);
-    toast.success('follow success');
+    // toast.success('follow success');
   } catch (err) {
     console.log(err, 'err follow');
   }
