@@ -182,13 +182,13 @@ export default function Profile() {
                         }
                       }}
                     >
-                      <FontAwesomeIcon icon={faPlus} /> <span>ADD FRIEND</span>
+                      <FontAwesomeIcon icon={faPlus} /> <span>ACCEPT</span>
                     </label>
                     <label
                       className={styles['btn']}
                       onClick={async () => {
                         try {
-                          setF('REJECTED');
+                          setF(undefined);
                           await axios.put(`${ip}/friend/${_id}`, { status: 'REJECTED' });
                         } catch (err) {
                           console.log(err);
@@ -211,6 +211,19 @@ export default function Profile() {
                       }}
                     >
                       <FontAwesomeIcon icon={faFacebookMessenger} /> <span>Messenger</span>
+                    </label>
+                    <label
+                      className={styles['btn']}
+                      onClick={async () => {
+                        try {
+                          setF(undefined);
+                          await axios.put(`${ip}/friend/${_id}`, { status: 'REJECTED' });
+                        } catch (err) {
+                          console.log(err);
+                        }
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faTrash} /> <span>REMOVE</span>
                     </label>
                   </div>
                 ) : (
@@ -259,12 +272,12 @@ export default function Profile() {
 
               <div className={styles['infor-nav']}>
                 <ul className={styles['infor-nav-list']}>
-                  <Link
+                  {/* <Link
                     to={'/profile/' + _id + '/photos'}
                     className={styles['infor-nav-item-link']}
                   >
                     <li className={styles['infor-nav-item']}>More</li>
-                  </Link>
+                  </Link> */}
                   <Link
                     to={'/profile/' + _id + '/friend'}
                     className={styles['infor-nav-item-link']}

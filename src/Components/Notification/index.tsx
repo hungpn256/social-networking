@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Avatar, Button } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
 import { forwardRef, useEffect } from 'react';
@@ -15,6 +15,7 @@ import {
   NOTIFICATION_UNSEEN_SUCCESS,
 } from '../../Pages/Notification/constants';
 import styles from './styles.module.css';
+import { UserOutlined } from '@ant-design/icons';
 
 interface Props {
   setShowNotificaiton: (value: boolean) => void;
@@ -24,6 +25,11 @@ export default forwardRef(function Notification({ setShowNotificaiton }: Props, 
   const dispatch = useDispatch();
   const history = useHistory();
   const notifications = useSelector((state: RootState) => state.notification.notifications);
+  useEffect(() => {
+    getNotification();
+  }, []);
+
+  const user = useSelector((state: RootState) => state.login.user);
   useEffect(() => {
     getNotification();
   }, []);
@@ -39,7 +45,7 @@ export default forwardRef(function Notification({ setShowNotificaiton }: Props, 
       dispatch({ type: NOTIFICATION_UNSEEN_SUCCESS, payload: { notificationId: i._id } });
       await axios.post(`${ip}/notification/unSeen`, { notificationId: i._id });
     }
-    history.push(getLinkNotification(i));
+    history.push(getLinkNotification(i, user?._id));
   };
 
   const seeAll = async () => {
@@ -64,7 +70,12 @@ export default forwardRef(function Notification({ setShowNotificaiton }: Props, 
             onClick={() => unSeen(i)}
           >
             <div className="flex" style={{ padding: 4 }}>
-              <img alt="notification" src={getImage(i)} className={styles['image']} />
+              <Avatar
+                alt="notification"
+                src={getImage(i)}
+                className={styles['image']}
+                icon={<UserOutlined style={{ fontSize: 40, marginTop: 10 }} />}
+              ></Avatar>
               <div className={`${styles['content']}`}>
                 <div
                   className={styles['title']}

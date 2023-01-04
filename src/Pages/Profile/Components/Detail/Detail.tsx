@@ -103,13 +103,15 @@ export default function Detail({ friendStatus, userProfile, articles, profileSta
           <ul className={styles['detail-resume-list']}>
             <h3 id="">
               About{' '}
-              <FontAwesomeIcon
-                onClick={() => {
-                  setEditProfile(true);
-                }}
-                icon={faEdit}
-                className={styles['edit-info-about']}
-              />{' '}
+              {friendStatus === 'MINE' && (
+                <FontAwesomeIcon
+                  onClick={() => {
+                    setEditProfile(true);
+                  }}
+                  icon={faEdit}
+                  className={styles['edit-info-about']}
+                />
+              )}{' '}
             </h3>
             {userProfile?.phoneNumber && (
               <li className={styles['detail-resume-item']}>

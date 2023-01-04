@@ -9,7 +9,7 @@ export interface INotificationReducer {
 
 export interface INotification {
   _id: string;
-  type: 'LIKE_POST' | 'LIKE_COMMENT' | 'REPLY_COMMENT' | 'COMMENT_POST' | 'ACCREP_FRIEND';
+  type: 'LIKE_POST' | 'LIKE_COMMENT' | 'REPLY_COMMENT' | 'COMMENT_POST' | 'FRIEND';
   post?: IArticle;
   comment?: {
     replyTo: IComment;
