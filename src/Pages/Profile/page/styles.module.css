@@ -79,6 +79,7 @@ i {
   border-radius: 10px;
   cursor: pointer;
   transition: 0.5s;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .wrap-btn{
@@ -227,7 +228,6 @@ i {
   opacity: 1;
 }
 .edit-info-about {
-  opacity: 0;
   transition: 0.5s;
   margin-left: 12px;
   cursor: pointer;

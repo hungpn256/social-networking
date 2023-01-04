@@ -97,7 +97,7 @@ export default function Call() {
           myVideo.current.srcObject = currentStream;
         })
         .catch((er) => {
-          setHasPermission(false);
+          // setHasPermission(false);
         });
     })();
   }, []);

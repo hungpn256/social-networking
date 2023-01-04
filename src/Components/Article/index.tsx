@@ -478,7 +478,7 @@ export default function Article({ article }: { article: IArticle }) {
             icon={faComment}
             onClick={() => (inputRef.current as any)?.focus?.()}
           />
-          <FontAwesomeIcon className={styles['action-article-icon']} icon={faShareSquare} />
+          {/* <FontAwesomeIcon className={styles['action-article-icon']} icon={faShareSquare} /> */}
         </div>
         <Divider style={{ margin: 0, borderTop: '1px solid rgba(0,0,0,0.2)' }} />
         {(comments.length > 0 || numberOfLike > 0) && (

@@ -98,7 +98,7 @@ export default function ChatActiveItem({ conversation }: Props) {
     try {
       sendMessage(time);
     } catch (e) {
-      toast.error(e.message);
+      toast.error(e);
     } finally {
       setOpenDatePicker(false);
     }
@@ -181,24 +181,28 @@ export default function ChatActiveItem({ conversation }: Props) {
 
   const menu = (
     <Menu>
-      <Menu.Item key="0">
-        <div
-          onClick={() => {
-            setContentModal({
-              component: (
-                <ChangeInforConversation
-                  conversation={conversation}
-                  setContentModal={setContentModal}
-                />
-              ),
-              title: 'Change name conversation',
-            });
-          }}
-        >
-          Change name conversation
-        </div>
-      </Menu.Item>
-      <Menu.Divider />
+      {conversation.type === 'GROUP' && (
+        <>
+          <Menu.Item key="0">
+            <div
+              onClick={() => {
+                setContentModal({
+                  component: (
+                    <ChangeInforConversation
+                      conversation={conversation}
+                      setContentModal={setContentModal}
+                    />
+                  ),
+                  title: 'Change name conversation',
+                });
+              }}
+            >
+              Change name conversation
+            </div>
+          </Menu.Item>
+          <Menu.Divider />
+        </>
+      )}
       <Menu.Item key="1">
         <div
           onClick={() => {
@@ -440,6 +444,7 @@ export default function ChatActiveItem({ conversation }: Props) {
               onChange={onChangeImages}
               id={conversation._id + 'images'}
               type="file"
+              accept="image/*"
               style={{ display: 'none' }}
             />
             <div className={`${styles['icon']} hover-icon`}>
