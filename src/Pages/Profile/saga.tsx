@@ -67,8 +67,8 @@ function* postArticleSaga({ payload }: AnyAction) {
       }
     }
     const res = yield call(services.postArticle, payload);
+    toast.success('Post successful');
     yield put(profileActions.postArticleSuccess(res.data.post));
-    // toast.success('post article success');
   } catch (err) {
     yield put(profileActions.postArticleFail(err));
     toast.error('post article fail');

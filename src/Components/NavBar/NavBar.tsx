@@ -58,12 +58,12 @@ function NavBar() {
                   <span>Create a conversation</span>
                 </span>
               </div>
-              <div>
+              {/* <div>
                 <span className={styles['item']}>
                   <FontAwesomeIcon className={`mr-20 ${styles['icon']}`} icon={faBookmark} />
                   <span>Bookmarks</span>
                 </span>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

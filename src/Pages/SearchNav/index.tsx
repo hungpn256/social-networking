@@ -41,7 +41,7 @@ function SearchComponent() {
             )}
           </div>
         )}
-        {users.length === 0 && articles.length === 0 && <Result title="Nothing" />}
+        {/* {users.length === 0 && articles.length === 0 && <Result title="Nothing" />} */}
       </div>
     </div>
   );
